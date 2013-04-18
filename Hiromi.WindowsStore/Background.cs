@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi
 {
-    // TODO: Add tiling, auto-scrolling (for movement), etc.
+    // TODO: Add tiling, auto-scrolling (for movement)
     public class Background
     {
         public Texture2D Texture { get; set; }
