@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace Hiromi.Messaging
 {
+    public class GameObjectLoadedMessage : Message
+    {
+        public GameObject GameObject { get; set; }
+
+        public GameObjectLoadedMessage(GameObject obj)
+        {
+            this.GameObject = obj;
+        }
+    }
+
     /// <summary>
     /// Message requesting a new screen to be loaded
     /// </summary>

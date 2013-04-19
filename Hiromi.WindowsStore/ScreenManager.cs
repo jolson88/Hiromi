@@ -34,7 +34,6 @@ namespace Hiromi
         {
             _currentScreen = msg.RequestedScreen;
             _currentScreen.Load();
-            GameObjectService.Instance.InitializeGameObjects();
 
             MessageService.Instance.QueueMessage(new ScreenLoadedMessage(_currentScreen));
         }
