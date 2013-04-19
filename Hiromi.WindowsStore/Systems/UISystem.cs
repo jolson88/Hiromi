@@ -13,11 +13,11 @@ namespace Hiromi.Systems
 {
     public class UISystem : GameSystem
     {
-        private SpriteBatch _batch;
+        private SpriteRendererSystem<ButtonComponent> _buttonRenderer;
 
         public UISystem()
         {
-            _batch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+            _buttonRenderer = new SpriteRendererSystem<ButtonComponent>();
 
             MessageService.Instance.AddListener<PointerExitMessage>(msg => OnPointerExit((PointerExitMessage)msg));
             MessageService.Instance.AddListener<PointerPressMessage>(msg => OnPointerPress((PointerPressMessage)msg));
@@ -26,21 +26,12 @@ namespace Hiromi.Systems
 
         protected override void OnDraw(GameTime gameTime)
         {
-            _batch.Begin();
-            foreach (var obj in this.GameObjects.Values)
-            {
-                var posComponent = obj.GetComponent<PositionComponent>();
-                var spriteComponent = obj.GetComponent<SpriteComponent>();
+            _buttonRenderer.Draw(gameTime);
+        }
 
-                if (spriteComponent.IsVisible)
-                {
-                    _batch.Draw(spriteComponent.Sprite.Texture,
-                        new Vector2(posComponent.Position.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                            posComponent.Position.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                        Color.White);
-                }
-            }
-            _batch.End();
+        protected override void OnUpdate(GameTime gameTime)
+        {
+            _buttonRenderer.Update(gameTime);
         }
 
         private void OnPointerExit(PointerExitMessage msg)
