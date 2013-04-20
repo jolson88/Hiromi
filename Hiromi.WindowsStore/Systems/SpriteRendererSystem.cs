@@ -28,9 +28,10 @@ namespace Hiromi.Systems
 
                 if (spriteComponent.IsVisible)
                 {
+                    // We use Bounds instead of Position as Bounds takes the achor point into account
                     _batch.Draw(spriteComponent.Sprite.Texture,
-                        new Vector2(posComponent.Position.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                            posComponent.Position.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
+                        new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
+                            posComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                         Color.White);
                 }
             }

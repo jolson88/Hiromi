@@ -12,6 +12,7 @@ namespace Hiromi.Components
         public Sprite FocusSprite { get; set; }
         public Sprite NonFocusSprite { get; set; }
 
+        public ButtonComponent() : this(null, null) { }
         public ButtonComponent(Sprite focusSprite, Sprite nonFocusSprite)
         {
             this.FocusSprite = focusSprite;
