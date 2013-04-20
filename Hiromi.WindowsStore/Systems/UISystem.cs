@@ -28,9 +28,9 @@ namespace Hiromi.Systems
                 var button = obj.GetComponent<ButtonComponent>();
                 var sprite = obj.GetComponent<SpriteComponent>();
 
-                if (button.NonFocusSprite != null)
+                if (button.NonFocusTexture != null)
                 {
-                    sprite.Sprite = button.NonFocusSprite;
+                    sprite.Texture = button.NonFocusTexture;
                 }
             }
         }
@@ -44,9 +44,9 @@ namespace Hiromi.Systems
                 var sprite = obj.GetComponent<SpriteComponent>();
 
                 MessageService.Instance.TriggerMessage(new ButtonPressMessage(obj.Id));
-                if (button.FocusSprite != null)
+                if (button.FocusTexture != null)
                 {
-                    sprite.Sprite = button.FocusSprite;
+                    sprite.Texture = button.FocusTexture;
                 }
             }
         }
@@ -59,9 +59,9 @@ namespace Hiromi.Systems
                 var button = obj.GetComponent<ButtonComponent>();
                 var sprite = obj.GetComponent<SpriteComponent>();
 
-                if (button.NonFocusSprite != null)
+                if (button.NonFocusTexture != null)
                 {
-                    sprite.Sprite = button.NonFocusSprite;
+                    sprite.Texture = button.NonFocusTexture;
                 }
             }
         }

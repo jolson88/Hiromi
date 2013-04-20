@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
     public class SpriteComponent : IComponent
     {
         public bool IsVisible { get; set; }
-        public Sprite Sprite { get; set; }
+        public Texture2D Texture { get; set; }
 
-        public SpriteComponent(Sprite sprite)
+        public SpriteComponent(Texture2D texture)
         {
-            this.Sprite = sprite;
+            this.Texture = texture;
             this.IsVisible = true;
         }
     }

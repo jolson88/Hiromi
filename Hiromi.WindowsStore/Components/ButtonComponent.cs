@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
 using Hiromi;
 
 namespace Hiromi.Components
 {
     public class ButtonComponent : IComponent
     {
-        public Sprite FocusSprite { get; set; }
-        public Sprite NonFocusSprite { get; set; }
+        public Texture2D FocusTexture { get; set; }
+        public Texture2D NonFocusTexture { get; set; }
 
         public ButtonComponent() : this(null, null) { }
-        public ButtonComponent(Sprite focusSprite, Sprite nonFocusSprite)
+        public ButtonComponent(Texture2D focusTexture, Texture2D nonFocusTexture)
         {
-            this.FocusSprite = focusSprite;
-            this.NonFocusSprite = nonFocusSprite;
+            this.FocusTexture = focusTexture;
+            this.NonFocusTexture = nonFocusTexture;
         }
     }
 }

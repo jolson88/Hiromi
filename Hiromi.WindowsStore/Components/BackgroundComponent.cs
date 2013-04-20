@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
     public class BackgroundComponent : IComponent
     {
-        public Background Background { get; set; }
+        public Texture2D Texture { get; set; }
 
-        public BackgroundComponent(Background background)
+        public BackgroundComponent(Texture2D texture)
         {
-            this.Background = background;
+            this.Texture = texture;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Hiromi.Systems
             foreach (var obj in this.GameObjects.Values)
             {
                 var bg = obj.GetComponent<BackgroundComponent>();
-                _batch.Draw(bg.Background.Texture,
+                _batch.Draw(bg.Texture,
                     new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                     Color.White);
             }
