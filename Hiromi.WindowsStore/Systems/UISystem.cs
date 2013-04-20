@@ -13,25 +13,11 @@ namespace Hiromi.Systems
 {
     public class UISystem : GameSystem
     {
-        private SpriteRendererSystem<ButtonComponent> _buttonRenderer;
-
         public UISystem()
         {
-            _buttonRenderer = new SpriteRendererSystem<ButtonComponent>();
-
             MessageService.Instance.AddListener<PointerExitMessage>(msg => OnPointerExit((PointerExitMessage)msg));
             MessageService.Instance.AddListener<PointerPressMessage>(msg => OnPointerPress((PointerPressMessage)msg));
             MessageService.Instance.AddListener<PointerReleaseMessage>(msg => OnPointerRelease((PointerReleaseMessage)msg));
-        }
-
-        protected override void OnDraw(GameTime gameTime)
-        {
-            _buttonRenderer.Draw(gameTime);
-        }
-
-        protected override void OnUpdate(GameTime gameTime)
-        {
-            _buttonRenderer.Update(gameTime);
         }
 
         private void OnPointerExit(PointerExitMessage msg)

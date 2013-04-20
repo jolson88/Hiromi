@@ -9,7 +9,7 @@ using Hiromi.Processing;
 
 namespace Hiromi.Systems
 {
-    public class ScreenWrappingSystem<T> : GameSystem where T : IComponent
+    public class ScreenWrappingSystem : GameSystem
     {
         private List<int> _reflectedObjects;
 
@@ -62,7 +62,7 @@ namespace Hiromi.Systems
 
         protected override bool IsGameObjectForSystem(GameObject obj)
         {
-            return obj.HasComponent<PositionComponent>() && obj.HasComponent<T>();
+            return obj.HasComponent<PositionComponent>() && obj.HasComponent<ScreenWrappingComponent>();
         }
     }
 }

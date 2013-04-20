@@ -104,6 +104,7 @@
     <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\ScreenWrappingComponent.cs" />
     <Compile Include="Components\SimplePhysicsComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />

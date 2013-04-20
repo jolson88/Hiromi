@@ -9,7 +9,7 @@ using Hiromi.Components;
 
 namespace Hiromi.Systems
 {
-    public class SpriteRendererSystem<T> : GameSystem where T : IComponent
+    public class SpriteRendererSystem : GameSystem
     {
         private SpriteBatch _batch;
 
@@ -40,8 +40,7 @@ namespace Hiromi.Systems
         protected override bool IsGameObjectForSystem(GameObject obj)
         {
             return obj.HasComponent<PositionComponent>() &&
-                obj.HasComponent<SpriteComponent>() &&
-                obj.HasComponent<T>();
+                obj.HasComponent<SpriteComponent>();
         }
     }
 }
