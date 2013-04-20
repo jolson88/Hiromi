@@ -42,6 +42,6 @@ namespace Hiromi
 
         protected virtual void OnUpdate(GameTime gameTime) { }
         protected virtual void OnDraw(GameTime gameTime) { }
-        protected abstract bool IsGameObjectForSystem(GameObject obj);
+        protected virtual bool IsGameObjectForSystem(GameObject obj) { return false; }
     }
 }
