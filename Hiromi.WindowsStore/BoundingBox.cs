@@ -36,6 +36,17 @@ namespace Hiromi
             return this.X <= value.X && value.X + value.Width <= this.X + this.Width && this.Y <= value.Y && value.Y + value.Height <= this.Y + this.Height;
         }
 
+        public BoundingBox Deflate(int pixelsToDeflate)
+        {
+            float widthOffset = (float)pixelsToDeflate / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
+            float heightOffset = (float)pixelsToDeflate / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+
+            return new BoundingBox(this.X + widthOffset,
+                this.Y + heightOffset,
+                this.Width - (widthOffset * 2),
+                this.Height - (heightOffset * 2));
+        }
+
         public bool Intersects(BoundingBox value)
         {
             return value.Left < this.Right && this.Left < value.Right && value.Top < this.Bottom && this.Top < value.Bottom;
