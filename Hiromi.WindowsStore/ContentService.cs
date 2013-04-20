@@ -24,6 +24,20 @@ namespace Hiromi
 
         public ContentManager Content { get; set; }
 
-        private ContentService() { }
+        private Dictionary<string, object> _cachedAssets;
+
+        private ContentService() 
+        {
+            _cachedAssets = new Dictionary<string, object>();
+        }
+
+        public T GetAsset<T>(string assetName)
+        {
+            if (!_cachedAssets.ContainsKey(assetName))
+            {
+                _cachedAssets.Add(assetName, this.Content.Load<T>(assetName));
+            }
+            return (T)_cachedAssets[assetName];
+        }
     }
 }

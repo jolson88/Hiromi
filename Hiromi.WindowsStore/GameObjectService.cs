@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Hiromi.Messaging;
 
 namespace Hiromi
 {
@@ -35,6 +36,8 @@ namespace Hiromi
             gameObject.Id = _nextObjectId;
             _nextObjectId++;
             _objects.Add(gameObject);
+
+            MessageService.Instance.QueueMessage(new GameObjectLoadedMessage(gameObject));
         }
 
         public List<GameObject> GetAllGameObjects()
@@ -45,20 +48,6 @@ namespace Hiromi
         public List<GameObject> GetAllGameObjectsWithTag(string tag)
         {
             return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));
-        }
-
-        public void InitializeGameObjects()
-        {
-            foreach (var obj in _objects)
-            {
-                foreach (var behavior in obj.GetAllBehaviors())
-                {
-                    if (behavior.State == BehaviorState.Uninitialized)
-                    {
-                        behavior.Initialize();
-                    }
-                }
-            }
         }
     }
 }

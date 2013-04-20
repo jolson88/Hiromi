@@ -7,65 +7,42 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi.Processing;
+using Hiromi.Systems;
 
 namespace Hiromi
 {
-    public class Screen
+    public abstract class Screen
     {
-        protected SpriteBatch Batch { get; private set; }
-        protected ProcessManager ProcessManager { get; private set; }
-
-        private Background _background;
+        private List<GameSystem> _systems;
 
         public void Load()
         {
-            this.Batch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+            _systems = new List<GameSystem>();
+            _systems.AddRange(LoadGameSystems());
 
-            this.ProcessManager = new ProcessManager();
-            this.ProcessManager.AttachProcess(new InputProcess());
-            this.ProcessManager.AttachProcess(new BoundsCheckingProcess());
-
-            _background = InitializeBackground();
-            OnLoad();
+            foreach (var obj in LoadGameObjects())
+            {
+                GameObjectService.Instance.AddGameObject(obj);
+            }
         }
 
         public void Update(GameTime gameTime)
         {
-            this.ProcessManager.Update(gameTime);
-
-            foreach (var obj in GameObjectService.Instance.GetAllGameObjects())
+            foreach (var sys in _systems)
             {
-                obj.Update(gameTime);
+                sys.Update(gameTime);
             }
         }
 
         public void Draw(GameTime gameTime)
         {
-            GraphicsService.Instance.GraphicsDevice.Clear(Color.CornflowerBlue);
-            Batch.Begin();
-
-            if (_background != null)
+            foreach (var sys in _systems)
             {
-                Batch.Draw(_background.Texture,
-                    new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height), 
-                    Color.White);
+                sys.Draw(gameTime);
             }
-
-            foreach (var obj in GameObjectService.Instance.GetAllGameObjects())
-            {
-                if (obj.Sprite != null && obj.IsVisible)
-                {
-                    Batch.Draw(obj.Sprite.Texture,
-                        new Vector2((obj.Position.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width) - obj.Sprite.Center.X, 
-                            (obj.Position.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height) - obj.Sprite.Center.Y),
-                        Color.White);
-                }
-            }
-
-            Batch.End();
         }
 
-        protected virtual Background InitializeBackground() { return null; }
-        protected virtual void OnLoad() { }
+        protected abstract List<GameSystem> LoadGameSystems();
+        protected abstract List<GameObject> LoadGameObjects();
     }
 }
