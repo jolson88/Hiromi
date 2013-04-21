@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
-    public class BackgroundComponent : IComponent
+    public class BackgroundComponent : GameObjectComponent
     {
         public Texture2D Texture { get; set; }
 

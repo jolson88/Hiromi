@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hiromi.Components
 {
-    public class ScreenWrappingComponent : IComponent
+    public class ScreenWrappingComponent : GameObjectComponent
     {
     }
 }

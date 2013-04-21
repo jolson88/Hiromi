@@ -4,30 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Hiromi.Messaging;
 
 namespace Hiromi
 {
-    public class GameObjectService
+    public class GameObjectManager
     {
-        private static GameObjectService _instance;
-        public static GameObjectService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new GameObjectService();
-                }
-                return _instance;
-            }
-        }
-
+        private MessageManager _messageManager;
         private int _nextObjectId = 0;
         private List<GameObject> _objects;
 
-        private GameObjectService()
+        public GameObjectManager(MessageManager messageManager)
         {
+            _messageManager = messageManager;
             _objects = new List<GameObject>();
         }
 
@@ -37,7 +25,8 @@ namespace Hiromi
             _nextObjectId++;
             _objects.Add(gameObject);
 
-            MessageService.Instance.QueueMessage(new GameObjectLoadedMessage(gameObject));
+            gameObject.Loaded();
+            _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
         }
 
         public List<GameObject> GetAllGameObjects()

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Hiromi.Components;
-using Hiromi.Processing;
 
 namespace Hiromi.Systems
 {

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
-    public class SpriteComponent : IComponent
+    public class SpriteComponent : GameObjectComponent
     {
         public bool IsVisible { get; set; }
         public Texture2D Texture { get; set; }
