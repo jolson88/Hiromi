@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hiromi.Messaging
+namespace Hiromi
 {
     public enum MessageVerbosity
     {

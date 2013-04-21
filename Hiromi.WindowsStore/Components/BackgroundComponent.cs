@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Hiromi
+namespace Hiromi.Components
 {
-    // TODO: Add tiling, auto-scrolling (for movement), etc.
-    public class Background
+    public class BackgroundComponent : GameObjectComponent
     {
         public Texture2D Texture { get; set; }
 
-        public Background(Texture2D texture)
+        public BackgroundComponent(Texture2D texture)
         {
             this.Texture = texture;
         }

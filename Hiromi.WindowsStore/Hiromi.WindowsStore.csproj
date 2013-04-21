@@ -99,39 +99,44 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Background.cs" />
-    <Compile Include="Behaviors\CommonButtonBehavior.cs" />
-    <Compile Include="Behaviors\MovementBehavior.cs" />
-    <Compile Include="Behaviors\WrapAroundScreenBehavior.cs" />
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Components\BackgroundComponent.cs" />
+    <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\LabelComponent.cs" />
+    <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\ScreenWrappingComponent.cs" />
+    <Compile Include="Components\SimplePhysicsComponent.cs" />
+    <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="GameObjectBehavior.cs" />
-    <Compile Include="GameObjectService.cs" />
+    <Compile Include="GameObjectManager.cs" />
+    <Compile Include="GameSystem.cs" />
     <Compile Include="GraphicsService.cs" />
-    <Compile Include="Messaging\ButtonMessages.cs" />
-    <Compile Include="Messaging\KeyboardMessages.cs" />
-    <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\MessageService.cs" />
-    <Compile Include="Messaging\MouseMessages.cs" />
-    <Compile Include="Messaging\OffScreenMessage.cs" />
-    <Compile Include="Messaging\SystemMessages.cs" />
-    <Compile Include="Processing\ActionProcess.cs" />
-    <Compile Include="Processing\BoundsCheckingProcess.cs" />
-    <Compile Include="Processing\DelayProcess.cs" />
-    <Compile Include="Processing\InputProcess.cs" />
-    <Compile Include="Processing\Process.cs" />
-    <Compile Include="Processing\ProcessManager.cs" />
-    <Compile Include="Processing\ProcessState.cs" />
+    <Compile Include="GameObjectComponent.cs" />
+    <Compile Include="MessageTypes.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageManager.cs" />
+    <Compile Include="ActionProcess.cs" />
+    <Compile Include="DelayProcess.cs" />
+    <Compile Include="Process.cs" />
+    <Compile Include="ProcessManager.cs" />
+    <Compile Include="ProcessState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="ScreenManager.cs" />
-    <Compile Include="Sprite.cs" />
+    <Compile Include="Systems\BackgroundRenderingSystem.cs" />
+    <Compile Include="Systems\GeneralInputSystem.cs" />
+    <Compile Include="Systems\ScreenWrappingSystem.cs" />
+    <Compile Include="Systems\SimplePhysicsSystem.cs" />
+    <Compile Include="Systems\SpriteRendererSystem.cs" />
+    <Compile Include="Systems\UISystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>
