@@ -9,21 +9,26 @@ namespace Hiromi
 {
     public class BoundingBox
     {
+        public EventHandler SizeChanged;
+
         public float X { get; set; }
         public float Y { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public float Width { get { return _width; } set { _width = value; OnSizeChanged(); } }
+        public float Height { get { return _height; } set { _height = value; OnSizeChanged(); } }
         public float Bottom { get { return this.Y + this.Height; } }
         public float Left { get { return this.X; } }
         public float Top { get { return this.Y; } }
         public float Right { get { return this.X + this.Width; } }
 
+        private float _width;
+        private float _height;
+
         public BoundingBox(float x, float y, float width, float height)
         {
             this.X = x;
             this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            _width = width;
+            _height = height;
         }
 
         public bool Contains(float x, float y)
@@ -50,6 +55,14 @@ namespace Hiromi
         public bool Intersects(BoundingBox value)
         {
             return value.Left < this.Right && this.Left < value.Right && value.Top < this.Bottom && this.Top < value.Bottom;
+        }
+
+        private void OnSizeChanged()
+        {
+            if (this.SizeChanged != null)
+            {
+                this.SizeChanged(this, null);
+            }
         }
     }
 }

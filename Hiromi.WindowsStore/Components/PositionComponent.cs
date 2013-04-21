@@ -57,24 +57,29 @@ namespace Hiromi.Components
         {
             // Remember: position is in screen coordinates. Bounding box should be in pixel coordinate. 
             this.Bounds = new BoundingBox(this.Position.X, this.Position.Y, this.Bounds.Width, this.Bounds.Height);
+            this.Bounds.SizeChanged += (sender, e) => { RepositionPositionBasedOnAlignment(); };
 
-            // Account for alignments
+            RepositionPositionBasedOnAlignment();
+        }
+
+        private void RepositionPositionBasedOnAlignment()
+        {
             if (this.HorizontalAnchor == HorizontalAnchor.Center)
             {
-                this.Bounds.X = this.Bounds.X - this.Bounds.Width / 2;
+                this.Bounds.X = this.Position.X - this.Bounds.Width / 2;
             }
             else if (this.HorizontalAnchor == HorizontalAnchor.Right)
             {
-                this.Bounds.X = this.Bounds.X - this.Bounds.Width;
+                this.Bounds.X = this.Position.X - this.Bounds.Width;
             }
 
             if (this.VerticalAnchor == VerticalAnchor.Center)
             {
-                this.Bounds.Y = this.Bounds.Y - this.Bounds.Height / 2;
+                this.Bounds.Y = this.Position.Y - this.Bounds.Height / 2;
             }
             else if (this.VerticalAnchor == VerticalAnchor.Bottom)
             {
-                this.Bounds.Y = this.Bounds.Y - this.Bounds.Height;
+                this.Bounds.Y = this.Position.Y - this.Bounds.Height;
             }
         }
     }

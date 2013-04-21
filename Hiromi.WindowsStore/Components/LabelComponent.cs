@@ -19,7 +19,7 @@ namespace Hiromi.Components
         public LabelComponent(string text, SpriteFont font) : this(text, font, Color.White) { }
         public LabelComponent(string text, SpriteFont font, Color textColor)
         {
-            this.Text = text;
+            _text = text;
             this.Font = font;
             this.TextColor = textColor;
         }

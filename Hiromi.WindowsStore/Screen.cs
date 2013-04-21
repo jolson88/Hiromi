@@ -65,7 +65,7 @@ namespace Hiromi
         }
 
         protected virtual void RegisterMessageListeners() { }
-        protected abstract List<GameSystem> LoadGameSystems();
+        protected virtual List<GameSystem> LoadGameSystems() { return new List<GameSystem>(); }
         protected abstract List<GameObject> LoadGameObjects();
     }
 }
