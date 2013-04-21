@@ -27,10 +27,10 @@ namespace Hiromi
         {
             _systems = new List<GameSystem>();
             _systems.Add(new GeneralInputSystem());
-            _systems.Add(new UISystem());
             _systems.Add(new BackgroundRenderingSystem());
             _systems.Add(new SimplePhysicsSystem());
             _systems.Add(new SpriteRendererSystem());
+            _systems.Add(new UISystem());
             _systems.AddRange(LoadGameSystems());
 
             foreach (var obj in LoadGameObjects())
