@@ -12,13 +12,24 @@ namespace Hiromi
     public abstract class GameSystem
     {
         protected Dictionary<int, GameObject> GameObjects;
+        
         protected ProcessManager ProcessManager { get; set; }
+        protected MessageManager MessageManager { get; set; }
+        protected GameObjectManager GameObjectManager { get; set; }
 
         public GameSystem()
         {
             this.ProcessManager = new ProcessManager();
             this.GameObjects = new Dictionary<int, GameObject>();
-            MessageService.Instance.AddListener<GameObjectLoadedMessage>(msg => OnGameObjectLoaded((GameObjectLoadedMessage)msg));
+        }
+
+        public void Initialize(MessageManager messageManager, GameObjectManager gameObjectManager)
+        {
+            this.MessageManager = messageManager;
+            this.GameObjectManager = gameObjectManager;
+
+            this.MessageManager.AddListener<GameObjectLoadedMessage>(msg => OnGameObjectLoaded((GameObjectLoadedMessage)msg));
+            this.OnInitialize();
         }
 
         public void Update(GameTime gameTime)
@@ -40,6 +51,7 @@ namespace Hiromi
             }
         }
 
+        protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
         protected virtual void OnDraw(GameTime gameTime) { }
         protected virtual bool IsGameObjectForSystem(GameObject obj) { return false; }

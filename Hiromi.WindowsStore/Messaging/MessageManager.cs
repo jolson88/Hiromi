@@ -7,26 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Messaging
 {
-    public class MessageService
+    public class MessageManager
     {
-        private static MessageService _instance;
-        public static MessageService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new MessageService();
-                }
-                return _instance;
-            }
-        }
-
         private Dictionary<Type, List<Action<Message>>> _messageListeners;
         private List<Queue<Message>> _messageQueues;
         private int _currentMessageQueue;
 
-        private MessageService()
+        public MessageManager()
         {
             _messageListeners = new Dictionary<Type, List<Action<Message>>>();
             _messageQueues = new List<Queue<Message>>() { new Queue<Message>(), new Queue<Message>() };

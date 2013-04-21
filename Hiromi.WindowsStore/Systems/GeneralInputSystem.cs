@@ -38,7 +38,7 @@ namespace Hiromi.Systems
             var keys = newKeyState.GetPressedKeys().Where(key => !_oldKeyState.IsKeyDown(key));
             foreach (var key in keys)
             {
-                MessageService.Instance.QueueMessage(new KeyDownMessage(key));
+                this.MessageManager.QueueMessage(new KeyDownMessage(key));
             }
         }
 
@@ -47,7 +47,7 @@ namespace Hiromi.Systems
             var keys = _oldKeyState.GetPressedKeys().Where(key => !newKeyState.IsKeyDown(key));
             foreach (var key in keys)
             {
-                MessageService.Instance.QueueMessage(new KeyUpMessage(key));
+                this.MessageManager.QueueMessage(new KeyUpMessage(key));
             }
         }
 
@@ -64,21 +64,21 @@ namespace Hiromi.Systems
                         gameObjectsUnderMouse.Add(obj.Id);
                         if (!MousePreviouslyOverGameObject(obj))
                         {
-                            MessageService.Instance.QueueMessage(new PointerEnterMessage(obj.Id));
+                            this.MessageManager.QueueMessage(new PointerEnterMessage(obj.Id));
                         }
                         if (LeftMouseButtonNewlyPressed(newMouseState))
                         {
-                            MessageService.Instance.QueueMessage(new PointerPressMessage(obj.Id));
+                            this.MessageManager.QueueMessage(new PointerPressMessage(obj.Id));
                         }
                         if (LeftMouseButtonNewlyReleased(newMouseState))
                         {
-                            MessageService.Instance.QueueMessage(new PointerReleaseMessage(obj.Id));
+                            this.MessageManager.QueueMessage(new PointerReleaseMessage(obj.Id));
                         }
                     }
                     else if (MousePreviouslyOverGameObject(obj))
                     {
                         // No longer over this game object
-                        MessageService.Instance.QueueMessage(new PointerExitMessage(obj.Id));
+                        this.MessageManager.QueueMessage(new PointerExitMessage(obj.Id));
                     }
                 }
 

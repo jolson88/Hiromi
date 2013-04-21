@@ -13,11 +13,11 @@ namespace Hiromi.Systems
 {
     public class UISystem : GameSystem
     {
-        public UISystem()
+        protected override void OnInitialize()
         {
-            MessageService.Instance.AddListener<PointerExitMessage>(msg => OnPointerExit((PointerExitMessage)msg));
-            MessageService.Instance.AddListener<PointerPressMessage>(msg => OnPointerPress((PointerPressMessage)msg));
-            MessageService.Instance.AddListener<PointerReleaseMessage>(msg => OnPointerRelease((PointerReleaseMessage)msg));
+            this.MessageManager.AddListener<PointerExitMessage>(msg => OnPointerExit((PointerExitMessage)msg));
+            this.MessageManager.AddListener<PointerPressMessage>(msg => OnPointerPress((PointerPressMessage)msg));
+            this.MessageManager.AddListener<PointerReleaseMessage>(msg => OnPointerRelease((PointerReleaseMessage)msg));
         }
 
         private void OnPointerExit(PointerExitMessage msg)
@@ -43,7 +43,7 @@ namespace Hiromi.Systems
                 var button = obj.GetComponent<ButtonComponent>();
                 var sprite = obj.GetComponent<SpriteComponent>();
 
-                MessageService.Instance.TriggerMessage(new ButtonPressMessage(obj.Id));
+                this.MessageManager.TriggerMessage(new ButtonPressMessage(obj.Id));
                 if (button.FocusTexture != null)
                 {
                     sprite.Texture = button.FocusTexture;

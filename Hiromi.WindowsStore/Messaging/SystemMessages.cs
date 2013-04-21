@@ -6,6 +6,26 @@ using System.Threading.Tasks;
 
 namespace Hiromi.Messaging
 {
+    public class RequestLoadScreenMessage : Message
+    {
+        public Screen Screen { get; set; }
+
+        public RequestLoadScreenMessage(Screen screen)
+        {
+            this.Screen = screen;
+        }
+    }
+
+    public class ScreenLoadedMessage : Message
+    {
+        public Screen Screen { get; set; }
+
+        public ScreenLoadedMessage(Screen screen)
+        {
+            this.Screen = screen;
+        }
+    }
+
     public class GameObjectLoadedMessage : Message
     {
         public GameObject GameObject { get; set; }
@@ -13,32 +33,6 @@ namespace Hiromi.Messaging
         public GameObjectLoadedMessage(GameObject obj)
         {
             this.GameObject = obj;
-        }
-    }
-
-    /// <summary>
-    /// Message requesting a new screen to be loaded
-    /// </summary>
-    public class RequestScreenLoadMessage : Message
-    {
-        public Screen RequestedScreen { get; set; }
-
-        public RequestScreenLoadMessage(Screen requestedScreen)
-        {
-            this.RequestedScreen = requestedScreen;
-        }
-    }
-
-    /// <summary>
-    /// Message from the system when a new screen is loaded
-    /// </summary>
-    public class ScreenLoadedMessage : Message
-    {
-        public Screen LoadedScreen { get; set; }
-
-        public ScreenLoadedMessage(Screen loadedScreen)
-        {
-            this.LoadedScreen = loadedScreen;
         }
     }
     

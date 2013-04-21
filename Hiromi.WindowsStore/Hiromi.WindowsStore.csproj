@@ -108,14 +108,14 @@
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="GameObjectService.cs" />
+    <Compile Include="GameObjectManager.cs" />
     <Compile Include="GameSystem.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="Messaging\ButtonMessages.cs" />
     <Compile Include="Messaging\KeyboardMessages.cs" />
     <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\MessageService.cs" />
+    <Compile Include="Messaging\MessageManager.cs" />
     <Compile Include="Messaging\MouseMessages.cs" />
     <Compile Include="Messaging\OffScreenMessage.cs" />
     <Compile Include="Messaging\SystemMessages.cs" />
@@ -139,6 +139,7 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

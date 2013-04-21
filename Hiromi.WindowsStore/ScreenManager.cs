@@ -14,14 +14,13 @@ namespace Hiromi
     {
         private Screen _currentScreen;
 
-        public ScreenManager()
+        public ScreenManager(Screen initialScreen)
         {
-            MessageService.Instance.AddListener<RequestScreenLoadMessage>(msg => OnRequestScreenLoad((RequestScreenLoadMessage)msg));
+            LoadScreen(initialScreen);
         }
 
         public void Update(GameTime gameTime)
         {
-            MessageService.Instance.Update(gameTime);
             _currentScreen.Update(gameTime);
         }
 
@@ -30,12 +29,18 @@ namespace Hiromi
             _currentScreen.Draw(gameTime);
         }
 
-        private void OnRequestScreenLoad(RequestScreenLoadMessage msg)
+        private void LoadScreen(Screen newScreen)
         {
-            _currentScreen = msg.RequestedScreen;
+            _currentScreen = newScreen;
             _currentScreen.Load();
 
-            MessageService.Instance.QueueMessage(new ScreenLoadedMessage(_currentScreen));
+            _currentScreen.MessageManager.AddListener<RequestLoadScreenMessage>(msg => OnRequestLoadScreen((RequestLoadScreenMessage)msg));
+            _currentScreen.MessageManager.QueueMessage(new ScreenLoadedMessage(_currentScreen));
+        }
+
+        private void OnRequestLoadScreen(RequestLoadScreenMessage msg)
+        {
+            LoadScreen(msg.Screen);
         }
     }
 }
