@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Hiromi.Messaging;
-using Hiromi.Processing;
 using Hiromi.Systems;
 
 namespace Hiromi

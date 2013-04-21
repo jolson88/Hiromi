@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Hiromi.Messaging;
-using Hiromi.Processing;
 
 namespace Hiromi
 {

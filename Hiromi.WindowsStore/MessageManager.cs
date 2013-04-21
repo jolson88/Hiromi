@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Hiromi.Messaging
+namespace Hiromi
 {
     public class MessageManager
     {
