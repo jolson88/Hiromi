@@ -15,7 +15,7 @@ namespace Hiromi.Components
         public Texture2D NonFocusTexture { get; set; }
 
         public ButtonComponent() : this(null, null) { }
-        public ButtonComponent(Texture2D focusTexture, Texture2D nonFocusTexture)
+        public ButtonComponent(Texture2D nonFocusTexture, Texture2D focusTexture)
         {
             this.CurrentTexture = nonFocusTexture;
             this.FocusTexture = focusTexture;
