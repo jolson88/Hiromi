@@ -21,7 +21,7 @@ namespace Hiromi.Components
         Right
     }
 
-    public class PositionComponent : IComponent
+    public class PositionComponent : GameObjectComponent
     {
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }

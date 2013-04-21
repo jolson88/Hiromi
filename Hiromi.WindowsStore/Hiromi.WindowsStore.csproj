@@ -102,6 +102,7 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\ScreenWrappingComponent.cs" />
     <Compile Include="Components\SimplePhysicsComponent.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="GameSystem.cs" />
     <Compile Include="GraphicsService.cs" />
-    <Compile Include="IComponent.cs" />
+    <Compile Include="GameObjectComponent.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageManager.cs" />

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
-    public class SimplePhysicsComponent : IComponent
+    public class SimplePhysicsComponent : GameObjectComponent
     {
         public Vector2 Velocity { get; set; }
 
