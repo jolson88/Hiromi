@@ -56,6 +56,11 @@ namespace Hiromi
             }
         }
 
+        public void RemoveProcess(Process process)
+        {
+            m_processes.Remove(process);
+        }
+
         public int GetProcessCount()
         {
             return m_processes.Count;
