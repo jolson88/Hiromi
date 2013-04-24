@@ -13,32 +13,23 @@ namespace Hiromi.Components
         public bool IsVisible { get; set; }
         public Texture2D Texture { get; set; }
 
-        private SpriteBatch _batch;
-
         public SpriteComponent(Texture2D texture)
         {
             this.Texture = texture;
             this.IsVisible = true;
         }
 
-        public override void Loaded()
-        {
-            _batch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
-        }
-
         public override void Draw(GameTime gameTime)
         {
-            _batch.Begin();
             var posComponent = this.GameObject.GetComponent<PositionComponent>();
             if (this.IsVisible)
             {
                 // We use Bounds instead of Position as Bounds takes the achor point into account
-                _batch.Draw(this.Texture,
+                GraphicsService.Instance.SpriteBatch.Draw(this.Texture,
                     new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                         posComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                     Color.White);
             }
-            _batch.End();
         }
     }
 }

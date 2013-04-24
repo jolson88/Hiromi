@@ -16,5 +16,12 @@ namespace Hiromi.Components
         {
             this.Texture = texture;
         }
+
+        public override void Draw(GameTime gameTime)
+        {
+            GraphicsService.Instance.SpriteBatch.Draw(this.Texture,
+                new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height),
+                Color.White);
+        }
     }
 }

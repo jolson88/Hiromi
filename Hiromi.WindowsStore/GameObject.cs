@@ -9,18 +9,20 @@ namespace Hiromi
 {
     public class GameObject
     {
+        public MessageManager MessageManager { get; set; }
         public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }
         public int Id { get; set; }
+        public int Depth { get; set; }
 
         private Dictionary<Type, GameObjectComponent> _components;
 
         public GameObject() : this(string.Empty) { }
+        public GameObject(int depth) : this(string.Empty) { this.Depth = depth; }
         public GameObject(string tag)
         {
             _components = new Dictionary<Type, GameObjectComponent>();
             this.Tag = tag;
-            this.ProcessManager = new ProcessManager();
         }
 
         public void Loaded()
@@ -33,7 +35,6 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
-            this.ProcessManager.Update(gameTime);
             foreach (var component in _components.Values)
             {
                 component.Update(gameTime);
@@ -42,7 +43,6 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
-            // TODO: Change position to Vector3 and sort by Z (Depth)
             foreach (var component in _components.Values)
             {
                 component.Draw(gameTime);

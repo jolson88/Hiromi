@@ -29,6 +29,15 @@ namespace Hiromi.Components
             OnTextChanged();
         }
 
+        public override void Draw(GameTime gameTime)
+        {
+            var posComponent = this.GameObject.GetComponent<PositionComponent>();
+            GraphicsService.Instance.SpriteBatch.DrawString(this.Font, this.Text,
+                new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
+                    posComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
+                this.TextColor);
+        }
+
         private void OnTextChanged()
         {
             var posComponent = this.GameObject.GetComponent<PositionComponent>();

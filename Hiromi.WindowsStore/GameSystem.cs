@@ -17,12 +17,12 @@ namespace Hiromi
 
         public GameSystem()
         {
-            this.ProcessManager = new ProcessManager();
             this.GameObjects = new Dictionary<int, GameObject>();
         }
 
-        public void Initialize(MessageManager messageManager, GameObjectManager gameObjectManager)
+        public void Initialize(ProcessManager processManager, MessageManager messageManager, GameObjectManager gameObjectManager)
         {
+            this.ProcessManager = processManager;
             this.MessageManager = messageManager;
             this.GameObjectManager = gameObjectManager;
 
@@ -32,7 +32,6 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
-            this.ProcessManager.Update(gameTime);
             this.OnUpdate(gameTime);
         }
 
