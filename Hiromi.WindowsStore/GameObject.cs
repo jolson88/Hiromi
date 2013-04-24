@@ -14,10 +14,11 @@ namespace Hiromi
 
         private Dictionary<Type, GameObjectComponent> _components;
 
-        public GameObject()
+        public GameObject() : this(string.Empty) { }
+        public GameObject(string tag)
         {
             _components = new Dictionary<Type, GameObjectComponent>();
-            this.Tag = string.Empty;
+            this.Tag = tag;
         }
 
         public void Loaded()
@@ -25,6 +26,22 @@ namespace Hiromi
             foreach (var component in _components.Values)
             {
                 component.Loaded();
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach (var component in _components.Values)
+            {
+                component.Update(gameTime);
+            }
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            foreach (var component in _components.Values)
+            {
+                component.Draw(gameTime);
             }
         }
 

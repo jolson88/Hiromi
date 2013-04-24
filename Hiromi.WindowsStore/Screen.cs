@@ -49,6 +49,11 @@ namespace Hiromi
             {
                 sys.Update(gameTime);
             }
+
+            foreach (var obj in this.GameObjectManager.GetAllGameObjects())
+            {
+                obj.Update(gameTime);
+            }
         }
 
         public void Draw(GameTime gameTime)
@@ -56,6 +61,11 @@ namespace Hiromi
             foreach (var sys in _systems)
             {
                 sys.Draw(gameTime);
+            }
+
+            foreach (var obj in this.GameObjectManager.GetAllGameObjects())
+            {
+                obj.Draw(gameTime);
             }
         }
 
