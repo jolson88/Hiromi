@@ -127,7 +127,6 @@
     <Compile Include="Systems\BackgroundRenderingSystem.cs" />
     <Compile Include="Systems\GeneralInputSystem.cs" />
     <Compile Include="Systems\ScreenWrappingSystem.cs" />
-    <Compile Include="Systems\SpriteRendererSystem.cs" />
     <Compile Include="Systems\UISystem.cs" />
   </ItemGroup>
   <ItemGroup>

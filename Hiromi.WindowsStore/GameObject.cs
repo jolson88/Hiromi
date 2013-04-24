@@ -39,6 +39,7 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
+            // TODO: Change position to Vector3 and sort by Z (Depth)
             foreach (var component in _components.Values)
             {
                 component.Draw(gameTime);
