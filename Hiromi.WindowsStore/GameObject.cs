@@ -9,6 +9,7 @@ namespace Hiromi
 {
     public class GameObject
     {
+        public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }
         public int Id { get; set; }
 
@@ -19,6 +20,7 @@ namespace Hiromi
         {
             _components = new Dictionary<Type, GameObjectComponent>();
             this.Tag = tag;
+            this.ProcessManager = new ProcessManager();
         }
 
         public void Loaded()
@@ -31,6 +33,7 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
+            this.ProcessManager.Update(gameTime);
             foreach (var component in _components.Values)
             {
                 component.Update(gameTime);
