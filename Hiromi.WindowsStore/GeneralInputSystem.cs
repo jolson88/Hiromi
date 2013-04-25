@@ -8,20 +8,26 @@ using Hiromi.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Hiromi.Systems
+namespace Hiromi
 {
-    public class GeneralInputSystem : GameSystem
+    public class GeneralInputSystem
     {
+        private MessageManager _messageManager;
+        private Dictionary<int, GameObject> _gameObjects;
         private MouseState _oldMouseState;
         private KeyboardState _oldKeyState;
         private List<int> _previousGameObjectsUnderMouse;
 
-        public GeneralInputSystem()
+        public GeneralInputSystem(MessageManager messageManager)
         {
+            _messageManager = messageManager;
+            _gameObjects = new Dictionary<int, GameObject>();
             _previousGameObjectsUnderMouse = new List<int>();
+
+            _messageManager.AddListener<GameObjectLoadedMessage>(msg => OnGameObjectLoaded((GameObjectLoadedMessage)msg));
         }
 
-        protected override void OnUpdate(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             var newMouseState = Mouse.GetState();
             var newKeyState = Keyboard.GetState();
@@ -37,7 +43,7 @@ namespace Hiromi.Systems
             var keys = newKeyState.GetPressedKeys().Where(key => !_oldKeyState.IsKeyDown(key));
             foreach (var key in keys)
             {
-                this.MessageManager.QueueMessage(new KeyDownMessage(key));
+                _messageManager.QueueMessage(new KeyDownMessage(key));
             }
         }
 
@@ -46,7 +52,7 @@ namespace Hiromi.Systems
             var keys = _oldKeyState.GetPressedKeys().Where(key => !newKeyState.IsKeyDown(key));
             foreach (var key in keys)
             {
-                this.MessageManager.QueueMessage(new KeyUpMessage(key));
+                _messageManager.QueueMessage(new KeyUpMessage(key));
             }
         }
 
@@ -56,28 +62,28 @@ namespace Hiromi.Systems
 
             if (MouseStateHasChanged(newMouseState))
             {
-                foreach (var obj in this.GameObjects.Values)
+                foreach (var obj in _gameObjects.Values)
                 {
                     if (MouseOverGameObject(newMouseState, obj))
                     {
                         gameObjectsUnderMouse.Add(obj.Id);
                         if (!MousePreviouslyOverGameObject(obj))
                         {
-                            this.MessageManager.QueueMessage(new PointerEnterMessage(obj.Id));
+                            _messageManager.QueueMessage(new PointerEnterMessage(obj.Id));
                         }
                         if (LeftMouseButtonNewlyPressed(newMouseState))
                         {
-                            this.MessageManager.QueueMessage(new PointerPressMessage(obj.Id));
+                            _messageManager.QueueMessage(new PointerPressMessage(obj.Id));
                         }
                         if (LeftMouseButtonNewlyReleased(newMouseState))
                         {
-                            this.MessageManager.QueueMessage(new PointerReleaseMessage(obj.Id));
+                            _messageManager.QueueMessage(new PointerReleaseMessage(obj.Id));
                         }
                     }
                     else if (MousePreviouslyOverGameObject(obj))
                     {
                         // No longer over this game object
-                        this.MessageManager.QueueMessage(new PointerExitMessage(obj.Id));
+                        _messageManager.QueueMessage(new PointerExitMessage(obj.Id));
                     }
                 }
 
@@ -115,9 +121,17 @@ namespace Hiromi.Systems
             return newMouseState.LeftButton == ButtonState.Released && _oldMouseState.LeftButton == ButtonState.Pressed;
         }
 
-        protected override bool IsGameObjectForSystem(GameObject obj)
+        private bool IsGameObjectForSystem(GameObject obj)
         {
             return obj.HasComponent<PositionComponent>();
+        }
+
+        private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
+        {
+            if (msg.GameObject.HasComponent<PositionComponent>())
+            {
+                _gameObjects.Add(msg.GameObject.Id, msg.GameObject);
+            }
         }
     }
 }

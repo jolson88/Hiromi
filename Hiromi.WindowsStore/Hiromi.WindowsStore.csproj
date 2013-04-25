@@ -110,9 +110,10 @@
     <Compile Include="ContentService.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
-    <Compile Include="GameSystem.cs" />
+    <Compile Include="GameView.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="GameObjectComponent.cs" />
+    <Compile Include="HumanGameView.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageManager.cs" />
@@ -124,7 +125,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="ScreenManager.cs" />
-    <Compile Include="Systems\GeneralInputSystem.cs" />
+    <Compile Include="GeneralInputSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
