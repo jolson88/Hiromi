@@ -7,23 +7,23 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Hiromi
 {
-    public class RequestLoadScreenMessage : Message
+    public class RequestChangeStateMessage : Message
     {
-        public Screen Screen { get; set; }
+        public GameState State { get; set; }
 
-        public RequestLoadScreenMessage(Screen screen)
+        public RequestChangeStateMessage(GameState state)
         {
-            this.Screen = screen;
+            this.State = state;
         }
     }
 
-    public class ScreenLoadedMessage : Message
+    public class StateChangedMessage : Message
     {
-        public Screen Screen { get; set; }
+        public GameState State { get; set; }
 
-        public ScreenLoadedMessage(Screen screen)
+        public StateChangedMessage(GameState state)
         {
-            this.Screen = screen;
+            this.State = state;
         }
     }
 

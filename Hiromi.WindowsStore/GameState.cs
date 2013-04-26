@@ -9,15 +9,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi
 {
-    public abstract class Screen
+    public abstract class GameState
     {
         public ProcessManager ProcessManager { get; set; }
         public MessageManager MessageManager { get; set; }
         public GameObjectManager GameObjectManager { get; set; }
 
         private List<IGameView> _gameViews;
-        
-        public Screen()
+
+        public GameState()
         {
             this.ProcessManager = new ProcessManager();
             this.MessageManager = new MessageManager();
