@@ -30,7 +30,7 @@ namespace Hiromi.Components
         public Vector2 Position 
         {
             get { return _position; }
-            set { _position = value; CalculateBounds(); }
+            set { _position = value; CalculateBounds(); OnPositionChanged(); }
         }
 
         private Vector2 _position;
@@ -51,6 +51,15 @@ namespace Hiromi.Components
                 (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
             
             this.Position = position;
+        }
+
+        private void OnPositionChanged()
+        {
+            // When the component is first created, it won't be attached to a GameObject yet.
+            if (this.GameObject != null)
+            {
+                this.GameObject.MessageManager.TriggerMessage(new GameObjectMovedMessage(this.GameObject));
+            }
         }
 
         private void CalculateBounds()

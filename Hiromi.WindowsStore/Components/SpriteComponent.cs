@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class SpriteComponent : GameObjectComponent
+    public class SpriteComponent : GameObjectComponent, IRenderingComponent
     {
         public bool IsVisible { get; set; }
         public Texture2D Texture { get; set; }
@@ -19,17 +20,17 @@ namespace Hiromi.Components
             this.IsVisible = true;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Loaded()
         {
-            var posComponent = this.GameObject.GetComponent<PositionComponent>();
-            if (this.IsVisible)
-            {
-                // We use Bounds instead of Position as Bounds takes the achor point into account
-                GraphicsService.Instance.SpriteBatch.Draw(this.Texture,
-                    new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                        posComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                    Color.White);
-            }
+            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
+        }
+
+        public SceneNode GetSceneNode()
+        {
+            return new SpriteRenderingNode(this.GameObject.Id,
+                this.GameObject.GetComponent<PositionComponent>(),
+                RenderPass.GameObjectPass,
+                this);
         }
     }
 }

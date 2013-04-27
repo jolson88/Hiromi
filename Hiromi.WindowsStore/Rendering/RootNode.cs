@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Hiromi.Components;
+using Microsoft.Xna.Framework;
+
+namespace Hiromi.Rendering
+{
+    public class RootNode : ISceneNode
+    {
+        public ISceneNode Parent { get; set; }
+        public bool IsVisible { get; set; }
+        public int GameObjectId { get; set; }
+        public RenderPass RenderPass { get; set; }
+        public PositionComponent PositionComponent { get; set; }
+
+        protected MessageManager _messageManager;
+
+        private Dictionary<RenderPass, ISceneNode> _childrenByPass;
+
+        public RootNode()
+        {
+            _childrenByPass = new Dictionary<RenderPass, ISceneNode>();
+            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            {
+                _childrenByPass.Add((RenderPass)val, new SceneNode(GameObject.InvalidId, null, (RenderPass)val));
+            }
+        }
+
+        public void Initialize(MessageManager messageManager)
+        {
+            _messageManager = messageManager;
+        }
+
+        public void AddChild(ISceneNode child)
+        {
+            _childrenByPass[child.RenderPass].AddChild(child);
+        }
+
+        public void RemoveChild(int gameObjectId)
+        {
+            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            {
+                _childrenByPass[(RenderPass)val].RemoveChild(gameObjectId);
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            {
+                _childrenByPass[(RenderPass)val].Update(gameTime);
+            }
+        }
+
+        public void Draw(GameTime gameTime)
+        {
+            // Draw the scene in render pass order
+            for (int i = 0; i <= (int)RenderPass.LassPass; i++)
+            {
+                _childrenByPass[(RenderPass)i].Draw(gameTime);
+            }
+        }
+    }
+}

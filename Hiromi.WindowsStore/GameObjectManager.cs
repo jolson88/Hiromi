@@ -25,12 +25,12 @@ namespace Hiromi
         {
             gameObject.ProcessManager = _processManager;
             gameObject.MessageManager = _messageManager;
-            gameObject.Loaded();
 
             gameObject.Id = _nextObjectId;
             _nextObjectId++;
             _objects.Add(gameObject);
-            _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
+            gameObject.Loaded();
+            _messageManager.QueueMessage(new NewGameObjectMessage(gameObject));
         }
 
         public List<GameObject> GetAllGameObjects()

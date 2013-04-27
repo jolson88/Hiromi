@@ -4,21 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Hiromi.Rendering;
 
 namespace Hiromi
 {
-    // TODO: Future Improvements: A baked-in command console, generic playing of sounds (via event), rendering via scene graph, etc.
     public class HumanGameView : IGameView
     {
-        protected MessageManager _messageManager;
-        protected GameObjectManager _gameObjectManager;
-        protected ProcessManager _processManager;
+        protected MessageManager MessageManager { get; private set; }
+        protected GameObjectManager GameObjectManager { get; private set; }
+        protected ProcessManager ProcessManager { get; private set; }
 
+        private SceneGraph _sceneGraph;
+
+        // TODO: Move message manager and game object manager into Initialize method to enforce called by GameState
+        // This is to gaurantee derived classes don't forget to call this constructor (or force these parameters to spread throughout the codebase)
         public HumanGameView(MessageManager messageManager, GameObjectManager gameObjectManager)
         {
-            _messageManager = messageManager;
-            _gameObjectManager = gameObjectManager;
-            _processManager = new ProcessManager();
+            this.MessageManager = messageManager;
+            this.GameObjectManager = gameObjectManager;
+            this.ProcessManager = new ProcessManager();
+            _sceneGraph = new SceneGraph(this.MessageManager);
         }
 
         public GameViewKind GetKind()
@@ -28,12 +33,14 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
+            _sceneGraph.Draw(gameTime);
             OnDraw(gameTime);
         }
 
         public void Update(GameTime gameTime)
         {
-            _processManager.Update(gameTime);
+            this.ProcessManager.Update(gameTime);
+            _sceneGraph.Update(gameTime);
             OnUpdate(gameTime);
         }
 

@@ -24,7 +24,7 @@ namespace Hiromi
             _gameObjects = new Dictionary<int, GameObject>();
             _previousGameObjectsUnderMouse = new List<int>();
 
-            _messageManager.AddListener<GameObjectLoadedMessage>(msg => OnGameObjectLoaded((GameObjectLoadedMessage)msg));
+            _messageManager.AddListener<NewGameObjectMessage>(msg => OnNewGameObject((NewGameObjectMessage)msg));
         }
 
         public void Update(GameTime gameTime)
@@ -126,7 +126,7 @@ namespace Hiromi
             return obj.HasComponent<PositionComponent>();
         }
 
-        private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
+        private void OnNewGameObject(NewGameObjectMessage msg)
         {
             if (msg.GameObject.HasComponent<PositionComponent>())
             {
