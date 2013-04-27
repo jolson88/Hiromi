@@ -128,6 +128,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameStateManager.cs" />
     <Compile Include="GeneralInputSystem.cs" />
+    <Compile Include="Rendering\ButtonRenderingNode.cs" />
     <Compile Include="Rendering\ISceneNode.cs" />
     <Compile Include="Rendering\RenderPass.cs" />
     <Compile Include="Rendering\RootNode.cs" />

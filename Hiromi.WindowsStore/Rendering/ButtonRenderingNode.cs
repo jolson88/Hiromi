@@ -10,15 +10,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Rendering
 {
-    public class SpriteRenderingNode : SceneNode
+    public class ButtonRenderingNode : SceneNode
     {
-        private SpriteComponent _spriteComponent;
+        private ButtonComponent _buttonComponent;
 
-        public SpriteRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, SpriteComponent spriteComponent) 
-            : base(gameObjectId, positionComponent, renderPass) 
+        public ButtonRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, ButtonComponent buttonComponent)
+            : base(gameObjectId, positionComponent, renderPass)
         {
-            _spriteComponent = spriteComponent;
-            this.IsVisible = _spriteComponent.IsVisible;
+            _buttonComponent = buttonComponent;
         }
 
         protected override void OnInitialize()
@@ -29,7 +28,7 @@ namespace Hiromi.Rendering
         protected override void OnDraw(GameTime gameTime)
         {
             // We use Bounds instead of Position as Bounds takes the achor point into account
-            GraphicsService.Instance.SpriteBatch.Draw(_spriteComponent.Texture,
+            GraphicsService.Instance.SpriteBatch.Draw(_buttonComponent.CurrentTexture,
                 new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 Color.White);
@@ -39,8 +38,7 @@ namespace Hiromi.Rendering
         {
             if (msg.GameObject.Id == this.GameObjectId)
             {
-                _spriteComponent = msg.GameObject.GetComponent<SpriteComponent>();
-                this.IsVisible = _spriteComponent.IsVisible;
+                _buttonComponent = msg.GameObject.GetComponent<ButtonComponent>();
             }
         }
     }

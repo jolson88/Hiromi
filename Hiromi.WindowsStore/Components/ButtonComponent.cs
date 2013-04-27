@@ -6,19 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi;
+using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class ButtonComponent : GameObjectComponent
+    public class ButtonComponent : GameObjectComponent, IRenderingComponent
     {
-        public Texture2D CurrentTexture { get; set; }
+        public Texture2D CurrentTexture { get { return _currentTexture; } set { _currentTexture = value; OnRenderingComponentChanged(); } }
         public Texture2D FocusTexture { get; set; }
         public Texture2D NonFocusTexture { get; set; }
 
-        public ButtonComponent() : this(null, null) { }
+        private Texture2D _currentTexture;
+
         public ButtonComponent(Texture2D nonFocusTexture, Texture2D focusTexture)
         {
-            this.CurrentTexture = nonFocusTexture;
+            _currentTexture = nonFocusTexture;
             this.FocusTexture = focusTexture;
             this.NonFocusTexture = nonFocusTexture;
         }
@@ -28,16 +30,16 @@ namespace Hiromi.Components
             this.GameObject.MessageManager.AddListener<PointerExitMessage>(OnPointerExit);
             this.GameObject.MessageManager.AddListener<PointerPressMessage>(OnPointerPress);
             this.GameObject.MessageManager.AddListener<PointerReleaseMessage>(OnPointerRelease);
+
+            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
         }
 
-        public override void Draw(GameTime gameTime)
+        public SceneNode GetSceneNode()
         {
-            // TODO: Move into SpriteRenderingNode (Have ButtonComponent derive from SpriteComponent and write to base.Texture instead of this.CurrentTexture)
-            var posComponent = this.GameObject.GetComponent<PositionComponent>();
-            GraphicsService.Instance.SpriteBatch.Draw(this.CurrentTexture,
-                        new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                            posComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                        Color.White);
+            return new ButtonRenderingNode(this.GameObject.Id,
+                this.GameObject.GetComponent<PositionComponent>(),
+                RenderPass.UserInterfacePass,
+                this);
         }
 
         private void OnPointerExit(PointerExitMessage msg)
@@ -72,6 +74,11 @@ namespace Hiromi.Components
                     this.CurrentTexture = this.NonFocusTexture;
                 }
             }
+        }
+
+        private void OnRenderingComponentChanged()
+        {
+            this.GameObject.MessageManager.TriggerMessage(new RenderingComponentChangedMessage(this.GameObject, this));
         }
     }
 }

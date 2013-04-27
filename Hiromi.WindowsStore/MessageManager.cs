@@ -46,7 +46,6 @@ namespace Hiromi
             }
         }
 
-        // TODO: Change listeners to object (with casting) so parameter can be Action<T>
         public void AddListener<T>(Action<T> listener) where T : Message
         {
             if (!_messageListeners.Keys.Contains(typeof(T)))
