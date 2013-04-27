@@ -11,6 +11,8 @@ using Hiromi.Rendering;
 
 namespace Hiromi
 {
+    // TODO: Split into KeyboardHandler and PointerHandler classes
+    // TODO: Add Touch support to new PointerHandler class
     public class GeneralInputSystem
     {
         private MessageManager _messageManager;
@@ -90,7 +92,7 @@ namespace Hiromi
                     _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
                     _previousGameObjectUnderPointer = null;
                 }
-            }
+            } 
         }
 
         private bool MouseStateHasChanged(MouseState newMouseState)
