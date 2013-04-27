@@ -77,7 +77,35 @@ namespace Hiromi.Rendering
             }
         }
 
-        // TODO: Picking (with a RayCast)
+        public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
+        {
+            if (PointerOverSceneNode(pointerLocation))
+            {
+                gameObjectId = this.GameObjectId;
+                return true;
+            }
+            foreach (var child in _children)
+            {
+                if (child.Pick(pointerLocation, ref gameObjectId))
+                {
+                    return true;
+                }
+            }
+
+            gameObjectId = null;
+            return false;
+        }
+
+        private bool PointerOverSceneNode(Vector2 pointerLocation)
+        {
+            // Need to convert pixel coordinates from mouse into screen coordinates
+            if (this.PositionComponent != null)
+            {
+                return this.PositionComponent.Bounds.Contains((float)pointerLocation.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width,
+                    (float)pointerLocation.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
+            }
+            return false;
+        }
 
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }

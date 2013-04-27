@@ -13,15 +13,14 @@ namespace Hiromi
         protected MessageManager MessageManager { get; private set; }
         protected GameObjectManager GameObjectManager { get; private set; }
         protected ProcessManager ProcessManager { get; private set; }
-
-        private SceneGraph _sceneGraph;
+        protected SceneGraph SceneGraph { get; private set; }
 
         public void Initialize(GameObjectManager gameObjectManager, MessageManager messageManager)
         {
             this.ProcessManager = new ProcessManager();
             this.GameObjectManager = gameObjectManager;
             this.MessageManager = messageManager;
-            _sceneGraph = new SceneGraph(messageManager);
+            this.SceneGraph = new SceneGraph(messageManager);
 
             OnInitialize();
         }
@@ -33,14 +32,14 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
-            _sceneGraph.Draw(gameTime);
+            this.SceneGraph.Draw(gameTime);
             OnDraw(gameTime);
         }
 
         public void Update(GameTime gameTime)
         {
             this.ProcessManager.Update(gameTime);
-            _sceneGraph.Update(gameTime);
+            this.SceneGraph.Update(gameTime);
             OnUpdate(gameTime);
         }
 

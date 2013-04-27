@@ -21,5 +21,6 @@ namespace Hiromi.Rendering
         void RemoveChild(int gameObjectId);
         void Update(GameTime gameTime);
         void Draw(GameTime gameTime);
+        bool Pick(Vector2 pointerLocation, ref int? gameObjectId);
     }
 }

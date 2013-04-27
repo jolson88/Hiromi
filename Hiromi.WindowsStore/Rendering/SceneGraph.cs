@@ -12,7 +12,7 @@ namespace Hiromi.Rendering
     public class SceneGraph
     {
         private MessageManager _messageManager;
-        private ISceneNode _rootNode;
+        private RootNode _rootNode;
         private Dictionary<int, ISceneNode> _gameObjectLookup;
 
         public SceneGraph(MessageManager messageManager)
@@ -45,6 +45,11 @@ namespace Hiromi.Rendering
         public void Draw(GameTime gameTime)
         {
             _rootNode.Draw(gameTime);
+        }
+
+        public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
+        {
+            return _rootNode.Pick(pointerLocation, ref gameObjectId);
         }
 
         private void OnGameObjectMoved(GameObjectMovedMessage msg)

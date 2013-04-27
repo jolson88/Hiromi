@@ -7,23 +7,24 @@ using Hiromi;
 using Hiromi.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Hiromi.Rendering;
 
 namespace Hiromi
 {
     public class GeneralInputSystem
     {
         private MessageManager _messageManager;
+        private SceneGraph _sceneGraph;
         private Dictionary<int, GameObject> _gameObjects;
         private MouseState _oldMouseState;
         private KeyboardState _oldKeyState;
-        private List<int> _previousGameObjectsUnderMouse;
+        private int? _previousGameObjectUnderPointer = null;
 
-        public GeneralInputSystem(MessageManager messageManager)
+        public GeneralInputSystem(MessageManager messageManager, SceneGraph sceneGraph)
         {
+            _sceneGraph = sceneGraph;
             _messageManager = messageManager;
             _gameObjects = new Dictionary<int, GameObject>();
-            _previousGameObjectsUnderMouse = new List<int>();
-
             _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
         }
 
@@ -62,32 +63,33 @@ namespace Hiromi
 
             if (MouseStateHasChanged(newMouseState))
             {
-                foreach (var obj in _gameObjects.Values)
+                int? pickedGameObjectId = null;
+                var objectPicked = _sceneGraph.Pick(new Vector2(newMouseState.X, newMouseState.Y), ref pickedGameObjectId);
+                if (objectPicked)
                 {
-                    if (MouseOverGameObject(newMouseState, obj))
+                    if (pickedGameObjectId != _previousGameObjectUnderPointer)
                     {
-                        gameObjectsUnderMouse.Add(obj.Id);
-                        if (!MousePreviouslyOverGameObject(obj))
-                        {
-                            _messageManager.QueueMessage(new PointerEnterMessage(obj.Id));
-                        }
-                        if (LeftMouseButtonNewlyPressed(newMouseState))
-                        {
-                            _messageManager.QueueMessage(new PointerPressMessage(obj.Id));
-                        }
-                        if (LeftMouseButtonNewlyReleased(newMouseState))
-                        {
-                            _messageManager.QueueMessage(new PointerReleaseMessage(obj.Id));
-                        }
+                        _messageManager.QueueMessage(new PointerEnterMessage(pickedGameObjectId.Value));
                     }
-                    else if (MousePreviouslyOverGameObject(obj))
+                    else
                     {
-                        // No longer over this game object
-                        _messageManager.QueueMessage(new PointerExitMessage(obj.Id));
+                        _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
+                    }
+
+                    if (LeftMouseButtonNewlyPressed(newMouseState))
+                    {
+                        _messageManager.QueueMessage(new PointerPressMessage(pickedGameObjectId.Value));
+                    }
+                    if (LeftMouseButtonNewlyReleased(newMouseState))
+                    {
+                        _messageManager.QueueMessage(new PointerReleaseMessage(pickedGameObjectId.Value));
                     }
                 }
-
-                _previousGameObjectsUnderMouse = gameObjectsUnderMouse;
+                else if (_previousGameObjectUnderPointer >= 0)
+                {
+                    _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
+                    _previousGameObjectUnderPointer = null;
+                }
             }
         }
 
@@ -96,19 +98,6 @@ namespace Hiromi
             return newMouseState.LeftButton != _oldMouseState.LeftButton ||
                 newMouseState.X != _oldMouseState.X ||
                 newMouseState.Y != _oldMouseState.Y;
-        }
-
-        private bool MouseOverGameObject(MouseState mouseState, GameObject obj)
-        {
-            // Need to convert pixel coordinates from mouse into screen coordinates
-            var pos = obj.GetComponent<PositionComponent>();
-            return pos.Bounds.Contains((float)mouseState.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                (float)mouseState.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
-        }
-
-        private bool MousePreviouslyOverGameObject(GameObject obj)
-        {
-            return _previousGameObjectsUnderMouse.Contains(obj.Id);
         }
 
         private bool LeftMouseButtonNewlyPressed(MouseState newMouseState)

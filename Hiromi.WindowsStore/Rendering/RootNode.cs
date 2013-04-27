@@ -63,5 +63,19 @@ namespace Hiromi.Rendering
                 _childrenByPass[(RenderPass)i].Draw(gameTime);
             }
         }
+
+        public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
+        {
+            // Reverse drawing order to find top-most game object picked
+            for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
+            {
+                if (_childrenByPass[(RenderPass)i].Pick(pointerLocation, ref gameObjectId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
