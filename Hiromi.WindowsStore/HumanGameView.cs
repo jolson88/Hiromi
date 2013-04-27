@@ -16,14 +16,14 @@ namespace Hiromi
 
         private SceneGraph _sceneGraph;
 
-        // TODO: Move message manager and game object manager into Initialize method to enforce called by GameState
-        // This is to gaurantee derived classes don't forget to call this constructor (or force these parameters to spread throughout the codebase)
-        public HumanGameView(MessageManager messageManager, GameObjectManager gameObjectManager)
+        public void Initialize(GameObjectManager gameObjectManager, MessageManager messageManager)
         {
-            this.MessageManager = messageManager;
-            this.GameObjectManager = gameObjectManager;
             this.ProcessManager = new ProcessManager();
-            _sceneGraph = new SceneGraph(this.MessageManager);
+            this.GameObjectManager = gameObjectManager;
+            this.MessageManager = messageManager;
+            _sceneGraph = new SceneGraph(messageManager);
+
+            OnInitialize();
         }
 
         public GameViewKind GetKind()
@@ -44,6 +44,7 @@ namespace Hiromi
             OnUpdate(gameTime);
         }
 
+        protected virtual void OnInitialize() { }
         protected virtual void OnDraw(GameTime gameTime) { }
         protected virtual void OnUpdate(GameTime gameTime) { }
     }

@@ -29,7 +29,11 @@ namespace Hiromi
         public void Load()
         {
             _gameViews = new List<IGameView>();
-            _gameViews.AddRange(LoadGameViews());
+            foreach (var view in LoadGameViews())
+            {
+                view.Initialize(this.GameObjectManager, this.MessageManager);
+                _gameViews.Add(view);
+            }
 
             foreach (var obj in LoadGameObjects())
             {
