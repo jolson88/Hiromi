@@ -32,6 +32,7 @@ namespace Hiromi.Components
 
         public override void Draw(GameTime gameTime)
         {
+            // TODO: Move into SpriteRenderingNode (Have ButtonComponent derive from SpriteComponent and write to base.Texture instead of this.CurrentTexture)
             var posComponent = this.GameObject.GetComponent<PositionComponent>();
             GraphicsService.Instance.SpriteBatch.Draw(this.CurrentTexture,
                         new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,

@@ -31,6 +31,7 @@ namespace Hiromi.Components
 
         public override void Draw(GameTime gameTime)
         {
+            // TODO: Move to LabelRenderingNode (new SceneNode)
             var posComponent = this.GameObject.GetComponent<PositionComponent>();
             GraphicsService.Instance.SpriteBatch.DrawString(this.Font, this.Text,
                 new Vector2(posComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,

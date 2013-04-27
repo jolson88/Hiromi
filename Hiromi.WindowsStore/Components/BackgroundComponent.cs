@@ -19,6 +19,7 @@ namespace Hiromi.Components
 
         public override void Draw(GameTime gameTime)
         {
+            // TODO: Move into BackgroundNode (new SceneNode)
             GraphicsService.Instance.SpriteBatch.Draw(this.Texture,
                 new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 Color.White);
