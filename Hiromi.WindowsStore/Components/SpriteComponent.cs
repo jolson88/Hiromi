@@ -11,16 +11,13 @@ namespace Hiromi.Components
 {
     public class SpriteComponent : GameObjectComponent, IRenderingComponent
     {
-        private bool _isVisible;
-        private Texture2D _texture;
-
-        public bool IsVisible { get { return _isVisible; } set { _isVisible = value; OnRenderingComponentChanged(); } }
-        public Texture2D Texture { get { return _texture; } set { _texture = value; OnRenderingComponentChanged(); } }
+        public bool IsVisible { get; set; }
+        public Texture2D Texture { get; set; }
 
         public SpriteComponent(Texture2D texture)
         {
-            _texture = texture;
-            _isVisible = true;
+            this.Texture = texture;
+            this.IsVisible = true;
         }
 
         public override void Loaded()
@@ -34,11 +31,6 @@ namespace Hiromi.Components
                 this.GameObject.GetComponent<PositionComponent>(),
                 RenderPass.GameObjectPass,
                 this);
-        }
-
-        private void OnRenderingComponentChanged()
-        {
-            this.GameObject.MessageManager.TriggerMessage(new RenderingComponentChangedMessage(this.GameObject, this));
         }
     }
 }

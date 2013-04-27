@@ -12,15 +12,13 @@ namespace Hiromi.Components
 {
     public class ButtonComponent : GameObjectComponent, IRenderingComponent
     {
-        public Texture2D CurrentTexture { get { return _currentTexture; } set { _currentTexture = value; OnRenderingComponentChanged(); } }
+        public Texture2D CurrentTexture { get; set; }
         public Texture2D FocusTexture { get; set; }
         public Texture2D NonFocusTexture { get; set; }
 
-        private Texture2D _currentTexture;
-
         public ButtonComponent(Texture2D nonFocusTexture, Texture2D focusTexture)
         {
-            _currentTexture = nonFocusTexture;
+            this.CurrentTexture = nonFocusTexture;
             this.FocusTexture = focusTexture;
             this.NonFocusTexture = nonFocusTexture;
         }
@@ -74,11 +72,6 @@ namespace Hiromi.Components
                     this.CurrentTexture = this.NonFocusTexture;
                 }
             }
-        }
-
-        private void OnRenderingComponentChanged()
-        {
-            this.GameObject.MessageManager.TriggerMessage(new RenderingComponentChangedMessage(this.GameObject, this));
         }
     }
 }

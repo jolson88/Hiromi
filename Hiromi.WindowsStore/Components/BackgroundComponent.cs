@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Hiromi.Rendering;
+using Hiromi;
 
 namespace Hiromi.Components
 {
-    public class BackgroundComponent : GameObjectComponent
+    public class BackgroundComponent : GameObjectComponent, IRenderingComponent
     {
         public Texture2D Texture { get; set; }
 
@@ -17,12 +19,17 @@ namespace Hiromi.Components
             this.Texture = texture;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Loaded()
         {
-            // TODO: Move into BackgroundNode (new SceneNode)
-            GraphicsService.Instance.SpriteBatch.Draw(this.Texture,
-                new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                Color.White);
+            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
+        }
+
+        public SceneNode GetSceneNode()
+        {
+            return new BackgroundRenderingNode(this.GameObject.Id,
+                null, // No position component for backgrounds
+                RenderPass.BackgroundPass,
+                this);
         }
     }
 }

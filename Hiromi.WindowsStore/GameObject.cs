@@ -43,14 +43,6 @@ namespace Hiromi
             }
         }
 
-        public void Draw(GameTime gameTime)
-        {
-            foreach (var component in _components.Values)
-            {
-                component.Draw(gameTime);
-            }
-        }
-
         public void AddComponent(GameObjectComponent component)
         {
             component.GameObject = this;

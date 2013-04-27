@@ -21,11 +21,6 @@ namespace Hiromi.Rendering
             this.IsVisible = _spriteComponent.IsVisible;
         }
 
-        protected override void OnInitialize()
-        {
-            this.MessageManager.AddListener<RenderingComponentChangedMessage>(OnRenderingComponentChanged);
-        }
-
         protected override void OnDraw(GameTime gameTime)
         {
             // We use Bounds instead of Position as Bounds takes the achor point into account
@@ -33,15 +28,6 @@ namespace Hiromi.Rendering
                 new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 Color.White);
-        }
-
-        private void OnRenderingComponentChanged(RenderingComponentChangedMessage msg)
-        {
-            if (msg.GameObject.Id == this.GameObjectId)
-            {
-                _spriteComponent = msg.GameObject.GetComponent<SpriteComponent>();
-                this.IsVisible = _spriteComponent.IsVisible;
-            }
         }
     }
 }

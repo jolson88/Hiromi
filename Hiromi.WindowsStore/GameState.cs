@@ -66,27 +66,17 @@ namespace Hiromi
             GraphicsService.Instance.GraphicsDevice.Clear(Color.Fuchsia);
             GraphicsService.Instance.SpriteBatch.Begin();
 
-            // TODO: Push up into views
-            var objects = this.GameObjectManager.GetAllGameObjects();
-            objects.Sort(CompareGameObjectsByDepth);
-            foreach (var obj in objects)
-            {
-                obj.Draw(gameTime);
-            }
-
             foreach (var view in _gameViews)
             {
                 view.Draw(gameTime);
             }
 
-            OnDraw(gameTime);
             GraphicsService.Instance.SpriteBatch.End();
         }
 
         protected virtual void RegisterMessageListeners() { }
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
-        protected virtual void OnDraw(GameTime gameTime) { }
         protected virtual IEnumerable<IGameView> LoadGameViews() { return Enumerable.Empty<IGameView>(); }
         protected abstract IEnumerable<GameObject> LoadGameObjects();
 

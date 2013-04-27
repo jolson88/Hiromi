@@ -10,23 +10,22 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Rendering
 {
-    public class ButtonRenderingNode : SceneNode
+    public class LabelRenderingNode : SceneNode
     {
-        private ButtonComponent _buttonComponent;
+        private LabelComponent _labelComponent;
 
-        public ButtonRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, ButtonComponent buttonComponent)
+        public LabelRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, LabelComponent labelComponent)
             : base(gameObjectId, positionComponent, renderPass)
         {
-            _buttonComponent = buttonComponent;
+            _labelComponent = labelComponent;
         }
 
         protected override void OnDraw(GameTime gameTime)
         {
-            // We use Bounds instead of Position as Bounds takes the achor point into account
-            GraphicsService.Instance.SpriteBatch.Draw(_buttonComponent.CurrentTexture,
+            GraphicsService.Instance.SpriteBatch.DrawString(_labelComponent.Font, _labelComponent.Text,
                 new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                Color.White);
+                _labelComponent.TextColor);
         }
     }
 }
