@@ -33,7 +33,7 @@ namespace Hiromi
             _currentState = newState;
             _currentState.Load();
 
-            _currentState.MessageManager.AddListener<RequestChangeStateMessage>(msg => OnRequestChangeState((RequestChangeStateMessage)msg));
+            _currentState.MessageManager.AddListener<RequestChangeStateMessage>(OnRequestChangeState);
             _currentState.MessageManager.QueueMessage(new StateChangedMessage(_currentState));
         }
 

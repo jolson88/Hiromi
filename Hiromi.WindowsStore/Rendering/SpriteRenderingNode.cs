@@ -22,7 +22,7 @@ namespace Hiromi.Rendering
 
         protected override void OnInitialize()
         {
-            this.MessageManager.AddListener<RenderingComponentChangedMessage>(msg => OnRenderingComponentChanged((RenderingComponentChangedMessage)msg));
+            this.MessageManager.AddListener<RenderingComponentChangedMessage>(OnRenderingComponentChanged);
         }
 
         protected override void OnDraw(GameTime gameTime)

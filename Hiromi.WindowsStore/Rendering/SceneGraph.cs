@@ -21,9 +21,9 @@ namespace Hiromi.Rendering
             _rootNode = new RootNode();
             _gameObjectLookup = new Dictionary<int, ISceneNode>();
 
-            _messageManager.AddListener<GameObjectMovedMessage>(msg => OnGameObjectMoved((GameObjectMovedMessage)msg));
-            _messageManager.AddListener<GameObjectRemovedMessage>(msg => OnGameObjectRemoved((GameObjectRemovedMessage)msg));
-            _messageManager.AddListener<NewRenderingComponentMessage>(msg => OnNewRenderingComponent((NewRenderingComponentMessage)msg));
+            _messageManager.AddListener<GameObjectMovedMessage>(OnGameObjectMoved);
+            _messageManager.AddListener<GameObjectRemovedMessage>(OnGameObjectRemoved);
+            _messageManager.AddListener<NewRenderingComponentMessage>(OnNewRenderingComponent);
         }
 
         public void AddChild(ISceneNode child)

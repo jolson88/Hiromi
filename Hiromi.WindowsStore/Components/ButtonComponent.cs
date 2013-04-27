@@ -25,9 +25,9 @@ namespace Hiromi.Components
 
         public override void Loaded()
         {
-            this.GameObject.MessageManager.AddListener<PointerExitMessage>(msg => OnPointerExit((PointerExitMessage)msg));
-            this.GameObject.MessageManager.AddListener<PointerPressMessage>(msg => OnPointerPress((PointerPressMessage)msg));
-            this.GameObject.MessageManager.AddListener<PointerReleaseMessage>(msg => OnPointerRelease((PointerReleaseMessage)msg));
+            this.GameObject.MessageManager.AddListener<PointerExitMessage>(OnPointerExit);
+            this.GameObject.MessageManager.AddListener<PointerPressMessage>(OnPointerPress);
+            this.GameObject.MessageManager.AddListener<PointerReleaseMessage>(OnPointerRelease);
         }
 
         public override void Draw(GameTime gameTime)

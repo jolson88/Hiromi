@@ -24,7 +24,7 @@ namespace Hiromi
             _gameObjects = new Dictionary<int, GameObject>();
             _previousGameObjectsUnderMouse = new List<int>();
 
-            _messageManager.AddListener<NewGameObjectMessage>(msg => OnNewGameObject((NewGameObjectMessage)msg));
+            _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
         }
 
         public void Update(GameTime gameTime)
