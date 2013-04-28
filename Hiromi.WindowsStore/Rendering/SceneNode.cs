@@ -65,14 +65,14 @@ namespace Hiromi.Rendering
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SceneGraph scene)
         {
             if (IsVisible)
             {
-                OnDraw(gameTime);
+                OnDraw(gameTime, scene);
                 foreach (var node in _children)
                 {
-                    node.Draw(gameTime);
+                    node.Draw(gameTime, scene);
                 }
             }
         }
@@ -109,6 +109,6 @@ namespace Hiromi.Rendering
 
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
-        protected virtual void OnDraw(GameTime gameTime) { }
+        protected virtual void OnDraw(GameTime gameTime, SceneGraph scene) { }
     }
 }

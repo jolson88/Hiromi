@@ -23,11 +23,8 @@ namespace Hiromi
             }
         }
 
-        public GraphicsDevice GraphicsDevice { get { return _device; } set { _device = value; SpriteBatch = new SpriteBatch(value); } }
-        public SpriteBatch SpriteBatch { get; set; }
-
-        private GraphicsDevice _device;
-
+        public GraphicsDevice GraphicsDevice { get; set; }
+        
         private GraphicsService() { }
     }
 }

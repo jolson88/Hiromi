@@ -64,14 +64,11 @@ namespace Hiromi
         public void Draw(GameTime gameTime)
         {
             GraphicsService.Instance.GraphicsDevice.Clear(Color.Fuchsia);
-            GraphicsService.Instance.SpriteBatch.Begin();
 
             foreach (var view in _gameViews)
             {
                 view.Draw(gameTime);
             }
-
-            GraphicsService.Instance.SpriteBatch.End();
         }
 
         protected virtual void RegisterMessageListeners() { }

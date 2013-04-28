@@ -55,12 +55,12 @@ namespace Hiromi.Rendering
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SceneGraph scene)
         {
             // Draw the scene in render pass order
             for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                _childrenByPass[(RenderPass)i].Draw(gameTime);
+                _childrenByPass[(RenderPass)i].Draw(gameTime, scene);
             }
         }
 

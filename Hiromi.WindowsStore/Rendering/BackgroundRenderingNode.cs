@@ -25,9 +25,9 @@ namespace Hiromi.Rendering
             this.MessageManager.AddListener<RenderingComponentChangedMessage>(OnRenderingComponentChanged);
         }
 
-        protected override void OnDraw(GameTime gameTime)
+        protected override void OnDraw(GameTime gameTime, SceneGraph scene)
         {
-            GraphicsService.Instance.SpriteBatch.Draw(_backgroundComponent.Texture,
+            scene.SpriteBatch.Draw(_backgroundComponent.Texture,
                 new Rectangle(0, 0, GraphicsService.Instance.GraphicsDevice.Viewport.Width, GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 Color.White);
         }

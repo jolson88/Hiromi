@@ -20,9 +20,9 @@ namespace Hiromi.Rendering
             _labelComponent = labelComponent;
         }
 
-        protected override void OnDraw(GameTime gameTime)
+        protected override void OnDraw(GameTime gameTime, SceneGraph scene)
         {
-            GraphicsService.Instance.SpriteBatch.DrawString(_labelComponent.Font, _labelComponent.Text,
+            scene.SpriteBatch.DrawString(_labelComponent.Font, _labelComponent.Text,
                 new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 _labelComponent.TextColor);

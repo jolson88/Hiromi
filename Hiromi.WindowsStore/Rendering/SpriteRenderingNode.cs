@@ -21,10 +21,10 @@ namespace Hiromi.Rendering
             this.IsVisible = _spriteComponent.IsVisible;
         }
 
-        protected override void OnDraw(GameTime gameTime)
+        protected override void OnDraw(GameTime gameTime, SceneGraph scene)
         {
             // We use Bounds instead of Position as Bounds takes the achor point into account
-            GraphicsService.Instance.SpriteBatch.Draw(_spriteComponent.Texture,
+            scene.SpriteBatch.Draw(_spriteComponent.Texture,
                 new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 Color.White);

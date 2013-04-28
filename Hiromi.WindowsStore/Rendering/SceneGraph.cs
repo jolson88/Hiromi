@@ -11,12 +11,15 @@ namespace Hiromi.Rendering
 {
     public class SceneGraph
     {
+        public SpriteBatch SpriteBatch { get; set; }
         private MessageManager _messageManager;
         private RootNode _rootNode;
         private Dictionary<int, ISceneNode> _gameObjectLookup;
 
         public SceneGraph(MessageManager messageManager)
         {
+            this.SpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+
             _messageManager = messageManager;
             _rootNode = new RootNode();
             _gameObjectLookup = new Dictionary<int, ISceneNode>();
@@ -44,7 +47,11 @@ namespace Hiromi.Rendering
 
         public void Draw(GameTime gameTime)
         {
-            _rootNode.Draw(gameTime);
+            this.SpriteBatch.Begin();
+
+            _rootNode.Draw(gameTime, this);
+
+            this.SpriteBatch.End();
         }
 
         public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)

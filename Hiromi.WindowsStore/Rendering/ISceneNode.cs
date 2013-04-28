@@ -20,7 +20,7 @@ namespace Hiromi.Rendering
         void AddChild(ISceneNode child);
         void RemoveChild(int gameObjectId);
         void Update(GameTime gameTime);
-        void Draw(GameTime gameTime);
+        void Draw(GameTime gameTime, SceneGraph scene);
         bool Pick(Vector2 pointerLocation, ref int? gameObjectId);
     }
 }
