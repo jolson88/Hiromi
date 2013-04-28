@@ -19,7 +19,7 @@ namespace Hiromi
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            this._timeRemaining = this._timeRemaining.Subtract(TimeSpan.FromSeconds(gameTime.ElapsedGameTime.TotalSeconds)); ;
+            this._timeRemaining -= gameTime.ElapsedGameTime;
             if (this._timeRemaining.TotalSeconds <= 0)
             {
                 this.Succeed();
