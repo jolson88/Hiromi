@@ -15,12 +15,18 @@ namespace Hiromi
         protected ProcessManager ProcessManager { get; private set; }
         protected SceneGraph SceneGraph { get; private set; }
 
+        private PointerInputHandler _pointerInputHandler;
+        private KeyboardInputHandler _keyboardInputHandler;
+
         public void Initialize(GameObjectManager gameObjectManager, MessageManager messageManager)
         {
             this.ProcessManager = new ProcessManager();
             this.GameObjectManager = gameObjectManager;
             this.MessageManager = messageManager;
             this.SceneGraph = new SceneGraph(messageManager);
+
+            _pointerInputHandler = new PointerInputHandler(this.MessageManager, this.SceneGraph);
+            _keyboardInputHandler = new KeyboardInputHandler(this.MessageManager);
 
             OnInitialize();
         }
@@ -38,6 +44,9 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
+            _pointerInputHandler.Update(gameTime);
+            _keyboardInputHandler.Update(gameTime);
+
             this.ProcessManager.Update(gameTime);
             this.SceneGraph.Update(gameTime);
             OnUpdate(gameTime);

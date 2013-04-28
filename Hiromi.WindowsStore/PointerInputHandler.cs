@@ -11,52 +11,25 @@ using Hiromi.Rendering;
 
 namespace Hiromi
 {
-    // TODO: Split into KeyboardHandler and PointerHandler classes
-    // TODO: Add Touch support to new PointerHandler class
-    public class GeneralInputSystem
+    // TODO: Add Touch support to PointerInputHandler
+    public class PointerInputHandler
     {
         private MessageManager _messageManager;
         private SceneGraph _sceneGraph;
-        private Dictionary<int, GameObject> _gameObjects;
         private MouseState _oldMouseState;
-        private KeyboardState _oldKeyState;
         private int? _previousGameObjectUnderPointer = null;
 
-        public GeneralInputSystem(MessageManager messageManager, SceneGraph sceneGraph)
+        public PointerInputHandler(MessageManager messageManager, SceneGraph sceneGraph)
         {
             _sceneGraph = sceneGraph;
             _messageManager = messageManager;
-            _gameObjects = new Dictionary<int, GameObject>();
-            _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
         }
 
         public void Update(GameTime gameTime)
         {
             var newMouseState = Mouse.GetState();
-            var newKeyState = Keyboard.GetState();
             CalculateMouseMessages(newMouseState);
-            CalculateKeyDownMessages(newKeyState);
-            CalculateKeyUpMessages(newKeyState);
-            _oldKeyState = newKeyState;
             _oldMouseState = newMouseState;
-        }
-
-        private void CalculateKeyDownMessages(KeyboardState newKeyState)
-        {
-            var keys = newKeyState.GetPressedKeys().Where(key => !_oldKeyState.IsKeyDown(key));
-            foreach (var key in keys)
-            {
-                _messageManager.QueueMessage(new KeyDownMessage(key));
-            }
-        }
-
-        private void CalculateKeyUpMessages(KeyboardState newKeyState)
-        {
-            var keys = _oldKeyState.GetPressedKeys().Where(key => !newKeyState.IsKeyDown(key));
-            foreach (var key in keys)
-            {
-                _messageManager.QueueMessage(new KeyUpMessage(key));
-            }
         }
 
         private void CalculateMouseMessages(MouseState newMouseState)
@@ -110,19 +83,6 @@ namespace Hiromi
         private bool LeftMouseButtonNewlyReleased(MouseState newMouseState)
         {
             return newMouseState.LeftButton == ButtonState.Released && _oldMouseState.LeftButton == ButtonState.Pressed;
-        }
-
-        private bool IsGameObjectForSystem(GameObject obj)
-        {
-            return obj.HasComponent<PositionComponent>();
-        }
-
-        private void OnNewGameObject(NewGameObjectMessage msg)
-        {
-            if (msg.GameObject.HasComponent<PositionComponent>())
-            {
-                _gameObjects.Add(msg.GameObject.Id, msg.GameObject);
-            }
         }
     }
 }
