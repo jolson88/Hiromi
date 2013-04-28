@@ -39,8 +39,17 @@ namespace Hiromi.Components
             set { _positionOffset = value; CalculateBounds(); OnGameObjectMoved(); }
         }
 
+        public float Scale
+        {
+            get { return _scale; }
+            set { _scale = value; CalculateBounds(); OnGameObjectMoved(); }
+        }
+
+        private float _originalWidth;
+        private float _originalHeight;
         private Vector2 _position;
         private Vector2 _positionOffset;
+        private float _scale = 1.0f;
 
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels)
             : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top) { }
@@ -51,14 +60,13 @@ namespace Hiromi.Components
             this.HorizontalAnchor = horizontalAnchor;
             this.VerticalAnchor = verticalAnchor;
 
-            // Convert bounds to screen coordinates (which everything operates in)
-            this.Bounds = new BoundingBox(0, 
-                0, 
-                (float)widthInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width, 
-                (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
+            _originalWidth = (float)widthInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
+            _originalHeight = (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
             
             this.Position = position;
             this.PositionOffset = Vector2.Zero;
+
+            CalculateBounds();
         }
 
         private void OnGameObjectMoved()
@@ -72,8 +80,8 @@ namespace Hiromi.Components
 
         private void CalculateBounds()
         {
-            // Remember: position is in screen coordinates. Bounding box should be in pixel coordinate. 
-            this.Bounds = new BoundingBox(this.Position.X, this.Position.Y, this.Bounds.Width, this.Bounds.Height);
+            // Remember: position is in screen coordinates.
+            this.Bounds = new BoundingBox(this.Position.X, this.Position.Y, _originalWidth * _scale, _originalHeight * _scale);
             this.Bounds.SizeChanged += (sender, e) => { RepositionPositionBasedOnAlignment(); };
 
             RepositionPositionBasedOnAlignment();

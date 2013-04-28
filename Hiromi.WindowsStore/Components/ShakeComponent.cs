@@ -38,6 +38,7 @@ namespace Hiromi.Components
             });
             shakeProcess.AttachChild(new ActionProcess(() =>
             {
+                _transform.PositionOffset = Vector2.Zero;
                 this.GameObject.RemoveComponent(this);
             }));
             this.GameObject.ProcessManager.AttachProcess(shakeProcess);
