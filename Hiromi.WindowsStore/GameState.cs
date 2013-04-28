@@ -76,15 +76,5 @@ namespace Hiromi
         protected virtual void OnUpdate(GameTime gameTime) { }
         protected virtual IEnumerable<IGameView> LoadGameViews() { return Enumerable.Empty<IGameView>(); }
         protected abstract IEnumerable<GameObject> LoadGameObjects();
-
-        private static int CompareGameObjectsByDepth(GameObject x, GameObject y)
-        {
-            if (x == null && y == null) return 0;
-            if (x == null && y != null) return -1;
-            if (y == null && x != null) return 1;
-
-            // Higher depths (further away from camera) are smaller (and should be rendered first)
-            return y.Depth - x.Depth;
-        }
     }
 }
