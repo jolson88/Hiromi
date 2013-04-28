@@ -15,11 +15,12 @@ namespace Hiromi.Components
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
         public Color TextColor { get; set; }
+        public bool TransformedByCamera { get; set; }
 
         private string _text;
 
         public LabelComponent(string text, SpriteFont font) : this(text, font, Color.White) { }
-        public LabelComponent(string text, SpriteFont font, Color textColor)
+        public LabelComponent(string text, SpriteFont font, Color textColor, bool transformedByCamera = true)
         {
             _text = text;
             this.Font = font;

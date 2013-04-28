@@ -15,6 +15,7 @@ namespace Hiromi.Rendering
         private MessageManager _messageManager;
         private RootNode _rootNode;
         private Dictionary<int, ISceneNode> _gameObjectLookup;
+        private Camera _camera;
 
         public SceneGraph(MessageManager messageManager)
         {
@@ -27,6 +28,8 @@ namespace Hiromi.Rendering
             _messageManager.AddListener<GameObjectMovedMessage>(OnGameObjectMoved);
             _messageManager.AddListener<GameObjectRemovedMessage>(OnGameObjectRemoved);
             _messageManager.AddListener<NewRenderingComponentMessage>(OnNewRenderingComponent);
+
+            _camera = new Camera(_messageManager);
         }
 
         public void AddChild(ISceneNode child)
@@ -47,7 +50,7 @@ namespace Hiromi.Rendering
 
         public void Draw(GameTime gameTime)
         {
-            this.SpriteBatch.Begin();
+            this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _camera.Transformation);
 
             _rootNode.Draw(gameTime, this);
 
@@ -56,7 +59,9 @@ namespace Hiromi.Rendering
 
         public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
         {
-            return _rootNode.Pick(pointerLocation, ref gameObjectId);
+            // Account for camera transformation;
+            var transformedPointer = Vector2.Transform(pointerLocation, Matrix.Invert(_camera.Transformation));
+            return _rootNode.Pick(transformedPointer, ref gameObjectId);
         }
 
         private void OnGameObjectMoved(GameObjectMovedMessage msg)

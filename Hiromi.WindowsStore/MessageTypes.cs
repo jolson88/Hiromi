@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Hiromi.Components;
 using Hiromi.Rendering;
@@ -100,6 +101,41 @@ namespace Hiromi
         }
     }
 
+
+    // ************************************
+    // **
+    // **         CAMERA MESSAGES
+    // **
+    // ************************************
+    public class ZoomCameraMessage : Message
+    {
+        public float ZoomFactor { get; private set; }
+
+        public ZoomCameraMessage(float zoomFactor)
+        {
+            this.ZoomFactor = zoomFactor;
+        }
+    }
+
+    public class RotateCameraMessage : Message
+    {
+        public float RotationInRadians { get; private set; }
+
+        public RotateCameraMessage(float rotationInRadians)
+        {
+            this.RotationInRadians = rotationInRadians;
+        }
+    }
+
+    public class MoveCameraMessage : Message
+    {
+        public Vector2 Translation { get; private set; }
+
+        public MoveCameraMessage(Vector2 translation)
+        {
+            this.Translation = translation;
+        }
+    }
 
     // ************************************
     // **
