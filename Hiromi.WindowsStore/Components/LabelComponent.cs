@@ -36,14 +36,14 @@ namespace Hiromi.Components
         public SceneNode GetSceneNode()
         {
             return new LabelRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<PositionComponent>(),
+                this.GameObject.GetComponent<TransformationComponent>(),
                 RenderPass.UserInterfacePass,
                 this);
         }
 
         private void OnTextChanged()
         {
-            var posComponent = this.GameObject.GetComponent<PositionComponent>();
+            var posComponent = this.GameObject.GetComponent<TransformationComponent>();
 
             var textSize = this.Font.MeasureString(this.Text);
             posComponent.Bounds.Width = textSize.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width;

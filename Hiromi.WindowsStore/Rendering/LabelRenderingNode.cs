@@ -15,7 +15,7 @@ namespace Hiromi.Rendering
         private SpriteBatch _localBatch;
         private LabelComponent _labelComponent;
 
-        public LabelRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, LabelComponent labelComponent)
+        public LabelRenderingNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass, LabelComponent labelComponent)
             : base(gameObjectId, positionComponent, renderPass)
         {
             _labelComponent = labelComponent;

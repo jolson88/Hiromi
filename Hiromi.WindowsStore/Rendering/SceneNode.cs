@@ -16,13 +16,13 @@ namespace Hiromi.Rendering
         public ISceneNode Parent { get; set; }
         public int GameObjectId { get; set; }
         public RenderPass RenderPass { get; set; }
-        public PositionComponent PositionComponent { get; set; }
+        public TransformationComponent PositionComponent { get; set; }
 
         protected MessageManager MessageManager { get; set; }
 
         private List<ISceneNode> _children;
 
-        public SceneNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass)
+        public SceneNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass)
         {
             this.IsVisible = true;
             this.GameObjectId = gameObjectId;

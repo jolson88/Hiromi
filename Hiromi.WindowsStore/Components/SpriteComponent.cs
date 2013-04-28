@@ -50,7 +50,7 @@ namespace Hiromi.Components
             }
 
             return new SpriteRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<PositionComponent>(),
+                this.GameObject.GetComponent<TransformationComponent>(),
                 pass,
                 this);
         }

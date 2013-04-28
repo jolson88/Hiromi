@@ -14,7 +14,7 @@ namespace Hiromi.Rendering
     {
         private ButtonComponent _buttonComponent;
 
-        public ButtonRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, ButtonComponent buttonComponent)
+        public ButtonRenderingNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass, ButtonComponent buttonComponent)
             : base(gameObjectId, positionComponent, renderPass)
         {
             _buttonComponent = buttonComponent;

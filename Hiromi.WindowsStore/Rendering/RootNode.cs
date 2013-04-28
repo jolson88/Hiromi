@@ -14,7 +14,7 @@ namespace Hiromi.Rendering
         public bool IsVisible { get; set; }
         public int GameObjectId { get; set; }
         public RenderPass RenderPass { get; set; }
-        public PositionComponent PositionComponent { get; set; }
+        public TransformationComponent PositionComponent { get; set; }
 
         protected MessageManager _messageManager;
 

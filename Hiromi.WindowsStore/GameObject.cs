@@ -18,6 +18,7 @@ namespace Hiromi
         public int Depth { get; set; }
 
         private Dictionary<Type, GameObjectComponent> _components;
+        private bool _isLoaded = false;
 
         public GameObject() : this(string.Empty) { }
         public GameObject(int depth) : this(string.Empty) { this.Depth = depth; }
@@ -33,6 +34,7 @@ namespace Hiromi
             {
                 component.Loaded();
             }
+            _isLoaded = true;
         }
 
         public void Update(GameTime gameTime)
@@ -47,6 +49,12 @@ namespace Hiromi
         {
             component.GameObject = this;
             _components.Add(component.GetType(), component);
+
+            if (_isLoaded)
+            {
+                // We are already loaded to load this component
+                component.Loaded();
+            }
         }
 
         public T GetComponent<T>() where T : GameObjectComponent
@@ -57,6 +65,11 @@ namespace Hiromi
         public bool HasComponent<T>() where T : GameObjectComponent
         {
             return _components.Keys.Contains(typeof(T));
+        }
+
+        public void RemoveComponent<T>(T component) where T : GameObjectComponent
+        {
+            _components.Remove(typeof(T));
         }
     }
 }

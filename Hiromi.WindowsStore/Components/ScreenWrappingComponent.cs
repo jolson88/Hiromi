@@ -16,7 +16,7 @@ namespace Hiromi.Components
             if (!_recentlyReflected)
             {
                 var newPosition = Vector2.Zero;
-                var pos = this.GameObject.GetComponent<PositionComponent>();
+                var pos = this.GameObject.GetComponent<TransformationComponent>();
 
                 // Reflect X-axis
                 if (pos.Bounds.Right < 0.0f)

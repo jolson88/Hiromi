@@ -9,27 +9,26 @@ namespace Hiromi
 {
     public class TweenProcess : Process
     {
-        private TimeSpan _timeLength;
-        private TimeSpan _elapsedTime;
+        private double _durationInSeconds;
+        private double _elapsedTimeInSeconds = 0;
         private Action<float> _callback;
 
         public TweenProcess(TimeSpan timeLength, Action<float> callback)
         {
-            _timeLength = timeLength;
+            _durationInSeconds = timeLength.TotalSeconds;
             _callback = callback;
-            _elapsedTime = TimeSpan.Zero;
         }
 
         protected override void OnUpdate(GameTime gameTime)
         {
-            _elapsedTime += gameTime.ElapsedGameTime;
-            if (_elapsedTime >= _timeLength)
+            _elapsedTimeInSeconds += gameTime.ElapsedGameTime.TotalSeconds;
+            if (_elapsedTimeInSeconds >= _durationInSeconds)
             {
                 this.Succeed();
             }
             else
             {
-                var percentage = (float)(_elapsedTime.TotalSeconds / _timeLength.TotalSeconds);
+                var percentage = (float)(_elapsedTimeInSeconds / _durationInSeconds);
                 _callback(percentage);
             }
         }

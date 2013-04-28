@@ -35,7 +35,7 @@ namespace Hiromi.Components
         public SceneNode GetSceneNode()
         {
             return new ButtonRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<PositionComponent>(),
+                this.GameObject.GetComponent<TransformationComponent>(),
                 RenderPass.UserInterfacePass,
                 this);
         }

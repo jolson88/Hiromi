@@ -15,7 +15,7 @@ namespace Hiromi.Rendering
         private SpriteBatch _localBatch;
         private SpriteComponent _spriteComponent;
 
-        public SpriteRenderingNode(int gameObjectId, PositionComponent positionComponent, RenderPass renderPass, SpriteComponent spriteComponent) 
+        public SpriteRenderingNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass, SpriteComponent spriteComponent) 
             : base(gameObjectId, positionComponent, renderPass) 
         {
             _spriteComponent = spriteComponent;

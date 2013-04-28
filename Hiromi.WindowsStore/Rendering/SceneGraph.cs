@@ -67,7 +67,7 @@ namespace Hiromi.Rendering
         private void OnGameObjectMoved(GameObjectMovedMessage msg)
         {
             var node = _gameObjectLookup[msg.GameObject.Id];
-            node.PositionComponent = msg.GameObject.GetComponent<PositionComponent>();
+            node.PositionComponent = msg.GameObject.GetComponent<TransformationComponent>();
         }
 
         private void OnGameObjectRemoved(GameObjectRemovedMessage msg)

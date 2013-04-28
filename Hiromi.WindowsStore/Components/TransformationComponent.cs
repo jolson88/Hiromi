@@ -21,7 +21,7 @@ namespace Hiromi.Components
         Right
     }
 
-    public class PositionComponent : GameObjectComponent
+    public class TransformationComponent : GameObjectComponent
     {
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }
@@ -30,16 +30,23 @@ namespace Hiromi.Components
         public Vector2 Position 
         {
             get { return _position; }
-            set { _position = value; CalculateBounds(); OnPositionChanged(); }
+            set { _position = value; CalculateBounds(); OnGameObjectMoved(); }
+        }
+
+        public Vector2 PositionOffset
+        {
+            get { return _positionOffset; }
+            set { _positionOffset = value; CalculateBounds(); OnGameObjectMoved(); }
         }
 
         private Vector2 _position;
+        private Vector2 _positionOffset;
 
-        public PositionComponent(Vector2 position, int widthInPixels, int heightInPixels)
+        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels)
             : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top) { }
-        public PositionComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor)
+        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor)
             : this(position, widthInPixels, heightInPixels, horizontalAnchor, VerticalAnchor.Top) { }
-        public PositionComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor)
+        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor)
         {
             this.HorizontalAnchor = horizontalAnchor;
             this.VerticalAnchor = verticalAnchor;
@@ -51,9 +58,10 @@ namespace Hiromi.Components
                 (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
             
             this.Position = position;
+            this.PositionOffset = Vector2.Zero;
         }
 
-        private void OnPositionChanged()
+        private void OnGameObjectMoved()
         {
             // When the component is first created, it won't be attached to a GameObject yet.
             if (this.GameObject != null)
@@ -90,6 +98,9 @@ namespace Hiromi.Components
             {
                 this.Bounds.Y = this.Position.Y - this.Bounds.Height;
             }
+
+            this.Bounds.X += this.PositionOffset.X;
+            this.Bounds.Y += this.PositionOffset.Y;
         }
     }
 }

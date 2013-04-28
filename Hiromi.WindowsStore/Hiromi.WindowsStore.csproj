@@ -103,7 +103,8 @@
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\IRenderingComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
-    <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\ShakeComponent.cs" />
+    <Compile Include="Components\TransformationComponent.cs" />
     <Compile Include="Components\ScreenWrappingComponent.cs" />
     <Compile Include="Components\SimpleMovementComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
