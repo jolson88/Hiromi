@@ -9,15 +9,22 @@ namespace Hiromi
 {
     public class GameObject
     {
+        public static int InvalidId = -1;
+
+        public MessageManager MessageManager { get; set; }
+        public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }
         public int Id { get; set; }
+        public int Depth { get; set; }
 
         private Dictionary<Type, GameObjectComponent> _components;
 
-        public GameObject()
+        public GameObject() : this(string.Empty) { }
+        public GameObject(int depth) : this(string.Empty) { this.Depth = depth; }
+        public GameObject(string tag)
         {
             _components = new Dictionary<Type, GameObjectComponent>();
-            this.Tag = string.Empty;
+            this.Tag = tag;
         }
 
         public void Loaded()
@@ -25,6 +32,14 @@ namespace Hiromi
             foreach (var component in _components.Values)
             {
                 component.Loaded();
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach (var component in _components.Values)
+            {
+                component.Update(gameTime);
             }
         }
 

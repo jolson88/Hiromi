@@ -4,42 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using Hiromi.Components;
+using Hiromi.Rendering;
 
 namespace Hiromi
 {
-    public class RequestLoadScreenMessage : Message
+    // ************************************
+    // **
+    // **        STATE MESSAGES
+    // **
+    // ************************************
+    public class RequestChangeStateMessage : Message
     {
-        public Screen Screen { get; set; }
+        public GameState State { get; set; }
 
-        public RequestLoadScreenMessage(Screen screen)
+        public RequestChangeStateMessage(GameState state)
         {
-            this.Screen = screen;
+            this.State = state;
         }
     }
 
-    public class ScreenLoadedMessage : Message
+    public class StateChangedMessage : Message
     {
-        public Screen Screen { get; set; }
+        public GameState State { get; set; }
 
-        public ScreenLoadedMessage(Screen screen)
+        public StateChangedMessage(GameState state)
         {
-            this.Screen = screen;
+            this.State = state;
         }
     }
 
-    public class GameObjectLoadedMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-
-        public GameObjectLoadedMessage(GameObject obj)
-        {
-            this.GameObject = obj;
-        }
-    }
-
-    /// <summary>
-    /// Message from the system to start a game.
-    /// </summary>
     public class GameStartedMessage : Message
     {
         public override string ToString()
@@ -48,6 +42,70 @@ namespace Hiromi
         }
     }
 
+
+    // ************************************
+    // **
+    // **   OBJECT + COMPONENT MESSAGES
+    // **
+    // ************************************
+    public class NewGameObjectMessage : Message
+    {
+        public GameObject GameObject { get; set; }
+
+        public NewGameObjectMessage(GameObject obj)
+        {
+            this.GameObject = obj;
+        }
+    }
+
+    public class GameObjectRemovedMessage : Message
+    {
+        public int GameObjectId { get; set; }
+
+        public GameObjectRemovedMessage(int gameObjectId)
+        {
+            this.GameObjectId = gameObjectId;
+        }
+    }
+
+    public class GameObjectMovedMessage : Message
+    {
+        public GameObject GameObject { get; set; }
+
+        public GameObjectMovedMessage(GameObject obj)
+        {
+            this.GameObject = obj;
+        }
+    }
+
+    public class NewRenderingComponentMessage : Message
+    {
+        public IRenderingComponent RenderingComponent { get; set; }
+
+        public NewRenderingComponentMessage(IRenderingComponent renderingComponent)
+        {
+            this.RenderingComponent = renderingComponent;
+        }
+    }
+
+    public class RenderingComponentChangedMessage : Message
+    {
+        public GameObject GameObject { get; set; }
+        public IRenderingComponent RenderingComponent { get; set; }
+
+        public RenderingComponentChangedMessage(GameObject gameObject, IRenderingComponent renderingComponent)
+        {
+            this.GameObject = gameObject;
+            this.RenderingComponent = renderingComponent;
+        }
+    }
+
+
+    // ************************************
+    // **
+    // **        INPUT MESSAGES
+    // **
+    // ************************************
     public class KeyDownMessage : Message
     {
         public Keys Key { get; set; }

@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Hiromi;
+using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent
+    public class LabelComponent : GameObjectComponent, IRenderingComponent
     {
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
@@ -24,9 +26,18 @@ namespace Hiromi.Components
             this.TextColor = textColor;
         }
 
-        protected override void OnLoaded()
+        public override void Loaded()
         {
             OnTextChanged();
+            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
+        }
+
+        public SceneNode GetSceneNode()
+        {
+            return new LabelRenderingNode(this.GameObject.Id,
+                this.GameObject.GetComponent<PositionComponent>(),
+                RenderPass.UserInterfacePass,
+                this);
         }
 
         private void OnTextChanged()

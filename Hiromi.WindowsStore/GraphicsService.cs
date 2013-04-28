@@ -24,7 +24,7 @@ namespace Hiromi
         }
 
         public GraphicsDevice GraphicsDevice { get; set; }
-
+        
         private GraphicsService() { }
     }
 }
