@@ -21,6 +21,8 @@ namespace Hiromi.Components
         public bool IsVisible { get; set; }
         public Texture2D Texture { get; set; }
         public SpriteKind SpriteKind { get; set; }
+
+        // TODO: Move to TransformationComponent
         public bool TransformedByCamera { get; set; }
 
         public SpriteComponent(Texture2D texture) : this(texture, SpriteKind.GameObject) { }

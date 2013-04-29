@@ -67,7 +67,7 @@ namespace Hiromi
             return _components.Keys.Contains(typeof(T));
         }
 
-        public void RemoveComponent<T>(T component) where T : GameObjectComponent
+        public void RemoveComponent<T>() where T : GameObjectComponent
         {
             _components.Remove(typeof(T));
         }

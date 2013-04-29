@@ -36,7 +36,7 @@ namespace Hiromi.Components
             swellProcess.AttachChild(new ActionProcess(() =>
             {
                 _transform.Scale = 1.0f;
-                this.GameObject.RemoveComponent(this);
+                this.GameObject.RemoveComponent<SwellComponent>();
             }));
             this.GameObject.ProcessManager.AttachProcess(swellProcess);
         }

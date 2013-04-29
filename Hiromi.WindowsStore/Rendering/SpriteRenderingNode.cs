@@ -30,6 +30,7 @@ namespace Hiromi.Rendering
 
         protected override void OnDraw(GameTime gameTime, SceneGraph scene)
         {
+            // TODO: Change parameter to SpriteBatch and have RootNode pass in untransformed spritebatch for nodes not impacted by camera transformations
             var batch = scene.SpriteBatch;
             if (_localBatch != null)
             {
