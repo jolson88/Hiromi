@@ -9,6 +9,27 @@ namespace Hiromi
 {
     public class Process
     {
+        public static Process BuildProcessChain(params Process[] processesToRun)
+        {
+            if (processesToRun.Length == 0) 
+                throw new Exception("Must specify process chain to build.");
+
+            if (processesToRun.Length > 1)
+            {
+                // Go from A-B-C to...
+                // A
+                // |->B
+                //    |->C
+                // Start from the back and work our way forwards
+                for (int i = processesToRun.Length - 2; i >= 0; i--)
+                {
+                    processesToRun[i].AttachChild(processesToRun[i + 1]);
+                }
+            }
+
+            return processesToRun[0];
+        }
+
         private ProcessState _state;
         private List<Process> _children;
 

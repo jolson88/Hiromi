@@ -29,24 +29,10 @@ namespace Hiromi
         private Action<float> _callback;
 
         // Delegate Lookup
-        private static Dictionary<EasingFunction,Dictionary<EasingKind,EasingDelegate>> _easingDelegates = new Dictionary<EasingFunction,Dictionary<EasingKind,EasingDelegate>>()
+        private static Dictionary<EasingFunction, EasingDelegate> _easingDelegates = new Dictionary<EasingFunction, EasingDelegate>()
         {
-            { 
-                EasingFunction.Linear, new Dictionary<EasingKind,EasingDelegate>()
-                {
-                    { EasingKind.EaseIn, Easing.Linear },
-                    { EasingKind.EaseOut, Easing.Linear },
-                    { EasingKind.EaseInOut, Easing.Linear }
-                }
-            },
-            { 
-                EasingFunction.Sine, new Dictionary<EasingKind,EasingDelegate>()
-                {
-                    { EasingKind.EaseIn, Easing.Sine },
-                    { EasingKind.EaseOut, Easing.Sine },
-                    { EasingKind.EaseInOut, Easing.Sine }
-                }
-            }
+            { EasingFunction.Linear, Easing.Linear },
+            { EasingFunction.Sine, Easing.Sine }
         };
 
         public TweenProcess(TimeSpan duration, Action<float> callback) : this(EasingFunction.Linear, EasingKind.EaseIn, duration, callback) { }
@@ -67,7 +53,29 @@ namespace Hiromi
             }
             else
             {
-                _callback((float)_easingDelegates[_easingFunction][_easingKind](_elapsedTimeInSeconds, _durationInSeconds));
+                var percentage = _elapsedTimeInSeconds / _durationInSeconds;
+                switch (_easingKind)
+                {
+                    case EasingKind.EaseIn: 
+                        _callback((float)_easingDelegates[_easingFunction](percentage));
+                        break;
+
+                    case EasingKind.EaseOut:
+                        _callback(1.0f - (float)_easingDelegates[_easingFunction](1.0 - percentage));
+                        break;
+
+                    case EasingKind.EaseInOut:
+                        // EasingKind.EaseInOut
+                        if (percentage >= 0.5)
+                        {
+                            _callback((1.0f - (float)_easingDelegates[_easingFunction]((1.0f - percentage) * 2.0f)) * 0.5f + 0.5f);
+                        }
+                        else
+                        {
+                            _callback((float)_easingDelegates[_easingFunction](percentage * 2.0f) * 0.5f);
+                        }
+                        break;
+                }
             }
         }
     }

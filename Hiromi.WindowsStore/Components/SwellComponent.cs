@@ -14,7 +14,8 @@ namespace Hiromi.Components
 
         public SwellComponent(int swellInPixels, TimeSpan duration)
         {
-            _duration = duration;
+            // To swell, we need two tweens (0-1 and 1-0)
+            _duration = TimeSpan.FromSeconds(duration.TotalSeconds / 2);
 
             // Convert to screen coordinates
             _swellSize = (float)swellInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
@@ -24,21 +25,30 @@ namespace Hiromi.Components
         {
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
-            var swellProcess = new TweenProcess(EasingFunction.Sine, EasingKind.EaseIn, _duration, tweenValue =>
-            {
-                var rampedSwellSize = _swellSize * tweenValue;
-                
-                // Final swell is how much percentage of the size of the image itself we need to scale up
-                // (Example, if we need to scale up the image twice as large, it needs to be a scale of 2.0)
-                var scaleOffset = rampedSwellSize / _transform.Bounds.Width;
-                _transform.Scale = 1.0f + scaleOffset;
-            });
-            swellProcess.AttachChild(new ActionProcess(() =>
-            {
-                _transform.Scale = 1.0f;
-                this.GameObject.RemoveComponent<SwellComponent>();
-            }));
-            this.GameObject.ProcessManager.AttachProcess(swellProcess);
+            this.GameObject.ProcessManager.AttachProcess(Process.BuildProcessChain(
+                new TweenProcess(EasingFunction.Sine, EasingKind.EaseIn, _duration, tweenValue =>
+                {
+                    _transform.Scale = GetTweenedSwellSize(tweenValue);
+                }),
+                new TweenProcess(EasingFunction.Sine, EasingKind.EaseOut, _duration, tweenValue =>
+                {
+                    _transform.Scale = GetTweenedSwellSize(1.0f - tweenValue);
+                }),
+                new ActionProcess(() =>
+                {
+                    _transform.Scale = 1.0f;
+                    this.GameObject.RemoveComponent<SwellComponent>();
+                })));
+        }
+
+        private float GetTweenedSwellSize(float tweenValue)
+        {
+            var rampedSwellSize = _swellSize * (float)tweenValue;
+
+            // Final swell is how much percentage of the size of the image itself we need to scale up
+            // (Example, if we need to scale up the image twice as large, it needs to be a scale of 2.0)
+            var scaleOffset = rampedSwellSize / _transform.Bounds.Width;
+            return 1.0f + scaleOffset;
         }
     }
 }
