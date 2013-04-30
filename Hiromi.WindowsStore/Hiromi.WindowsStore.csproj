@@ -139,7 +139,7 @@
     <Compile Include="Rendering\SceneGraph.cs" />
     <Compile Include="Rendering\SceneNode.cs" />
     <Compile Include="Rendering\SpriteRenderingNode.cs" />
-    <Compile Include="Tweening.cs" />
+    <Compile Include="Easing.cs" />
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>

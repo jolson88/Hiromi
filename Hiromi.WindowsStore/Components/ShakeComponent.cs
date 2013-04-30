@@ -27,10 +27,10 @@ namespace Hiromi.Components
         {
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
-            var shakeProcess = new TweenProcess(_duration, percentage =>
+            var shakeProcess = new TweenProcess(_duration, tweenValue =>
             {
                 var rotation = _random.NextDouble() * (2 * Math.PI);
-                var shakeDistance = _maximumShakeDistance - (_maximumShakeDistance * percentage);
+                var shakeDistance = _maximumShakeDistance - (_maximumShakeDistance * tweenValue);
                 var offset = new Vector2(shakeDistance, 0);
                 offset = Vector2.Transform(offset, Matrix.CreateRotationZ((float)rotation));
 
