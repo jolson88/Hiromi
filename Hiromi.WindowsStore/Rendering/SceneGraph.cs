@@ -71,8 +71,12 @@ namespace Hiromi.Rendering
 
         private void OnGameObjectMoved(GameObjectMovedMessage msg)
         {
-            var node = _gameObjectLookup[msg.GameObject.Id];
-            node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
+            // We don't care about objects that aren't rendered
+            if (_gameObjectLookup.ContainsKey(msg.GameObject.Id))
+            {
+                var node = _gameObjectLookup[msg.GameObject.Id];
+                node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
+            }
         }
 
         private void OnGameObjectRemoved(GameObjectRemovedMessage msg)

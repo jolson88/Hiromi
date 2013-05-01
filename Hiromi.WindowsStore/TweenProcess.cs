@@ -20,10 +20,10 @@ namespace Hiromi
         private EasingKind _easingKind;
         private double _durationInSeconds;
         private double _elapsedTimeInSeconds = 0;
-        private Action<float> _callback;
-    
-        public TweenProcess(TimeSpan duration, Action<float> callback) : this(Easing.GetLinearFunction(), EasingKind.EaseIn, duration, callback) { }
-        public TweenProcess(EasingDelegate easingFunction, EasingKind easingKind, TimeSpan duration, Action<float> callback)
+        private Action<Interpolation> _callback;
+
+        public TweenProcess(TimeSpan duration, Action<Interpolation> callback) : this(Easing.GetLinearFunction(), EasingKind.EaseIn, duration, callback) { }
+        public TweenProcess(EasingDelegate easingFunction, EasingKind easingKind, TimeSpan duration, Action<Interpolation> callback)
         {
             _easingFunction = easingFunction;
             _easingKind = easingKind;
@@ -44,21 +44,21 @@ namespace Hiromi
                 switch (_easingKind)
                 {
                     case EasingKind.EaseIn:
-                        _callback((float)_easingFunction(percentage));
+                        _callback(new Interpolation(percentage, (float)_easingFunction(percentage)));
                         break;
 
                     case EasingKind.EaseOut:
-                        _callback(1.0f - (float)_easingFunction(1.0 - percentage));
+                        _callback(new Interpolation(percentage, 1.0f - (float)_easingFunction(1.0 - percentage)));
                         break;
 
                     case EasingKind.EaseInOut:
                         if (percentage >= 0.5)
                         {
-                            _callback((1.0f - (float)_easingFunction((1.0f - percentage) * 2.0f)) * 0.5f + 0.5f);
+                            _callback(new Interpolation(percentage, (1.0f - (float)_easingFunction((1.0f - percentage) * 2.0f)) * 0.5f + 0.5f));
                         }
                         else
                         {
-                            _callback((float)_easingFunction(percentage * 2.0f) * 0.5f);
+                            _callback(new Interpolation(percentage, (float)_easingFunction(percentage * 2.0f) * 0.5f));
                         }
                         break;
                 }

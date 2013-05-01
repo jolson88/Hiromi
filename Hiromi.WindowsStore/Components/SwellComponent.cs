@@ -34,13 +34,13 @@ namespace Hiromi.Components
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
             this.GameObject.ProcessManager.AttachProcess(Process.BuildProcessChain(
-                new TweenProcess(Easing.GetSineFunction(), EasingKind.EaseIn, _duration, tweenValue =>
+                new TweenProcess(Easing.GetSineFunction(), EasingKind.EaseIn, _duration, interp =>
                 {
-                    _transform.Scale = GetTweenedSwellSize(tweenValue);
+                    _transform.Scale = GetTweenedSwellSize(interp.Value);
                 }),
-                new TweenProcess(Easing.GetSineFunction(), EasingKind.EaseOut, _duration, tweenValue =>
+                new TweenProcess(Easing.GetSineFunction(), EasingKind.EaseOut, _duration, interp =>
                 {
-                    _transform.Scale = GetTweenedSwellSize(1.0f - tweenValue);
+                    _transform.Scale = GetTweenedSwellSize(1.0f - interp.Value);
                 }),
                 new ActionProcess(() =>
                 {

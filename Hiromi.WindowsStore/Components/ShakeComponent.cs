@@ -28,10 +28,10 @@ namespace Hiromi.Components
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
             this.GameObject.ProcessManager.AttachProcess(Process.BuildProcessChain(
-                new TweenProcess(_duration, tweenValue =>
+                new TweenProcess(_duration, interp =>
                 {
                     var rotation = _random.NextDouble() * (2 * Math.PI);
-                    var shakeDistance = (float)(_maximumShakeDistance - (_maximumShakeDistance * tweenValue));
+                    var shakeDistance = (float)(_maximumShakeDistance - (_maximumShakeDistance * interp.Value));
                     var offset = new Vector2(shakeDistance, 0);
                     offset = Vector2.Transform(offset, Matrix.CreateRotationZ((float)rotation));
 
