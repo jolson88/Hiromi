@@ -16,17 +16,17 @@ namespace Hiromi.Rendering
         public ISceneNode Parent { get; set; }
         public int GameObjectId { get; set; }
         public RenderPass RenderPass { get; set; }
-        public TransformationComponent PositionComponent { get; set; }
+        public TransformationComponent TransformationComponent { get; set; }
 
         protected MessageManager MessageManager { get; set; }
 
         private List<ISceneNode> _children;
 
-        public SceneNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass)
+        public SceneNode(int gameObjectId, TransformationComponent transformationComponent, RenderPass renderPass)
         {
             this.IsVisible = true;
             this.GameObjectId = gameObjectId;
-            this.PositionComponent = positionComponent;
+            this.TransformationComponent = transformationComponent;
             this.RenderPass = renderPass;
             _children = new List<ISceneNode>();
         }
@@ -69,7 +69,7 @@ namespace Hiromi.Rendering
         {
             if (IsVisible)
             {
-                OnDraw(gameTime, scene);
+                OnDraw(gameTime, this.GetSpriteBatchForNode(this, scene));
                 foreach (var node in _children)
                 {
                     node.Draw(gameTime, scene);
@@ -99,16 +99,35 @@ namespace Hiromi.Rendering
         private bool PointerOverSceneNode(Vector2 pointerLocation)
         {
             // Need to convert pixel coordinates from mouse into screen coordinates
-            if (this.PositionComponent != null)
+            if (this.TransformationComponent != null)
             {
-                return this.PositionComponent.Bounds.Contains((float)pointerLocation.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width,
+                return this.TransformationComponent.Bounds.Contains((float)pointerLocation.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width,
                     (float)pointerLocation.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
             }
             return false;
         }
 
+        private SpriteBatch GetSpriteBatchForNode(ISceneNode node, SceneGraph scene)
+        {
+            if (this.GameObjectId != GameObject.InvalidId)
+            {
+                if (node.TransformationComponent.TransformedByCamera)
+                {
+                    return scene.SpriteBatch;
+                }
+                else
+                {
+                    return scene.NonTransformedSpriteBatch;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
-        protected virtual void OnDraw(GameTime gameTime, SceneGraph scene) { }
+        protected virtual void OnDraw(GameTime gameTime, SpriteBatch batch) { }
     }
 }

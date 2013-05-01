@@ -26,24 +26,12 @@ namespace Hiromi.Rendering
             }
         }
 
-        protected override void OnDraw(GameTime gameTime, SceneGraph scene)
+        protected override void OnDraw(GameTime gameTime, SpriteBatch batch)
         {
-            var batch = scene.SpriteBatch;
-            if (_localBatch != null)
-            {
-                _localBatch.Begin();
-                batch = _localBatch;
-            }
-
             batch.DrawString(_labelComponent.Font, _labelComponent.Text,
-                new Vector2(this.PositionComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                    this.PositionComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
+                new Vector2(this.TransformationComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width,
+                    this.TransformationComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
                 _labelComponent.TextColor);
-
-            if (_localBatch != null)
-            {
-                _localBatch.End();
-            }
         }
     }
 }

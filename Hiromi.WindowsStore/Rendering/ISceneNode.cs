@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hiromi.Components;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Rendering
 {
@@ -14,7 +15,7 @@ namespace Hiromi.Rendering
         bool IsVisible { get; set; }
         int GameObjectId { get; set; }
         RenderPass RenderPass { get; set; }
-        TransformationComponent PositionComponent { get; set; }
+        TransformationComponent TransformationComponent { get; set; }
 
         void Initialize(MessageManager messageManager);
         void AddChild(ISceneNode child);

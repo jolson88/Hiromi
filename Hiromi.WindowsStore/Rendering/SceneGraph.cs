@@ -12,6 +12,8 @@ namespace Hiromi.Rendering
     public class SceneGraph
     {
         public SpriteBatch SpriteBatch { get; set; }
+        public SpriteBatch NonTransformedSpriteBatch { get; set; }
+
         private MessageManager _messageManager;
         private RootNode _rootNode;
         private Dictionary<int, ISceneNode> _gameObjectLookup;
@@ -20,6 +22,7 @@ namespace Hiromi.Rendering
         public SceneGraph(MessageManager messageManager)
         {
             this.SpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+            this.NonTransformedSpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
 
             _messageManager = messageManager;
             _rootNode = new RootNode();
@@ -51,9 +54,11 @@ namespace Hiromi.Rendering
         public void Draw(GameTime gameTime)
         {
             this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _camera.Transformation);
+            this.NonTransformedSpriteBatch.Begin();
 
             _rootNode.Draw(gameTime, this);
 
+            this.NonTransformedSpriteBatch.End();
             this.SpriteBatch.End();
         }
 
@@ -67,7 +72,7 @@ namespace Hiromi.Rendering
         private void OnGameObjectMoved(GameObjectMovedMessage msg)
         {
             var node = _gameObjectLookup[msg.GameObject.Id];
-            node.PositionComponent = msg.GameObject.GetComponent<TransformationComponent>();
+            node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
         }
 
         private void OnGameObjectRemoved(GameObjectRemovedMessage msg)

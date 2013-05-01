@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Rendering
 {
-    public class RootNode : ISceneNode
+    public class RootNode
     {
         public ISceneNode Parent { get; set; }
         public bool IsVisible { get; set; }

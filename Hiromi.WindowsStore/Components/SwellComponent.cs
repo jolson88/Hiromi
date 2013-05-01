@@ -11,17 +11,25 @@ namespace Hiromi.Components
         private TransformationComponent _transform;
         private float _swellSize;
         private TimeSpan _duration;
+        private bool _isRepeating;
 
-        public SwellComponent(int swellInPixels, TimeSpan duration)
+        public SwellComponent(int swellInPixels, TimeSpan duration, bool isRepeating = false)
         {
             // To swell, we need two tweens (0-1 and 1-0)
             _duration = TimeSpan.FromSeconds(duration.TotalSeconds / 2);
 
             // Convert to screen coordinates
             _swellSize = (float)swellInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
+
+            _isRepeating = isRepeating;
         }
 
         public override void Loaded()
+        {
+            CreateAnimationCycle();
+        }
+
+        private void CreateAnimationCycle()
         {
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
@@ -37,7 +45,15 @@ namespace Hiromi.Components
                 new ActionProcess(() =>
                 {
                     _transform.Scale = 1.0f;
-                    this.GameObject.RemoveComponent<SwellComponent>();
+                    if (_isRepeating)
+                    {
+                        CreateAnimationCycle();
+                    }
+                    else
+                    {
+                        // We are done, remove self
+                        this.GameObject.RemoveComponent<SwellComponent>();
+                    }
                 })));
         }
 
