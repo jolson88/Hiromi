@@ -69,7 +69,11 @@ namespace Hiromi
 
         public void RemoveComponent<T>() where T : GameObjectComponent
         {
-            _components.Remove(typeof(T));
+            if (HasComponent<T>())
+            {
+                GetComponent<T>().Removed();
+                _components.Remove(typeof(T));
+            }
         }
     }
 }

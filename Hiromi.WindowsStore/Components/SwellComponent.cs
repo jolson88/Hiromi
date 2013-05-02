@@ -12,6 +12,7 @@ namespace Hiromi.Components
         private float _swellSize;
         private TimeSpan _duration;
         private bool _isRepeating;
+        private Process _animationProcess;
 
         public SwellComponent(int swellInPixels, TimeSpan duration, bool isRepeating = false)
         {
@@ -29,11 +30,18 @@ namespace Hiromi.Components
             CreateAnimationCycle();
         }
 
+        public override void Removed()
+        {
+            _animationProcess.Fail();
+            _isRepeating = false;
+            _transform.Scale = 1.0f;
+        }
+
         private void CreateAnimationCycle()
         {
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 
-            this.GameObject.ProcessManager.AttachProcess(Process.BuildProcessChain(
+            _animationProcess = Process.BuildProcessChain(
                 new TweenProcess(Easing.GetSineFunction(), EasingKind.EaseIn, _duration, interp =>
                 {
                     _transform.Scale = GetTweenedSwellSize(interp.Value);
@@ -54,7 +62,9 @@ namespace Hiromi.Components
                         // We are done, remove self
                         this.GameObject.RemoveComponent<SwellComponent>();
                     }
-                })));
+                }));
+
+            this.GameObject.ProcessManager.AttachProcess(_animationProcess);
         }
 
         private float GetTweenedSwellSize(float tweenValue)

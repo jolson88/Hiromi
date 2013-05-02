@@ -13,5 +13,6 @@ namespace Hiromi
 
         public virtual void Loaded() { }
         public virtual void Update(GameTime gameTime) { }
+        public virtual void Removed() { }
     }
 }
