@@ -30,7 +30,7 @@ namespace Hiromi
             _nextObjectId++;
             _objects.Add(gameObject);
             gameObject.Loaded();
-            _messageManager.QueueMessage(new NewGameObjectMessage(gameObject));
+            _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
         }
 
         public List<GameObject> GetAllGameObjects()
