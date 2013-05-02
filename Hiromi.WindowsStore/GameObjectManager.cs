@@ -35,6 +35,12 @@ namespace Hiromi
             _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
         }
 
+        public void RemoveGameObject(GameObject obj)
+        {
+            _objects.Remove(obj);
+            _messageManager.TriggerMessage(new GameObjectRemovedMessage(obj.Id));
+        }
+
         public List<GameObject> GetAllGameObjects()
         {
             return _objects;
