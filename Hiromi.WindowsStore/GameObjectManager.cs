@@ -19,6 +19,8 @@ namespace Hiromi
             _processManager = processManager;
             _messageManager = messageManager;
             _objects = new List<GameObject>();
+
+            _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
         }
 
         public void AddGameObject(GameObject gameObject)
@@ -41,6 +43,11 @@ namespace Hiromi
         public List<GameObject> GetAllGameObjectsWithTag(string tag)
         {
             return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));
+        }
+
+        private void OnNewGameObject(NewGameObjectMessage msg)
+        {
+            AddGameObject(msg.GameObject);
         }
     }
 }

@@ -49,6 +49,16 @@ namespace Hiromi
     // **   OBJECT + COMPONENT MESSAGES
     // **
     // ************************************
+    public class NewGameObjectMessage : Message
+    {
+        public GameObject GameObject { get; set; }
+
+        public NewGameObjectMessage(GameObject obj)
+        {
+            this.GameObject = obj;
+        }
+    }
+
     public class GameObjectLoadedMessage : Message
     {
         public GameObject GameObject { get; set; }
