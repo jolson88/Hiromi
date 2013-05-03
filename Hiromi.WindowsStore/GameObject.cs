@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Hiromi.Components;
 
 namespace Hiromi
 {
@@ -15,7 +16,9 @@ namespace Hiromi
         public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }
         public int Id { get; set; }
-        public int Depth { get; set; }
+        public int Depth { get; set; } // TODO: Remove and make Z parameter of Transform Component
+
+        public TransformationComponent Transform { get; set; }
 
         private Dictionary<Type, GameObjectComponent> _components;
         private bool _isLoaded = false;
@@ -50,6 +53,11 @@ namespace Hiromi
             component.GameObject = this;
             _components.Add(component.GetType(), component);
 
+            if (component.GetType() == typeof(TransformationComponent))
+            {
+                this.Transform = (TransformationComponent)component;
+            }
+
             if (_isLoaded)
             {
                 // We are already loaded to load this component
@@ -60,6 +68,19 @@ namespace Hiromi
         public T GetComponent<T>() where T : GameObjectComponent
         {
             return (T)_components[typeof(T)];
+        }
+
+        public T GetComponentWithInterface<T>() where T : class
+        {
+            foreach (var key in _components.Keys)
+            {
+                if (_components[key] is T)
+                {
+                    return (_components[key] as T);
+                }
+            }
+
+            return null;
         }
 
         public bool HasComponent<T>() where T : GameObjectComponent

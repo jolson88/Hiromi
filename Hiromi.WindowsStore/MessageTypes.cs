@@ -49,11 +49,11 @@ namespace Hiromi
     // **   OBJECT + COMPONENT MESSAGES
     // **
     // ************************************
-    public class NewGameObjectMessage : Message
+    public class AddGameObjectRequestMessage : Message
     {
         public GameObject GameObject { get; set; }
 
-        public NewGameObjectMessage(GameObject obj)
+        public AddGameObjectRequestMessage(GameObject obj)
         {
             this.GameObject = obj;
         }
@@ -137,11 +137,14 @@ namespace Hiromi
         }
     }
 
-    public class MoveCameraMessage : Message
+    /// <summary>
+    /// Offset the point that the Camera is looking at (while preserving the point the Camera is looking at)
+    /// </summary>
+    public class NudgeCameraMessage : Message
     {
         public Vector2 Translation { get; private set; }
 
-        public MoveCameraMessage(Vector2 translation)
+        public NudgeCameraMessage(Vector2 translation)
         {
             this.Translation = translation;
         }

@@ -13,7 +13,6 @@ namespace Hiromi.Rendering
     public class SceneNode : ISceneNode
     {
         public bool IsVisible { get; set; }
-        public ISceneNode Parent { get; set; }
         public int GameObjectId { get; set; }
         public RenderPass RenderPass { get; set; }
         public TransformationComponent TransformationComponent { get; set; }
@@ -40,7 +39,6 @@ namespace Hiromi.Rendering
         public void AddChild(ISceneNode child)
         {
             _children.Add(child);
-            child.Parent = this;
         }
 
         public void RemoveChild(int actorId)

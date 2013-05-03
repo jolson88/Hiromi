@@ -62,8 +62,8 @@ namespace Hiromi.Components
             this.VerticalAnchor = verticalAnchor;
             this.TransformedByCamera = transformedByCamera;
 
-            _originalWidth = (float)widthInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
-            _originalHeight = (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+            _originalWidth = (float)widthInPixels;
+            _originalHeight = (float)heightInPixels;
             
             this.Position = position;
             this.PositionOffset = Vector2.Zero;

@@ -15,7 +15,7 @@ namespace Hiromi
         public float Y { get; set; }
         public float Width { get { return _width; } set { _width = value; OnSizeChanged(); } }
         public float Height { get { return _height; } set { _height = value; OnSizeChanged(); } }
-        public float Bottom { get { return this.Y + this.Height; } }
+        public float Bottom { get { return this.Y - this.Height; } }
         public float Left { get { return this.X; } }
         public float Top { get { return this.Y; } }
         public float Right { get { return this.X + this.Width; } }
@@ -23,6 +23,13 @@ namespace Hiromi
         private float _width;
         private float _height;
 
+        /// <summary>
+        /// Creates a new float-based bounding box for containment and collision checking.
+        /// </summary>
+        /// <param name="x">The left coordinate of the bounding box</param>
+        /// <param name="y">The top coordinate of the bounding box</param>
+        /// <param name="width">The width of the bounding box</param>
+        /// <param name="height">The height of the bounding box</param>
         public BoundingBox(float x, float y, float width, float height)
         {
             this.X = x;

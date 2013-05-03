@@ -11,7 +11,6 @@ namespace Hiromi.Rendering
 {
     public interface ISceneNode
     {
-        ISceneNode Parent { get; set; }
         bool IsVisible { get; set; }
         int GameObjectId { get; set; }
         RenderPass RenderPass { get; set; }

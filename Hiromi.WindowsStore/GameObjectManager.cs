@@ -20,7 +20,7 @@ namespace Hiromi
             _messageManager = messageManager;
             _objects = new List<GameObject>();
 
-            _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
+            _messageManager.AddListener<AddGameObjectRequestMessage>(OnNewGameObject);
         }
 
         public void AddGameObject(GameObject gameObject)
@@ -51,7 +51,7 @@ namespace Hiromi
             return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));
         }
 
-        private void OnNewGameObject(NewGameObjectMessage msg)
+        private void OnNewGameObject(AddGameObjectRequestMessage msg)
         {
             AddGameObject(msg.GameObject);
         }

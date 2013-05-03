@@ -14,8 +14,8 @@ namespace Hiromi.Rendering
     {
         private SpriteComponent _spriteComponent;
 
-        public SpriteRenderingNode(int gameObjectId, TransformationComponent positionComponent, RenderPass renderPass, SpriteComponent spriteComponent) 
-            : base(gameObjectId, positionComponent, renderPass) 
+        public SpriteRenderingNode(int gameObjectId, TransformationComponent transformComponent, RenderPass renderPass, SpriteComponent spriteComponent) 
+            : base(gameObjectId, transformComponent, renderPass) 
         {
             _spriteComponent = spriteComponent;
             this.IsVisible = _spriteComponent.IsVisible;
@@ -23,14 +23,32 @@ namespace Hiromi.Rendering
 
         protected override void OnDraw(GameTime gameTime, SpriteBatch batch)
         {
-            // We use Bounds instead of Position as Bounds takes the achor point into account
-            batch.Draw(_spriteComponent.Texture,
-                new Rectangle((int)(this.TransformationComponent.Bounds.X * GraphicsService.Instance.GraphicsDevice.Viewport.Width),
-                    (int)(this.TransformationComponent.Bounds.Y * GraphicsService.Instance.GraphicsDevice.Viewport.Height),
-                    (int)(this.TransformationComponent.Bounds.Width * GraphicsService.Instance.GraphicsDevice.Viewport.Width),
-                    (int)(this.TransformationComponent.Bounds.Height * GraphicsService.Instance.GraphicsDevice.Viewport.Height)),
-                null,
-                Color.White);
+            if (this.TransformationComponent.TransformedByCamera)
+            {
+                // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
+                var scale = new Vector2(1, -1) * this.TransformationComponent.Scale;
+
+                // We use Bounds instead of Position as Bounds takes the achor point into account
+                batch.Draw(_spriteComponent.Texture,
+                    new Vector2((int)this.TransformationComponent.Bounds.X, (int)this.TransformationComponent.Bounds.Y),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    scale,
+                    SpriteEffects.None,
+                    0f);
+            }
+            else
+            {
+                batch.Draw(_spriteComponent.Texture,
+                    new Rectangle((int)this.TransformationComponent.Bounds.X,
+                        (int)this.TransformationComponent.Bounds.Y,
+                        (int)this.TransformationComponent.Bounds.Width,
+                        (int)this.TransformationComponent.Bounds.Height),
+                    null,
+                    Color.White);
+            }
         }
     }
 }

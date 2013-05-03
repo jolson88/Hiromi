@@ -10,7 +10,6 @@ namespace Hiromi.Rendering
 {
     public class RootNode
     {
-        public ISceneNode Parent { get; set; }
         public bool IsVisible { get; set; }
         public int GameObjectId { get; set; }
         public RenderPass RenderPass { get; set; }

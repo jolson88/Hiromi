@@ -28,6 +28,7 @@ namespace Hiromi.Rendering
             _rootNode = new RootNode();
             _gameObjectLookup = new Dictionary<int, ISceneNode>();
 
+            _messageManager.AddListener<GameObjectLoadedMessage>(OnGameObjectLoaded);
             _messageManager.AddListener<GameObjectMovedMessage>(OnGameObjectMoved);
             _messageManager.AddListener<GameObjectRemovedMessage>(OnGameObjectRemoved);
             _messageManager.AddListener<NewRenderingComponentMessage>(OnNewRenderingComponent);
@@ -53,7 +54,8 @@ namespace Hiromi.Rendering
 
         public void Draw(GameTime gameTime)
         {
-            this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _camera.Transformation);
+            // When we transform via camera, we need to flip rasterizer (counter clockwise) since we are flipping Y component to Y+ up (instead of down)
+            this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
             this.NonTransformedSpriteBatch.Begin();
 
             _rootNode.Draw(gameTime, this);
@@ -65,8 +67,17 @@ namespace Hiromi.Rendering
         public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
         {
             // Account for camera transformation;
-            var transformedPointer = Vector2.Transform(pointerLocation, Matrix.Invert(_camera.Transformation));
+            var transformedPointer = Vector2.Transform(pointerLocation, Matrix.Invert(_camera.TransformationMatrix));
             return _rootNode.Pick(transformedPointer, ref gameObjectId);
+        }
+
+        private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
+        {
+            var cameraAware = msg.GameObject.GetComponentWithInterface<ICameraAware>();
+            if (cameraAware != null)
+            {
+                cameraAware.ActiveCamera = _camera;
+            }
         }
 
         private void OnGameObjectMoved(GameObjectMovedMessage msg)

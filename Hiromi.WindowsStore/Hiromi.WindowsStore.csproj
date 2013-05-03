@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\ICameraAware.cs" />
     <Compile Include="Components\IRenderingComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />
