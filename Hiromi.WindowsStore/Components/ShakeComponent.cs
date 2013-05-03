@@ -20,7 +20,7 @@ namespace Hiromi.Components
             _random = new Random();
 
             // Convert to screen coordinates
-            _maximumShakeDistance = (float)maximumShakeInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
+            _maximumShakeDistance = (float)maximumShakeInPixels;
         }
 
         public override void Loaded()

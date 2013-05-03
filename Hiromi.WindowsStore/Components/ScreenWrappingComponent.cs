@@ -11,12 +11,18 @@ namespace Hiromi.Components
     public class ScreenWrappingComponent : GameObjectComponent, ICameraAware
     {
         public Camera ActiveCamera { get; set; }
+        public bool IsEnabled { get; set; }
 
         private bool _recentlyReflected = false;
 
+        public ScreenWrappingComponent(bool isEnabled = true)
+        {
+            this.IsEnabled = isEnabled;
+        }
+
         public override void Update(GameTime gameTime)
         {
-            if (!_recentlyReflected && this.ActiveCamera != null)
+            if (this.IsEnabled && !_recentlyReflected && this.ActiveCamera != null)
             {
                 var transform = this.GameObject.Transform;
                 var newPosition = transform.Position;
