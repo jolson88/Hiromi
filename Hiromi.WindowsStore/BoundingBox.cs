@@ -40,12 +40,12 @@ namespace Hiromi
 
         public bool Contains(float x, float y)
         {
-            return this.X <= x && x < this.X + this.Width && this.Y <= y && y < this.Y + this.Height;
+            return this.Left <= x && x < this.Right && this.Bottom <= y && y < this.Top;
         }
 
         public bool Contains(BoundingBox value)
         {
-            return this.X <= value.X && value.X + value.Width <= this.X + this.Width && this.Y <= value.Y && value.Y + value.Height <= this.Y + this.Height;
+            return this.Left <= value.Left && this.Right >= value.Right && this.Bottom <= value.Bottom && this.Top >= value.Top;
         }
 
         public BoundingBox Deflate(int pixelsToDeflate)

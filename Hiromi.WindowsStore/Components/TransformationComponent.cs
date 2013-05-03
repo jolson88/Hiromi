@@ -102,11 +102,11 @@ namespace Hiromi.Components
 
             if (this.VerticalAnchor == VerticalAnchor.Center)
             {
-                this.Bounds.Y = this.Position.Y - this.Bounds.Height / 2;
+                this.Bounds.Y = this.Position.Y + this.Bounds.Height / 2;
             }
             else if (this.VerticalAnchor == VerticalAnchor.Bottom)
             {
-                this.Bounds.Y = this.Position.Y - this.Bounds.Height;
+                this.Bounds.Y = this.Position.Y + this.Bounds.Height;
             }
 
             this.Bounds.X += this.PositionOffset.X;

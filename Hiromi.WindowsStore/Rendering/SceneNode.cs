@@ -82,6 +82,7 @@ namespace Hiromi.Rendering
                 gameObjectId = this.GameObjectId;
                 return true;
             }
+
             foreach (var child in _children)
             {
                 if (child.Pick(pointerLocation, ref gameObjectId))
@@ -99,8 +100,7 @@ namespace Hiromi.Rendering
             // Need to convert pixel coordinates from mouse into screen coordinates
             if (this.TransformationComponent != null)
             {
-                return this.TransformationComponent.Bounds.Contains((float)pointerLocation.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width,
-                    (float)pointerLocation.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height);
+                return this.TransformationComponent.Bounds.Contains((float)pointerLocation.X, (float)pointerLocation.Y);
             }
             return false;
         }

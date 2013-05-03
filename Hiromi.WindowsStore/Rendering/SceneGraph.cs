@@ -36,15 +36,16 @@ namespace Hiromi.Rendering
             _camera = new Camera(_messageManager);
         }
 
-        public void AddChild(ISceneNode child)
+        public void AddNode(ISceneNode node)
         {
-            _rootNode.AddChild(child);
-            _gameObjectLookup.Add(child.GameObjectId, child);
+            _rootNode.AddNode(node);
+            _gameObjectLookup.Add(node.GameObjectId, node);
         }
 
-        public void RemoveChild(int gameObjectId)
+        public void RemoveNode(ISceneNode node)
         {
-            _rootNode.RemoveChild(gameObjectId);
+            _rootNode.RemoveNode(node);
+            _gameObjectLookup.Remove(node.GameObjectId);
         }
 
         public void Update(GameTime gameTime)
@@ -92,14 +93,14 @@ namespace Hiromi.Rendering
 
         private void OnGameObjectRemoved(GameObjectRemovedMessage msg)
         {
-            RemoveChild(msg.GameObjectId);
+            RemoveNode(_gameObjectLookup[msg.GameObjectId]);
         }
 
         private void OnNewRenderingComponent(NewRenderingComponentMessage msg)
         {
             var node = msg.RenderingComponent.GetSceneNode();
             node.Initialize(_messageManager);
-            AddChild(node);
+            AddNode(node);
         }
     }
 }

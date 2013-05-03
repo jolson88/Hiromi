@@ -17,14 +17,14 @@ namespace Hiromi.Rendering
 
         protected MessageManager _messageManager;
 
-        private Dictionary<RenderPass, ISceneNode> _childrenByPass;
+        private Dictionary<RenderPass, List<ISceneNode>> _childrenByPass;
 
         public RootNode()
         {
-            _childrenByPass = new Dictionary<RenderPass, ISceneNode>();
+            _childrenByPass = new Dictionary<RenderPass, List<ISceneNode>>();
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
             {
-                _childrenByPass.Add((RenderPass)val, new SceneNode(GameObject.InvalidId, null, (RenderPass)val));
+                _childrenByPass.Add((RenderPass)val, new List<ISceneNode>());
             }
         }
 
@@ -33,24 +33,28 @@ namespace Hiromi.Rendering
             _messageManager = messageManager;
         }
 
-        public void AddChild(ISceneNode child)
+        public void AddNode(ISceneNode node)
         {
-            _childrenByPass[child.RenderPass].AddChild(child);
+            _childrenByPass[node.RenderPass].Add(node);
         }
 
-        public void RemoveChild(int gameObjectId)
+        public void RemoveNode(ISceneNode node)
         {
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
             {
-                _childrenByPass[(RenderPass)val].RemoveChild(gameObjectId);
+                _childrenByPass[(RenderPass)val].Remove(node);
             }
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            // Update the scene in render pass order
+            for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                _childrenByPass[(RenderPass)val].Update(gameTime);
+                foreach (var node in _childrenByPass[(RenderPass)i])
+                {
+                    node.Update(gameTime);
+                }
             }
         }
 
@@ -59,7 +63,10 @@ namespace Hiromi.Rendering
             // Draw the scene in render pass order
             for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                _childrenByPass[(RenderPass)i].Draw(gameTime, scene);
+                foreach (var node in _childrenByPass[(RenderPass)i])
+                {
+                    node.Draw(gameTime, scene);
+                }
             }
         }
 
@@ -68,9 +75,12 @@ namespace Hiromi.Rendering
             // Reverse drawing order to find top-most game object picked
             for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
             {
-                if (_childrenByPass[(RenderPass)i].Pick(pointerLocation, ref gameObjectId))
+                foreach (var node in _childrenByPass[(RenderPass)i])
                 {
-                    return true;
+                    if (node.Pick(pointerLocation, ref gameObjectId))
+                    {
+                        return true;
+                    }
                 }
             }
 
