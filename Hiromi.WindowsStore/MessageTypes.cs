@@ -89,28 +89,6 @@ namespace Hiromi
         }
     }
 
-    public class NewRenderingComponentMessage : Message
-    {
-        public IRenderingComponent RenderingComponent { get; set; }
-
-        public NewRenderingComponentMessage(IRenderingComponent renderingComponent)
-        {
-            this.RenderingComponent = renderingComponent;
-        }
-    }
-
-    public class RenderingComponentChangedMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-        public IRenderingComponent RenderingComponent { get; set; }
-
-        public RenderingComponentChangedMessage(GameObject gameObject, IRenderingComponent renderingComponent)
-        {
-            this.GameObject = gameObject;
-            this.RenderingComponent = renderingComponent;
-        }
-    }
-
 
     // ************************************
     // **

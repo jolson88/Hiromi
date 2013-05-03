@@ -11,75 +11,72 @@ namespace Hiromi.Rendering
 {
     public class SceneGraph
     {
-        public SpriteBatch SpriteBatch { get; set; }
-        public SpriteBatch NonTransformedSpriteBatch { get; set; }
-
+        private SpriteBatch _spriteBatch;
+        private SpriteBatch _nonTransformedSpriteBatch;
         private MessageManager _messageManager;
-        private Dictionary<int, List<ISceneNode>> _gameObjectLookup;
+        private Dictionary<int, List<IRenderAwareComponent>> _gameObjectLookup;
         private Camera _camera;
-        private Dictionary<RenderPass, List<ISceneNode>> _nodes;
+        private Dictionary<RenderPass, List<IRenderAwareComponent>> _renderComponents;
 
         public SceneGraph(MessageManager messageManager)
         {
-            this.SpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
-            this.NonTransformedSpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+            this._spriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
+            this._nonTransformedSpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
 
             _messageManager = messageManager;
-            _gameObjectLookup = new Dictionary<int, List<ISceneNode>>();
-            
-            _nodes = new Dictionary<RenderPass, List<ISceneNode>>();
+            _gameObjectLookup = new Dictionary<int, List<IRenderAwareComponent>>();
+
+            _renderComponents = new Dictionary<RenderPass, List<IRenderAwareComponent>>();
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
             {
-                _nodes.Add((RenderPass)val, new List<ISceneNode>());
+                _renderComponents.Add((RenderPass)val, new List<IRenderAwareComponent>());
             }
 
             _messageManager.AddListener<GameObjectLoadedMessage>(OnGameObjectLoaded);
-            _messageManager.AddListener<GameObjectMovedMessage>(OnGameObjectMoved);
             _messageManager.AddListener<GameObjectRemovedMessage>(OnGameObjectRemoved);
-            _messageManager.AddListener<NewRenderingComponentMessage>(OnNewRenderingComponent);
 
             _camera = new Camera(_messageManager);
         }
 
-        public void AddNode(ISceneNode node)
+        public void AddComponent(IRenderAwareComponent component)
         {
-            _nodes[node.RenderPass].Add(node);
+            _renderComponents[component.RenderPass].Add(component);
             
-            if (!_gameObjectLookup.Keys.Contains(node.GameObjectId))
+            if (!_gameObjectLookup.ContainsKey(component.GameObjectId))
             {
-                _gameObjectLookup.Add(node.GameObjectId, new List<ISceneNode>());
+                _gameObjectLookup.Add(component.GameObjectId, new List<IRenderAwareComponent>());
             }
-            _gameObjectLookup[node.GameObjectId].Add(node);
+            _gameObjectLookup[component.GameObjectId].Add(component);
         }
 
-        public void RemoveNode(ISceneNode node)
+        public void RemoveComponent(IRenderAwareComponent component)
         {
-            System.Diagnostics.Debug.Assert(_gameObjectLookup.Keys.Contains(node.GameObjectId));
+            System.Diagnostics.Debug.Assert(_gameObjectLookup.Keys.Contains(component.GameObjectId));
 
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
             {
-                _nodes[(RenderPass)val].Remove(node);
+                _renderComponents[(RenderPass)val].Remove(component);
             }
-            _gameObjectLookup[node.GameObjectId].Remove(node);
+            _gameObjectLookup[component.GameObjectId].Remove(component);
         }
 
         public void Draw(GameTime gameTime)
         {
             // When we transform via camera, we need to flip rasterizer (counter clockwise) since we are flipping Y component to Y+ up (instead of down)
-            this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
-            this.NonTransformedSpriteBatch.Begin();
+            this._spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
+            this._nonTransformedSpriteBatch.Begin();
 
             // Draw the scene in render pass order
             for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                foreach (var node in _nodes[(RenderPass)i])
+                foreach (var components in _renderComponents[(RenderPass)i])
                 {
-                    node.Draw(gameTime, this);
+                    components.Draw(gameTime, GetSpriteBatchForComponent(components));
                 }
             }
 
-            this.NonTransformedSpriteBatch.End();
-            this.SpriteBatch.End();
+            this._nonTransformedSpriteBatch.End();
+            this._spriteBatch.End();
         }
 
         public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
@@ -90,9 +87,9 @@ namespace Hiromi.Rendering
             // Reverse drawing order to find top-most game object picked
             for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
             {
-                foreach (var node in _nodes[(RenderPass)i])
+                foreach (var components in _renderComponents[(RenderPass)i])
                 {
-                    if (node.Pick(transformedPointer, ref gameObjectId))
+                    if (PointerOverComponent(components, transformedPointer))
                     {
                         return true;
                     }
@@ -101,24 +98,40 @@ namespace Hiromi.Rendering
             return false;
         }
 
+        private bool PointerOverComponent(IRenderAwareComponent component, Vector2 pointerLocation)
+        {
+            // Need to convert pixel coordinates from mouse into screen coordinates
+            if (component.Transform != null)
+            {
+                return component.Transform.Bounds.Contains((float)pointerLocation.X, (float)pointerLocation.Y);
+            }
+            return false;
+        }
+
+        private SpriteBatch GetSpriteBatchForComponent(IRenderAwareComponent component)
+        {
+            if (component.RenderPass == RenderPass.BackgroundPass || component.RenderPass == RenderPass.UserInterfacePass)
+            {
+                return _nonTransformedSpriteBatch;
+            }
+            else
+            {
+                return _spriteBatch;
+            }
+        }
+
         private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
         {
-            var cameraAware = msg.GameObject.GetComponentWithAwareness<ICameraAware>();
+            var cameraAware = msg.GameObject.GetComponentWithAwareness<ICameraAwareComponent>();
             if (cameraAware != null)
             {
                 cameraAware.ActiveCamera = _camera;
             }
-        }
 
-        private void OnGameObjectMoved(GameObjectMovedMessage msg)
-        {
-            // We don't care about objects that aren't rendered
-            if (_gameObjectLookup.ContainsKey(msg.GameObject.Id))
+            var renderAware = msg.GameObject.GetComponentWithAwareness<IRenderAwareComponent>();
+            if (renderAware != null)
             {
-                foreach (var node in _gameObjectLookup[msg.GameObject.Id])
-                {
-                    node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
-                }
+                _renderComponents[renderAware.RenderPass].Add(renderAware);
             }
         }
 
@@ -129,16 +142,9 @@ namespace Hiromi.Rendering
                 // .ToList() to bring in local copy as we will be removing from the list we are iterating over
                 foreach (var node in _gameObjectLookup[msg.GameObjectId].ToList())
                 {
-                    RemoveNode(node);
+                    RemoveComponent(node);
                 }
             }
-        }
-
-        private void OnNewRenderingComponent(NewRenderingComponentMessage msg)
-        {
-            var node = msg.RenderingComponent.GetSceneNode();
-            node.Initialize(_messageManager);
-            AddNode(node);
         }
     }
 }

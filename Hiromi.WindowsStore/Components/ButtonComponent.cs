@@ -10,7 +10,7 @@ using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class ButtonComponent : GameObjectComponent, IRenderingComponent
+    public class ButtonComponent : GameObjectComponent //, IRenderingComponent
     {
         public Texture2D CurrentTexture { get; set; }
         public Texture2D FocusTexture { get; set; }
@@ -29,16 +29,16 @@ namespace Hiromi.Components
             this.GameObject.MessageManager.AddListener<PointerPressMessage>(OnPointerPress);
             this.GameObject.MessageManager.AddListener<PointerReleaseMessage>(OnPointerRelease);
 
-            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
+            //this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
         }
 
-        public SceneNode GetSceneNode()
-        {
-            return new ButtonRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<TransformationComponent>(),
-                RenderPass.UserInterfacePass,
-                this);
-        }
+        //public SceneNode GetSceneNode()
+        //{
+        //    return new ButtonRenderingNode(this.GameObject.Id,
+        //        this.GameObject.GetComponent<TransformationComponent>(),
+        //        RenderPass.UserInterfacePass,
+        //        this);
+        //}
 
         private void OnPointerExit(PointerExitMessage msg)
         {

@@ -101,8 +101,7 @@
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
-    <Compile Include="Components\ICameraAware.cs" />
-    <Compile Include="Components\IRenderingComponent.cs" />
+    <Compile Include="Rendering\ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />
     <Compile Include="Components\SwellComponent.cs" />
@@ -133,12 +132,10 @@
     <Compile Include="PointerInputHandler.cs" />
     <Compile Include="Rendering\ButtonRenderingNode.cs" />
     <Compile Include="Rendering\Camera.cs" />
-    <Compile Include="Rendering\ISceneNode.cs" />
+    <Compile Include="Rendering\IRenderAwareComponent.cs" />
     <Compile Include="Rendering\LabelRenderingNode.cs" />
     <Compile Include="Rendering\RenderPass.cs" />
     <Compile Include="Rendering\SceneGraph.cs" />
-    <Compile Include="Rendering\SceneNode.cs" />
-    <Compile Include="Rendering\SpriteRenderingNode.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>

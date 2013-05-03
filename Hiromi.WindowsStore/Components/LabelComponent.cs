@@ -10,7 +10,7 @@ using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent, IRenderingComponent
+    public class LabelComponent : GameObjectComponent //, IRenderingComponent
     {
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
@@ -28,16 +28,17 @@ namespace Hiromi.Components
         public override void Loaded()
         {
             OnTextChanged();
-            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
+            //this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
         }
 
-        public SceneNode GetSceneNode()
-        {
-            return new LabelRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<TransformationComponent>(),
-                RenderPass.UserInterfacePass,
-                this);
-        }
+
+        //public SceneNode GetSceneNode()
+        //{
+        //    return new LabelRenderingNode(this.GameObject.Id,
+        //        this.GameObject.GetComponent<TransformationComponent>(),
+        //        RenderPass.UserInterfacePass,
+        //        this);
+        //}
 
         private void OnTextChanged()
         {

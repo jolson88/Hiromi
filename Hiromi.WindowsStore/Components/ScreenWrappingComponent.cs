@@ -8,7 +8,7 @@ using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class ScreenWrappingComponent : GameObjectComponent, ICameraAware
+    public class ScreenWrappingComponent : GameObjectComponent, ICameraAwareComponent
     {
         public Camera ActiveCamera { get; set; }
         public bool IsEnabled { get; set; }

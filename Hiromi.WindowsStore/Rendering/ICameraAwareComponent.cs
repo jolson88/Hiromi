@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Hiromi.Rendering;
 
-namespace Hiromi.Components
+namespace Hiromi.Rendering
 {
-    public interface IRenderingComponent
+    public interface ICameraAwareComponent
     {
-        SceneNode GetSceneNode();
+        Camera ActiveCamera { get; set; }
     }
 }
