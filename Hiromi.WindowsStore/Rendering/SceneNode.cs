@@ -10,6 +10,7 @@ using Hiromi.Components;
 
 namespace Hiromi.Rendering
 {
+    // TODO: Remove derived Scene Nodes and introduce new IRenderingAware awareness to components
     public class SceneNode : ISceneNode
     {
         public bool IsVisible { get; set; }

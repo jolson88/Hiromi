@@ -26,7 +26,7 @@ namespace Hiromi.Components
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }
         public BoundingBox Bounds { get; set; }
-        public bool TransformedByCamera { get; set; }
+        public bool TransformedByCamera { get; set; }  // TODO: Remove this. All objects transformed. BG will have own batch. And RenderPass.UI will use own non-transformed batch
 
         public Vector2 Position 
         {

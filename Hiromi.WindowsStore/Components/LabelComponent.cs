@@ -15,12 +15,10 @@ namespace Hiromi.Components
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
         public Color TextColor { get; set; }
-        public bool TransformedByCamera { get; set; }
-
+        
         private string _text;
 
-        public LabelComponent(string text, SpriteFont font) : this(text, font, Color.White) { }
-        public LabelComponent(string text, SpriteFont font, Color textColor, bool transformedByCamera = true)
+        public LabelComponent(string text, SpriteFont font, Color textColor)
         {
             _text = text;
             this.Font = font;
@@ -46,8 +44,8 @@ namespace Hiromi.Components
             var posComponent = this.GameObject.GetComponent<TransformationComponent>();
 
             var textSize = this.Font.MeasureString(this.Text);
-            posComponent.Bounds.Width = textSize.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
-            posComponent.Bounds.Height = textSize.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+            posComponent.Bounds.Width = textSize.X;
+            posComponent.Bounds.Height = textSize.Y;
         }
     }
 }

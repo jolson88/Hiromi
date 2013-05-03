@@ -70,7 +70,7 @@ namespace Hiromi
             return (T)_components[typeof(T)];
         }
 
-        public T GetComponentWithInterface<T>() where T : class
+        public T GetComponentWithAwareness<T>() where T : class
         {
             foreach (var key in _components.Keys)
             {

@@ -74,7 +74,7 @@ namespace Hiromi.Rendering
 
         private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
         {
-            var cameraAware = msg.GameObject.GetComponentWithInterface<ICameraAware>();
+            var cameraAware = msg.GameObject.GetComponentWithAwareness<ICameraAware>();
             if (cameraAware != null)
             {
                 cameraAware.ActiveCamera = _camera;
