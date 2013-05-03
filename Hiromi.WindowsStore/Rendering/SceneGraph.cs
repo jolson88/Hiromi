@@ -15,9 +15,9 @@ namespace Hiromi.Rendering
         public SpriteBatch NonTransformedSpriteBatch { get; set; }
 
         private MessageManager _messageManager;
-        private RootNode _rootNode;
-        private Dictionary<int, ISceneNode> _gameObjectLookup;
+        private Dictionary<int, List<ISceneNode>> _gameObjectLookup;
         private Camera _camera;
+        private Dictionary<RenderPass, List<ISceneNode>> _nodes;
 
         public SceneGraph(MessageManager messageManager)
         {
@@ -25,8 +25,13 @@ namespace Hiromi.Rendering
             this.NonTransformedSpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
 
             _messageManager = messageManager;
-            _rootNode = new RootNode();
-            _gameObjectLookup = new Dictionary<int, ISceneNode>();
+            _gameObjectLookup = new Dictionary<int, List<ISceneNode>>();
+            
+            _nodes = new Dictionary<RenderPass, List<ISceneNode>>();
+            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            {
+                _nodes.Add((RenderPass)val, new List<ISceneNode>());
+            }
 
             _messageManager.AddListener<GameObjectLoadedMessage>(OnGameObjectLoaded);
             _messageManager.AddListener<GameObjectMovedMessage>(OnGameObjectMoved);
@@ -38,19 +43,24 @@ namespace Hiromi.Rendering
 
         public void AddNode(ISceneNode node)
         {
-            _rootNode.AddNode(node);
-            _gameObjectLookup.Add(node.GameObjectId, node);
+            _nodes[node.RenderPass].Add(node);
+            
+            if (!_gameObjectLookup.Keys.Contains(node.GameObjectId))
+            {
+                _gameObjectLookup.Add(node.GameObjectId, new List<ISceneNode>());
+            }
+            _gameObjectLookup[node.GameObjectId].Add(node);
         }
 
         public void RemoveNode(ISceneNode node)
         {
-            _rootNode.RemoveNode(node);
-            _gameObjectLookup.Remove(node.GameObjectId);
-        }
+            System.Diagnostics.Debug.Assert(_gameObjectLookup.Keys.Contains(node.GameObjectId));
 
-        public void Update(GameTime gameTime)
-        {
-            _rootNode.Update(gameTime);
+            foreach (var val in Enum.GetValues(typeof(RenderPass)))
+            {
+                _nodes[(RenderPass)val].Remove(node);
+            }
+            _gameObjectLookup[node.GameObjectId].Remove(node);
         }
 
         public void Draw(GameTime gameTime)
@@ -59,7 +69,14 @@ namespace Hiromi.Rendering
             this.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
             this.NonTransformedSpriteBatch.Begin();
 
-            _rootNode.Draw(gameTime, this);
+            // Draw the scene in render pass order
+            for (int i = 0; i <= (int)RenderPass.LassPass; i++)
+            {
+                foreach (var node in _nodes[(RenderPass)i])
+                {
+                    node.Draw(gameTime, this);
+                }
+            }
 
             this.NonTransformedSpriteBatch.End();
             this.SpriteBatch.End();
@@ -69,7 +86,19 @@ namespace Hiromi.Rendering
         {
             // Account for camera transformation;
             var transformedPointer = Vector2.Transform(pointerLocation, Matrix.Invert(_camera.TransformationMatrix));
-            return _rootNode.Pick(transformedPointer, ref gameObjectId);
+
+            // Reverse drawing order to find top-most game object picked
+            for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
+            {
+                foreach (var node in _nodes[(RenderPass)i])
+                {
+                    if (node.Pick(transformedPointer, ref gameObjectId))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void OnGameObjectLoaded(GameObjectLoadedMessage msg)
@@ -86,14 +115,23 @@ namespace Hiromi.Rendering
             // We don't care about objects that aren't rendered
             if (_gameObjectLookup.ContainsKey(msg.GameObject.Id))
             {
-                var node = _gameObjectLookup[msg.GameObject.Id];
-                node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
+                foreach (var node in _gameObjectLookup[msg.GameObject.Id])
+                {
+                    node.TransformationComponent = msg.GameObject.GetComponent<TransformationComponent>();
+                }
             }
         }
 
         private void OnGameObjectRemoved(GameObjectRemovedMessage msg)
         {
-            RemoveNode(_gameObjectLookup[msg.GameObjectId]);
+            if (_gameObjectLookup.ContainsKey(msg.GameObjectId))
+            {
+                // .ToList() to bring in local copy as we will be removing from the list we are iterating over
+                foreach (var node in _gameObjectLookup[msg.GameObjectId].ToList())
+                {
+                    RemoveNode(node);
+                }
+            }
         }
 
         private void OnNewRenderingComponent(NewRenderingComponentMessage msg)

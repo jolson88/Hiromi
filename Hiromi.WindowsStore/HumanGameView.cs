@@ -52,7 +52,6 @@ namespace Hiromi
             _keyboardInputHandler.Update(gameTime);
 
             this.ProcessManager.Update(gameTime);
-            this.SceneGraph.Update(gameTime);
             OnUpdate(gameTime);
         }
 

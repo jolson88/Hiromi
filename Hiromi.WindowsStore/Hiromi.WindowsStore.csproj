@@ -136,7 +136,6 @@
     <Compile Include="Rendering\ISceneNode.cs" />
     <Compile Include="Rendering\LabelRenderingNode.cs" />
     <Compile Include="Rendering\RenderPass.cs" />
-    <Compile Include="Rendering\RootNode.cs" />
     <Compile Include="Rendering\SceneGraph.cs" />
     <Compile Include="Rendering\SceneNode.cs" />
     <Compile Include="Rendering\SpriteRenderingNode.cs" />

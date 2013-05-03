@@ -42,28 +42,6 @@ namespace Hiromi.Rendering
             _children.Add(child);
         }
 
-        public void RemoveChild(int actorId)
-        {
-            var nodesToRemove = new List<ISceneNode>();
-            foreach (var node in _children)
-            {
-                if (node.GameObjectId == actorId)
-                {
-                    nodesToRemove.Add(node);
-                }
-            }
-            _children.RemoveAll(node => nodesToRemove.Contains(node));
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            OnUpdate(gameTime);
-            foreach (var node in _children)
-            {
-                node.Update(gameTime);
-            }
-        }
-
         public void Draw(GameTime gameTime, SceneGraph scene)
         {
             if (IsVisible)
