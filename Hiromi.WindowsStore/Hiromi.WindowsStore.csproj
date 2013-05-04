@@ -100,8 +100,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
-    <Compile Include="Components\IRenderingComponent.cs" />
+    <Compile Include="ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />
     <Compile Include="Components\SwellComponent.cs" />
@@ -130,15 +131,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameStateManager.cs" />
     <Compile Include="PointerInputHandler.cs" />
-    <Compile Include="Rendering\ButtonRenderingNode.cs" />
-    <Compile Include="Rendering\Camera.cs" />
-    <Compile Include="Rendering\ISceneNode.cs" />
-    <Compile Include="Rendering\LabelRenderingNode.cs" />
-    <Compile Include="Rendering\RenderPass.cs" />
-    <Compile Include="Rendering\RootNode.cs" />
-    <Compile Include="Rendering\SceneGraph.cs" />
-    <Compile Include="Rendering\SceneNode.cs" />
-    <Compile Include="Rendering\SpriteRenderingNode.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="IRenderAwareComponent.cs" />
+    <Compile Include="SceneGraph.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>

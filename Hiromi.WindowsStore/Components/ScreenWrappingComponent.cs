@@ -7,45 +7,53 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
-    public class ScreenWrappingComponent : GameObjectComponent
+    public class ScreenWrappingComponent : GameObjectComponent, ICameraAwareComponent
     {
+        public Camera ActiveCamera { get; set; }
+        public bool IsEnabled { get; set; }
+
         private bool _recentlyReflected = false;
+
+        public ScreenWrappingComponent(bool isEnabled = true)
+        {
+            this.IsEnabled = isEnabled;
+        }
 
         public override void Update(GameTime gameTime)
         {
-            if (!_recentlyReflected)
+            if (this.IsEnabled && !_recentlyReflected && this.ActiveCamera != null)
             {
-                var newPosition = Vector2.Zero;
-                var pos = this.GameObject.GetComponent<TransformationComponent>();
+                var transform = this.GameObject.Transform;
+                var newPosition = transform.Position;
 
                 // Reflect X-axis
-                if (pos.Bounds.Right < 0.0f)
+                if (transform.Bounds.Right < this.ActiveCamera.Bounds.Left)
                 {
-                    newPosition = new Vector2(1.0f, pos.Position.Y);
+                    newPosition = new Vector2(this.ActiveCamera.Bounds.Right, transform.Bounds.Top);
                 }
-                else if (pos.Bounds.Left > 1.0f)
+                else if (transform.Bounds.Left > this.ActiveCamera.Bounds.Right)
                 {
-                    newPosition = new Vector2(-pos.Bounds.Width, pos.Position.Y);
+                    newPosition = new Vector2(this.ActiveCamera.Bounds.Left - transform.Bounds.Width, transform.Bounds.Top);
                 }
 
                 // Reflect Y-axis
-                if (pos.Bounds.Bottom < 0.0f)
+                if (transform.Bounds.Bottom > this.ActiveCamera.Bounds.Top)
                 {
-                    newPosition = new Vector2(pos.Position.X, 1.0f);
+                    newPosition = new Vector2(transform.Bounds.Left, this.ActiveCamera.Bounds.Bottom);
                 }
-                else if (pos.Bounds.Top > 1.0f)
+                else if (transform.Bounds.Top < this.ActiveCamera.Bounds.Bottom)
                 {
-                    newPosition = new Vector2(pos.Position.X, -pos.Bounds.Height);
+                    newPosition = new Vector2(transform.Bounds.Left, this.ActiveCamera.Bounds.Top + transform.Bounds.Height);
                 }
 
-                if (newPosition != Vector2.Zero)
+                if (newPosition != transform.Position)
                 {
-                    pos.Position = newPosition;
+                    transform.Position = newPosition;
                     _recentlyReflected = true;
 
                     // Make sure we don't keep resetting ourselves by introducing a delay
-                    this.GameObject.ProcessManager.AttachProcess(new DelayProcess(TimeSpan.FromSeconds(1),
-                        new ActionProcess(() => { _recentlyReflected = true; })));
+                    this.GameObject.ProcessManager.AttachProcess(new DelayProcess(TimeSpan.FromSeconds(0.1),
+                        new ActionProcess(() => { _recentlyReflected = false; })));
                 }
             }
         }

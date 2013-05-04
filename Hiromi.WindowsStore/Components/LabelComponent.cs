@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi;
-using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent, IRenderingComponent
+    public class LabelComponent : GameObjectComponent, IRenderAwareComponent
     {
+        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
+        public int GameObjectId { get { return this.GameObject.Id; } }
+        public TransformationComponent Transform { get { return this.GameObject.Transform; } }
+
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
         public Color TextColor { get; set; }
-        public bool TransformedByCamera { get; set; }
-
+        
         private string _text;
 
-        public LabelComponent(string text, SpriteFont font) : this(text, font, Color.White) { }
-        public LabelComponent(string text, SpriteFont font, Color textColor, bool transformedByCamera = true)
+        public LabelComponent(string text, SpriteFont font, Color textColor)
         {
             _text = text;
             this.Font = font;
@@ -30,15 +31,19 @@ namespace Hiromi.Components
         public override void Loaded()
         {
             OnTextChanged();
-            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
         }
 
-        public SceneNode GetSceneNode()
+        public void Draw(GameTime gameTime, SpriteBatch batch)
         {
-            return new LabelRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<TransformationComponent>(),
-                RenderPass.UserInterfacePass,
-                this);
+            batch.DrawString(this.Font, this.Text,
+                new Vector2(this.Transform.Bounds.Left,
+                    this.Transform.Bounds.Top),
+                this.TextColor,
+                0f,
+                Vector2.Zero,
+                new Vector2(1, -1),
+                SpriteEffects.None,
+                0f);
         }
 
         private void OnTextChanged()
@@ -46,8 +51,8 @@ namespace Hiromi.Components
             var posComponent = this.GameObject.GetComponent<TransformationComponent>();
 
             var textSize = this.Font.MeasureString(this.Text);
-            posComponent.Bounds.Width = textSize.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
-            posComponent.Bounds.Height = textSize.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+            posComponent.Bounds.Width = textSize.X;
+            posComponent.Bounds.Height = textSize.Y;
         }
     }
 }

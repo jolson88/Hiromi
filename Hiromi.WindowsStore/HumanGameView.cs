@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Hiromi.Rendering;
 
 namespace Hiromi
 {
@@ -27,6 +26,10 @@ namespace Hiromi
 
             _pointerInputHandler = new PointerInputHandler(this.MessageManager, this.SceneGraph);
             _keyboardInputHandler = new KeyboardInputHandler(this.MessageManager);
+            
+            // Initialize with current state (so previous state from previous view (like a mouse click) doesn't trigger again here)
+            _pointerInputHandler.Update(new GameTime());
+            _keyboardInputHandler.Update(new GameTime());
 
             OnInitialize();
         }
@@ -48,7 +51,6 @@ namespace Hiromi
             _keyboardInputHandler.Update(gameTime);
 
             this.ProcessManager.Update(gameTime);
-            this.SceneGraph.Update(gameTime);
             OnUpdate(gameTime);
         }
 

@@ -20,7 +20,7 @@ namespace Hiromi.Components
             _duration = TimeSpan.FromSeconds(duration.TotalSeconds / 2);
 
             // Convert to screen coordinates
-            _swellSize = (float)swellInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
+            _swellSize = swellInPixels;
 
             _isRepeating = isRepeating;
         }

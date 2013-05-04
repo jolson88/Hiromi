@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hiromi.Rendering;
 
-namespace Hiromi.Components
+namespace Hiromi
 {
-    public interface IRenderingComponent
+    public interface ICameraAwareComponent
     {
-        SceneNode GetSceneNode();
+        Camera ActiveCamera { get; set; }
     }
 }

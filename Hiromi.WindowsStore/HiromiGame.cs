@@ -38,6 +38,7 @@ namespace Hiromi
         protected override void LoadContent()
         {
             GraphicsService.Instance.GraphicsDevice = this.GraphicsDevice;
+            GraphicsService.Instance.DesignedScreenSize = this.GetDesignedScreenSize();
             ContentService.Instance.Content = this.Content;
             _stateManager = new GameStateManager(GetInitialState());
         }
@@ -73,5 +74,6 @@ namespace Hiromi
         }
 
         protected abstract GameState GetInitialState();
+        protected abstract Vector2 GetDesignedScreenSize();
     }
 }

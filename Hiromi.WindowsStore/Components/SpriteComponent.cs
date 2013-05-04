@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
+    // TODO: Remove when BackgroundComponent is extracted back out
     public enum SpriteKind
     {
         GameObject = 0,
@@ -16,41 +16,48 @@ namespace Hiromi.Components
         UserInterface = 2
     }
 
-    public class SpriteComponent : GameObjectComponent, IRenderingComponent
+    public class SpriteComponent : GameObjectComponent, IRenderAwareComponent
     {
+        public int GameObjectId { get { return this.GameObject.Id; } }
+        public RenderPass RenderPass { get { return RenderPass.GameObjectPass; } }
+        public TransformationComponent Transform { get { return this.GameObject.Transform; } }
         public bool IsVisible { get; set; }
         public Texture2D Texture { get; set; }
-        public SpriteKind SpriteKind { get; set; }
 
-        public SpriteComponent(Texture2D texture) : this(texture, SpriteKind.GameObject) { }
-        public SpriteComponent(Texture2D texture, SpriteKind spriteKind)
+        public SpriteComponent(Texture2D texture)
         {
             this.Texture = texture;
-            this.SpriteKind = spriteKind;
             this.IsVisible = true;
         }
 
-        public override void Loaded()
+        public void Draw(GameTime gameTime, SpriteBatch batch)
         {
-            this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
-        }
-
-        public SceneNode GetSceneNode()
-        {
-            var pass = RenderPass.GameObjectPass;
-            if (this.SpriteKind == SpriteKind.Background)
+            if (this.GameObject.Transform.TransformedByCamera)
             {
-                pass = RenderPass.BackgroundPass;
-            }
-            else if (this.SpriteKind == SpriteKind.UserInterface)
-            {
-                pass = RenderPass.UserInterfacePass;
-            }
+                // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
+                var scale = new Vector2(1, -1) * this.GameObject.Transform.Scale;
 
-            return new SpriteRenderingNode(this.GameObject.Id,
-                this.GameObject.GetComponent<TransformationComponent>(),
-                pass,
-                this);
+                // We use Bounds instead of Position as Bounds takes the achor point into account
+                batch.Draw(this.Texture,
+                    new Vector2((int)this.GameObject.Transform.Bounds.X, (int)this.GameObject.Transform.Bounds.Y),
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    scale,
+                    SpriteEffects.None,
+                    0f);
+            }
+            else
+            {
+                batch.Draw(this.Texture,
+                    new Rectangle((int)this.GameObject.Transform.Bounds.X,
+                        (int)this.GameObject.Transform.Bounds.Y,
+                        (int)this.GameObject.Transform.Bounds.Width,
+                        (int)this.GameObject.Transform.Bounds.Height),
+                    null,
+                    Color.White);
+            }
         }
     }
 }

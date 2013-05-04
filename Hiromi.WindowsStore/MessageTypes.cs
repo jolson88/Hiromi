@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Hiromi.Components;
-using Hiromi.Rendering;
 
 namespace Hiromi
 {
@@ -49,11 +48,11 @@ namespace Hiromi
     // **   OBJECT + COMPONENT MESSAGES
     // **
     // ************************************
-    public class NewGameObjectMessage : Message
+    public class AddGameObjectRequestMessage : Message
     {
         public GameObject GameObject { get; set; }
 
-        public NewGameObjectMessage(GameObject obj)
+        public AddGameObjectRequestMessage(GameObject obj)
         {
             this.GameObject = obj;
         }
@@ -89,28 +88,6 @@ namespace Hiromi
         }
     }
 
-    public class NewRenderingComponentMessage : Message
-    {
-        public IRenderingComponent RenderingComponent { get; set; }
-
-        public NewRenderingComponentMessage(IRenderingComponent renderingComponent)
-        {
-            this.RenderingComponent = renderingComponent;
-        }
-    }
-
-    public class RenderingComponentChangedMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-        public IRenderingComponent RenderingComponent { get; set; }
-
-        public RenderingComponentChangedMessage(GameObject gameObject, IRenderingComponent renderingComponent)
-        {
-            this.GameObject = gameObject;
-            this.RenderingComponent = renderingComponent;
-        }
-    }
-
 
     // ************************************
     // **
@@ -137,11 +114,14 @@ namespace Hiromi
         }
     }
 
-    public class MoveCameraMessage : Message
+    /// <summary>
+    /// Offset the point that the Camera is looking at (while preserving the point the Camera is looking at)
+    /// </summary>
+    public class NudgeCameraMessage : Message
     {
         public Vector2 Translation { get; private set; }
 
-        public MoveCameraMessage(Vector2 translation)
+        public NudgeCameraMessage(Vector2 translation)
         {
             this.Translation = translation;
         }

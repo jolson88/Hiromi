@@ -15,7 +15,7 @@ namespace Hiromi
         public float Y { get; set; }
         public float Width { get { return _width; } set { _width = value; OnSizeChanged(); } }
         public float Height { get { return _height; } set { _height = value; OnSizeChanged(); } }
-        public float Bottom { get { return this.Y + this.Height; } }
+        public float Bottom { get { return this.Y - this.Height; } }
         public float Left { get { return this.X; } }
         public float Top { get { return this.Y; } }
         public float Right { get { return this.X + this.Width; } }
@@ -23,6 +23,13 @@ namespace Hiromi
         private float _width;
         private float _height;
 
+        /// <summary>
+        /// Creates a new float-based bounding box for containment and collision checking.
+        /// </summary>
+        /// <param name="x">The left coordinate of the bounding box</param>
+        /// <param name="y">The top coordinate of the bounding box</param>
+        /// <param name="width">The width of the bounding box</param>
+        /// <param name="height">The height of the bounding box</param>
         public BoundingBox(float x, float y, float width, float height)
         {
             this.X = x;
@@ -33,12 +40,12 @@ namespace Hiromi
 
         public bool Contains(float x, float y)
         {
-            return this.X <= x && x < this.X + this.Width && this.Y <= y && y < this.Y + this.Height;
+            return this.Left <= x && x < this.Right && this.Bottom <= y && y < this.Top;
         }
 
         public bool Contains(BoundingBox value)
         {
-            return this.X <= value.X && value.X + value.Width <= this.X + this.Width && this.Y <= value.Y && value.Y + value.Height <= this.Y + this.Height;
+            return this.Left <= value.Left && this.Right >= value.Right && this.Bottom <= value.Bottom && this.Top >= value.Top;
         }
 
         public BoundingBox Deflate(int pixelsToDeflate)

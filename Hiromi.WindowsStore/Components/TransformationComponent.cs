@@ -26,7 +26,7 @@ namespace Hiromi.Components
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }
         public BoundingBox Bounds { get; set; }
-        public bool TransformedByCamera { get; set; }
+        public bool TransformedByCamera { get; set; }  // TODO: Remove this. All objects transformed. BG will have own batch. And RenderPass.UI will use own non-transformed batch
 
         public Vector2 Position 
         {
@@ -54,16 +54,14 @@ namespace Hiromi.Components
 
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, bool transformedByCamera = true)
             : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top, transformedByCamera) { }
-        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, bool transformedByCamera = true)
-            : this(position, widthInPixels, heightInPixels, horizontalAnchor, VerticalAnchor.Top, transformedByCamera) { }
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor, bool transformedByCamera = true)
         {
             this.HorizontalAnchor = horizontalAnchor;
             this.VerticalAnchor = verticalAnchor;
             this.TransformedByCamera = transformedByCamera;
 
-            _originalWidth = (float)widthInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
-            _originalHeight = (float)heightInPixels / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+            _originalWidth = (float)widthInPixels;
+            _originalHeight = (float)heightInPixels;
             
             this.Position = position;
             this.PositionOffset = Vector2.Zero;
@@ -102,11 +100,11 @@ namespace Hiromi.Components
 
             if (this.VerticalAnchor == VerticalAnchor.Center)
             {
-                this.Bounds.Y = this.Position.Y - this.Bounds.Height / 2;
+                this.Bounds.Y = this.Position.Y + this.Bounds.Height / 2;
             }
             else if (this.VerticalAnchor == VerticalAnchor.Bottom)
             {
-                this.Bounds.Y = this.Position.Y - this.Bounds.Height;
+                this.Bounds.Y = this.Position.Y + this.Bounds.Height;
             }
 
             this.Bounds.X += this.PositionOffset.X;

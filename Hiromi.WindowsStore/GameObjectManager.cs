@@ -20,7 +20,7 @@ namespace Hiromi
             _messageManager = messageManager;
             _objects = new List<GameObject>();
 
-            _messageManager.AddListener<NewGameObjectMessage>(OnNewGameObject);
+            _messageManager.AddListener<AddGameObjectRequestMessage>(OnNewGameObject);
         }
 
         public void AddGameObject(GameObject gameObject)
@@ -32,7 +32,7 @@ namespace Hiromi
             _nextObjectId++;
             _objects.Add(gameObject);
             gameObject.Loaded();
-            _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
+            _messageManager.TriggerMessage(new GameObjectLoadedMessage(gameObject));
         }
 
         public void RemoveGameObject(GameObject obj)
@@ -51,7 +51,7 @@ namespace Hiromi
             return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));
         }
 
-        private void OnNewGameObject(NewGameObjectMessage msg)
+        private void OnNewGameObject(AddGameObjectRequestMessage msg)
         {
             AddGameObject(msg.GameObject);
         }
