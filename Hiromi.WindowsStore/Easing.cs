@@ -25,6 +25,39 @@ namespace Hiromi
     //
     public static class Easing
     {
+        public static EasingDelegate ConvertTo(EasingKind kind, EasingDelegate easingFunction)
+        {
+            switch (kind)
+            {
+                case EasingKind.EaseIn:
+                    return (percentage =>
+                    {
+                        return easingFunction(percentage);
+                    });
+
+                case EasingKind.EaseOut:
+                    return (percentage =>
+                    {
+                        return 1.0 - easingFunction(1.0 - percentage);
+                    });
+
+                case EasingKind.EaseInOut:
+                    return (percentage =>
+                    {
+                        if (percentage >= 0.5)
+                        {
+                            return (1.0 - easingFunction((1.0 - percentage) * 2.0)) * 0.5 + 0.5;
+                        }
+                        else
+                        {
+                            return easingFunction(percentage * 2.0) * 0.5;
+                        }
+                    });
+            }
+
+            throw new Exception("Unknown Easing Kind: " + kind.ToString());
+        }
+
         public static EasingDelegate GetLinearFunction()
         {
             return (percentage => { return percentage; });

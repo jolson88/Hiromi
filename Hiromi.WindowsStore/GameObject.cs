@@ -40,7 +40,8 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
-            foreach (var component in _components.Values)
+            // .ToList() so collection can be modified in updates (like components removing themselves)
+            foreach (var component in _components.Values.ToList())
             {
                 component.Update(gameTime);
             }
