@@ -47,14 +47,18 @@ namespace Hiromi
             }
         }
 
-        public void AddComponent(GameObjectComponent component)
+        public void AddComponent<T>(T component) where T : GameObjectComponent
         {
             component.GameObject = this;
-            _components.Add(component.GetType(), component);
+            if (this.GetComponent<T>() != null)
+            {
+                this.RemoveComponent<T>();
+            }
 
+            _components.Add(component.GetType(), component);
             if (component.GetType() == typeof(TransformationComponent))
             {
-                this.Transform = (TransformationComponent)component;
+                this.Transform = component as TransformationComponent;
             }
 
             if (_isLoaded)
@@ -66,7 +70,14 @@ namespace Hiromi
 
         public T GetComponent<T>() where T : GameObjectComponent
         {
-            return (T)_components[typeof(T)];
+            if (_components.ContainsKey(typeof(T)))
+            {
+                return (T)_components[typeof(T)];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public T GetComponentWithAwareness<T>() where T : class

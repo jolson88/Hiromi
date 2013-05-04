@@ -25,7 +25,7 @@ namespace Hiromi.Components
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
             // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
-            var scale = new Vector2(1, -1);
+            var scale = new Vector2(1, -1) * this.GameObject.Transform.Scale;
 
             // We use Bounds instead of Position as Bounds takes the achor point into account
             batch.Draw(this.Texture,

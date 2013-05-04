@@ -42,9 +42,14 @@ namespace Hiromi.Components
                 return;
             }
 
+            // Rev and "clamp" elapsed to duration if we need to (to prevent moving past the destination)
             _elapsedTime += gameTime.ElapsedGameTime;
-            var percentage = _elapsedTime.TotalSeconds / _duration.TotalSeconds;
+            if (_elapsedTime > _duration)
+            {
+                _elapsedTime = _duration;
+            }
 
+            var percentage = _elapsedTime.TotalSeconds / _duration.TotalSeconds;
             var targetOffsetX = _originalPosition.X - _destination.X;
             var targetOffsetY = _originalPosition.Y - _destination.Y;
             var offsetX = _tweenX(percentage) * targetOffsetX;
