@@ -8,14 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
-    // TODO: Remove when BackgroundComponent is extracted back out
-    public enum SpriteKind
-    {
-        GameObject = 0,
-        Background = 1,
-        UserInterface = 2
-    }
-
     public class SpriteComponent : GameObjectComponent, IRenderAwareComponent
     {
         public int GameObjectId { get { return this.GameObject.Id; } }
@@ -32,32 +24,19 @@ namespace Hiromi.Components
 
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
-            if (this.GameObject.Transform.TransformedByCamera)
-            {
-                // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
-                var scale = new Vector2(1, -1) * this.GameObject.Transform.Scale;
+            // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
+            var scale = new Vector2(1, -1) * this.GameObject.Transform.Scale;
 
-                // We use Bounds instead of Position as Bounds takes the achor point into account
-                batch.Draw(this.Texture,
-                    new Vector2((int)this.GameObject.Transform.Bounds.X, (int)this.GameObject.Transform.Bounds.Y),
-                    null,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    scale,
-                    SpriteEffects.None,
-                    0f);
-            }
-            else
-            {
-                batch.Draw(this.Texture,
-                    new Rectangle((int)this.GameObject.Transform.Bounds.X,
-                        (int)this.GameObject.Transform.Bounds.Y,
-                        (int)this.GameObject.Transform.Bounds.Width,
-                        (int)this.GameObject.Transform.Bounds.Height),
-                    null,
-                    Color.White);
-            }
+            // We use Bounds instead of Position as Bounds takes the achor point into account
+            batch.Draw(this.Texture,
+                new Vector2((int)this.GameObject.Transform.Bounds.X, (int)this.GameObject.Transform.Bounds.Y),
+                null,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                scale,
+                SpriteEffects.None,
+                0f);
         }
     }
 }

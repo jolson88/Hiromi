@@ -26,7 +26,6 @@ namespace Hiromi.Components
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }
         public BoundingBox Bounds { get; set; }
-        public bool TransformedByCamera { get; set; }  // TODO: Remove this. All objects transformed. BG will have own batch. And RenderPass.UI will use own non-transformed batch
 
         public Vector2 Position 
         {
@@ -52,13 +51,11 @@ namespace Hiromi.Components
         private Vector2 _positionOffset;
         private float _scale = 1.0f;
 
-        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, bool transformedByCamera = true)
-            : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top, transformedByCamera) { }
-        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor, bool transformedByCamera = true)
+        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels) : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top) { }
+        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor)
         {
             this.HorizontalAnchor = horizontalAnchor;
             this.VerticalAnchor = verticalAnchor;
-            this.TransformedByCamera = transformedByCamera;
 
             _originalWidth = (float)widthInPixels;
             _originalHeight = (float)heightInPixels;
