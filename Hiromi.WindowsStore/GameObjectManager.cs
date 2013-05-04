@@ -32,7 +32,7 @@ namespace Hiromi
             _nextObjectId++;
             _objects.Add(gameObject);
             gameObject.Loaded();
-            _messageManager.QueueMessage(new GameObjectLoadedMessage(gameObject));
+            _messageManager.TriggerMessage(new GameObjectLoadedMessage(gameObject));
         }
 
         public void RemoveGameObject(GameObject obj)

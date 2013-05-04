@@ -10,8 +10,12 @@ using Hiromi.Rendering;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent //, IRenderingComponent
+    public class LabelComponent : GameObjectComponent, IRenderAwareComponent
     {
+        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
+        public int GameObjectId { get { return this.GameObject.Id; } }
+        public TransformationComponent Transform { get { return this.GameObject.Transform; } }
+
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
         public Color TextColor { get; set; }
@@ -28,17 +32,20 @@ namespace Hiromi.Components
         public override void Loaded()
         {
             OnTextChanged();
-            //this.GameObject.MessageManager.TriggerMessage(new NewRenderingComponentMessage(this));
         }
 
-
-        //public SceneNode GetSceneNode()
-        //{
-        //    return new LabelRenderingNode(this.GameObject.Id,
-        //        this.GameObject.GetComponent<TransformationComponent>(),
-        //        RenderPass.UserInterfacePass,
-        //        this);
-        //}
+        public void Draw(GameTime gameTime, SpriteBatch batch)
+        {
+            batch.DrawString(this.Font, this.Text,
+                new Vector2(this.Transform.Bounds.Left,
+                    this.Transform.Bounds.Top),
+                this.TextColor,
+                0f,
+                Vector2.Zero,
+                new Vector2(1, -1),
+                SpriteEffects.None,
+                0f);
+        }
 
         private void OnTextChanged()
         {

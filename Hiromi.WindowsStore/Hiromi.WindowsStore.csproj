@@ -100,6 +100,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
+    <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Rendering\ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
@@ -130,11 +131,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameStateManager.cs" />
     <Compile Include="PointerInputHandler.cs" />
-    <Compile Include="Rendering\ButtonRenderingNode.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\IRenderAwareComponent.cs" />
-    <Compile Include="Rendering\LabelRenderingNode.cs" />
-    <Compile Include="Rendering\RenderPass.cs" />
     <Compile Include="Rendering\SceneGraph.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="TweenProcess.cs" />

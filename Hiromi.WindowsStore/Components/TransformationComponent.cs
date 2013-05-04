@@ -54,8 +54,6 @@ namespace Hiromi.Components
 
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, bool transformedByCamera = true)
             : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top, transformedByCamera) { }
-        public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, bool transformedByCamera = true)
-            : this(position, widthInPixels, heightInPixels, horizontalAnchor, VerticalAnchor.Top, transformedByCamera) { }
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor, bool transformedByCamera = true)
         {
             this.HorizontalAnchor = horizontalAnchor;

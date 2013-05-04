@@ -9,6 +9,15 @@ using Hiromi.Components;
 
 namespace Hiromi.Rendering
 {
+    public enum RenderPass
+    {
+        FirstPass = 0,
+        BackgroundPass = 1,
+        GameObjectPass = 2,
+        UserInterfacePass = 3,
+        LassPass = 4
+    }
+
     public class SceneGraph
     {
         private SpriteBatch _spriteBatch;
@@ -87,10 +96,11 @@ namespace Hiromi.Rendering
             // Reverse drawing order to find top-most game object picked
             for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
             {
-                foreach (var components in _renderComponents[(RenderPass)i])
+                foreach (var component in _renderComponents[(RenderPass)i])
                 {
-                    if (PointerOverComponent(components, transformedPointer))
+                    if (PointerOverComponent(component, transformedPointer))
                     {
+                        gameObjectId = component.GameObjectId;
                         return true;
                     }
                 }
@@ -110,7 +120,7 @@ namespace Hiromi.Rendering
 
         private SpriteBatch GetSpriteBatchForComponent(IRenderAwareComponent component)
         {
-            if (component.RenderPass == RenderPass.BackgroundPass || component.RenderPass == RenderPass.UserInterfacePass)
+            if (component.RenderPass == RenderPass.BackgroundPass)
             {
                 return _nonTransformedSpriteBatch;
             }
@@ -131,7 +141,7 @@ namespace Hiromi.Rendering
             var renderAware = msg.GameObject.GetComponentWithAwareness<IRenderAwareComponent>();
             if (renderAware != null)
             {
-                _renderComponents[renderAware.RenderPass].Add(renderAware);
+                AddComponent(renderAware);
             }
         }
 

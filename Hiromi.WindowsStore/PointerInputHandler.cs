@@ -42,13 +42,15 @@ namespace Hiromi
                 var objectPicked = _sceneGraph.Pick(new Vector2(newMouseState.X, newMouseState.Y), ref pickedGameObjectId);
                 if (objectPicked)
                 {
-                    if (pickedGameObjectId != _previousGameObjectUnderPointer)
-                    {
-                        _messageManager.QueueMessage(new PointerEnterMessage(pickedGameObjectId.Value));
-                    }
-                    else
+                    if (pickedGameObjectId != _previousGameObjectUnderPointer && _previousGameObjectUnderPointer.HasValue)
                     {
                         _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
+                    }
+
+                    if (_previousGameObjectUnderPointer == null || pickedGameObjectId.Value != _previousGameObjectUnderPointer.Value)
+                    {
+                        _previousGameObjectUnderPointer = pickedGameObjectId;
+                        _messageManager.QueueMessage(new PointerEnterMessage(pickedGameObjectId.Value));
                     }
 
                     if (LeftMouseButtonNewlyPressed(newMouseState))
