@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hiromi.Rendering;
 
-namespace Hiromi.Rendering
+namespace Hiromi
 {
     public interface ICameraAwareComponent
     {

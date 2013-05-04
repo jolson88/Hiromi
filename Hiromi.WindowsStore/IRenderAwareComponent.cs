@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi.Components;
 
-namespace Hiromi.Rendering
+namespace Hiromi
 {
     public interface IRenderAwareComponent
     {

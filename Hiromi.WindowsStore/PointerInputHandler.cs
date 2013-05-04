@@ -7,7 +7,6 @@ using Hiromi;
 using Hiromi.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Hiromi.Rendering;
 
 namespace Hiromi
 {

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Hiromi.Components;
-using Hiromi.Rendering;
 
 namespace Hiromi
 {
