@@ -29,21 +29,21 @@ namespace Hiromi.Components
                 // Reflect X-axis
                 if (transform.Bounds.Right < this.ActiveCamera.Bounds.Left)
                 {
-                    newPosition = new Vector2(this.ActiveCamera.Bounds.Right, transform.Bounds.Top);
+                    newPosition = new Vector2(transform.Position.X + transform.Bounds.Width + this.ActiveCamera.Bounds.Width, transform.Bounds.Top);
                 }
                 else if (transform.Bounds.Left > this.ActiveCamera.Bounds.Right)
                 {
-                    newPosition = new Vector2(this.ActiveCamera.Bounds.Left - transform.Bounds.Width, transform.Bounds.Top);
+                    newPosition = new Vector2(transform.Position.X - this.ActiveCamera.Bounds.Left - transform.Bounds.Width, transform.Bounds.Top);
                 }
 
                 // Reflect Y-axis
                 if (transform.Bounds.Bottom > this.ActiveCamera.Bounds.Top)
                 {
-                    newPosition = new Vector2(transform.Bounds.Left, this.ActiveCamera.Bounds.Bottom);
+                    newPosition = new Vector2(transform.Bounds.Left, transform.Position.Y - transform.Bounds.Height - this.ActiveCamera.Bounds.Height);
                 }
                 else if (transform.Bounds.Top < this.ActiveCamera.Bounds.Bottom)
                 {
-                    newPosition = new Vector2(transform.Bounds.Left, this.ActiveCamera.Bounds.Top + transform.Bounds.Height);
+                    newPosition = new Vector2(transform.Bounds.Left, transform.Position.Y + transform.Bounds.Height + this.ActiveCamera.Bounds.Height);
                 }
 
                 if (newPosition != transform.Position)

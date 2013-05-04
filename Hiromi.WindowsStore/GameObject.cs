@@ -10,8 +10,6 @@ namespace Hiromi
 {
     public class GameObject
     {
-        public static int InvalidId = -1;
-
         public MessageManager MessageManager { get; set; }
         public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }

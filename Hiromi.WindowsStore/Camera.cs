@@ -33,9 +33,10 @@ namespace Hiromi
 
         private void OnZoomCamera(ZoomCameraMessage msg)
         {
-            _scale = msg.ZoomFactor;
-            RebuildBoundingBox();
-            RebuildTransformationMatrix();
+            // TODO: Figure out how to make Camera zoom work another time...
+            //_scale = msg.ZoomFactor;
+            //RebuildBoundingBox();
+            //RebuildTransformationMatrix();
         }
 
         private void OnMoveCamera(NudgeCameraMessage msg)
