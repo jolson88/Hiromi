@@ -15,26 +15,30 @@ namespace Hiromi.Components
         private Vector2 _destination;
         private TimeSpan _duration;
         private TimeSpan _elapsedTime;
-        private EasingDelegate _tweenX;
-        private EasingDelegate _tweenY;
+        private EasingDelegate _easingX;
+        private EasingDelegate _easingY;
+        private float _augmentX;
+        private float _augmentY;
 
         public MoveToComponent(Vector2 destination, TimeSpan duration) : this(destination, duration, Easing.GetLinearFunction(), Easing.GetLinearFunction()) { }
-        public MoveToComponent(Vector2 destination, TimeSpan duration, EasingDelegate tweenX, EasingDelegate tweenY)
+        public MoveToComponent(Vector2 destination, TimeSpan duration, EasingDelegate easingX, EasingDelegate easingY, float augmentX = 0, float augmentY = 0)
         {
             _destination = destination;
             _duration = duration;
-            _tweenX = tweenX;
-            _tweenY = tweenY;
+            _easingX = easingX;
+            _easingY = easingY;
+            _augmentX = augmentX;
+            _augmentY = augmentY;
 
             _elapsedTime = TimeSpan.FromSeconds(0);
         }
 
-        public override void Loaded()
+        protected override void OnLoaded()
         {
             _originalPosition = this.GameObject.Transform.Position;
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void OnUpdate(GameTime gameTime)
         {
             if (_elapsedTime >= _duration)
             {
@@ -50,12 +54,12 @@ namespace Hiromi.Components
             }
 
             var percentage = _elapsedTime.TotalSeconds / _duration.TotalSeconds;
-            var targetOffsetX = _originalPosition.X - _destination.X;
-            var targetOffsetY = _originalPosition.Y - _destination.Y;
-            var offsetX = _tweenX(percentage) * targetOffsetX;
-            var offsetY = _tweenY(percentage) * targetOffsetY;
+            var targetOffsetX = _destination.X - _originalPosition.X;
+            var targetOffsetY = _destination.Y - _originalPosition.Y;
+            var offsetX = _easingX(percentage) * targetOffsetX + (_augmentX * _easingX(percentage));
+            var offsetY = _easingY(percentage) * targetOffsetY + (_augmentY * _easingY(percentage));
 
-            this.GameObject.Transform.Position = _originalPosition - new Vector2((float)offsetX, (float)offsetY);
+            this.GameObject.Transform.Position = _originalPosition + new Vector2((float)offsetX, (float)offsetY);
         }
     }
 }

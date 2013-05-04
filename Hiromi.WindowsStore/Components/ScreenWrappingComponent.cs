@@ -19,7 +19,7 @@ namespace Hiromi.Components
             this.IsEnabled = isEnabled;
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void OnUpdate(GameTime gameTime)
         {
             if (this.IsEnabled && !_recentlyReflected && this.ActiveCamera != null)
             {

@@ -102,8 +102,9 @@ namespace Hiromi
         {
             if (HasComponent<T>())
             {
-                GetComponent<T>().Removed();
+                var component = GetComponent<T>();
                 _components.Remove(typeof(T));
+                component.Remove();
             }
         }
     }

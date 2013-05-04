@@ -25,12 +25,12 @@ namespace Hiromi.Components
             _isRepeating = isRepeating;
         }
 
-        public override void Loaded()
+        protected override void OnLoaded()
         {
             CreateAnimationCycle();
         }
 
-        public override void Removed()
+        protected override void OnRemove()
         {
             _animationProcess.Fail();
             _isRepeating = false;

@@ -25,6 +25,14 @@ namespace Hiromi
     //
     public static class Easing
     {
+        public static EasingDelegate Reverse(EasingDelegate easingFunction)
+        {
+            return (percentage =>
+            {
+                return easingFunction(1.0 - percentage);
+            });
+        }
+
         public static EasingDelegate ConvertTo(EasingKind kind, EasingDelegate easingFunction)
         {
             switch (kind)

@@ -16,7 +16,7 @@ namespace Hiromi.Components
             this.Velocity = velocity;
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void OnUpdate(GameTime gameTime)
         {
             var pos = this.GameObject.GetComponent<TransformationComponent>();
             pos.Position += this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;

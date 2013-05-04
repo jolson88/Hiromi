@@ -41,9 +41,13 @@ namespace Hiromi
             _messageManager.TriggerMessage(new GameObjectRemovedMessage(obj.Id));
         }
 
-        public List<GameObject> GetAllGameObjects()
+        public void Update(GameTime gameTime)
         {
-            return _objects;
+            // .ToList() so objects can be added by update calls
+            foreach (var obj in _objects.ToList())
+            {
+                obj.Update(gameTime);
+            }
         }
 
         public List<GameObject> GetAllGameObjectsWithTag(string tag)

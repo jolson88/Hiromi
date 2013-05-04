@@ -53,11 +53,8 @@ namespace Hiromi
                 view.Update(gameTime);
             }
 
-            foreach (var obj in this.GameObjectManager.GetAllGameObjects())
-            {
-                obj.Update(gameTime);
-            }
-
+            this.GameObjectManager.Update(gameTime);
+            
             OnUpdate(gameTime);
         }
 

@@ -23,7 +23,7 @@ namespace Hiromi.Components
             _maximumShakeDistance = (float)maximumShakeInPixels;
         }
 
-        public override void Loaded()
+        protected override void OnLoaded()
         {
             _transform = this.GameObject.GetComponent<TransformationComponent>();
 

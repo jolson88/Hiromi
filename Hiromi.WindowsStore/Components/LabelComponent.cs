@@ -28,7 +28,7 @@ namespace Hiromi.Components
             this.TextColor = textColor;
         }
 
-        public override void Loaded()
+        protected override void OnLoaded()
         {
             OnTextChanged();
         }

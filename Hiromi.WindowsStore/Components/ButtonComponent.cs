@@ -26,7 +26,7 @@ namespace Hiromi.Components
             this.NonFocusTexture = nonFocusTexture;
         }
 
-        public override void Loaded()
+        protected override void OnLoaded()
         {
             this.GameObject.MessageManager.AddListener<PointerExitMessage>(OnPointerExit);
             this.GameObject.MessageManager.AddListener<PointerPressMessage>(OnPointerPress);
