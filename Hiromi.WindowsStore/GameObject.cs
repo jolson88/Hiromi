@@ -14,7 +14,6 @@ namespace Hiromi
         public ProcessManager ProcessManager { get; set; }
         public string Tag { get; set; }
         public int Id { get; set; }
-        public int Depth { get; set; } // TODO: Remove and make Z parameter of Transform Component
 
         public TransformationComponent Transform { get; set; }
 
@@ -22,7 +21,6 @@ namespace Hiromi
         private bool _isLoaded = false;
 
         public GameObject() : this(string.Empty) { }
-        public GameObject(int depth) : this(string.Empty) { this.Depth = depth; }
         public GameObject(string tag)
         {
             _components = new Dictionary<Type, GameObjectComponent>();
