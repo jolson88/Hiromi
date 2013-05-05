@@ -13,11 +13,13 @@ namespace Hiromi.Components
         private float _maximumShakeDistance;
         private TimeSpan _duration;
         private Random _random;
+        private bool _shakeHarderAtEnd;
 
-        public ShakeComponent(int maximumShakeInPixels, TimeSpan duration)
+        public ShakeComponent(int maximumShakeInPixels, TimeSpan duration, bool shakeHarderAtEnd = false)
         {
             _duration = duration;
             _random = new Random();
+            _shakeHarderAtEnd = shakeHarderAtEnd;
 
             // Convert to screen coordinates
             _maximumShakeDistance = (float)maximumShakeInPixels;
@@ -30,8 +32,17 @@ namespace Hiromi.Components
             this.GameObject.ProcessManager.AttachProcess(Process.BuildProcessChain(
                 new TweenProcess(_duration, interp =>
                 {
+                    var shakeDistance = 0f;
+                    if (_shakeHarderAtEnd)
+                    {
+                        shakeDistance = (float)(_maximumShakeDistance * interp.Value);
+                    }
+                    else
+                    {
+                        shakeDistance = (float)(_maximumShakeDistance - (_maximumShakeDistance * interp.Value));
+                    }
+
                     var rotation = _random.NextDouble() * (2 * Math.PI);
-                    var shakeDistance = (float)(_maximumShakeDistance - (_maximumShakeDistance * interp.Value));
                     var offset = new Vector2(shakeDistance, 0);
                     offset = Vector2.Transform(offset, Matrix.CreateRotationZ((float)rotation));
 
