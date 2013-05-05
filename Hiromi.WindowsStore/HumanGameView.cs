@@ -16,6 +16,7 @@ namespace Hiromi
 
         private PointerInputHandler _pointerInputHandler;
         private KeyboardInputHandler _keyboardInputHandler;
+        private SoundManager _soundManager;
 
         public void Initialize(GameObjectManager gameObjectManager, MessageManager messageManager)
         {
@@ -26,7 +27,8 @@ namespace Hiromi
 
             _pointerInputHandler = new PointerInputHandler(this.MessageManager, this.SceneGraph);
             _keyboardInputHandler = new KeyboardInputHandler(this.MessageManager);
-            
+            _soundManager = new SoundManager(this.MessageManager);
+    
             // Initialize with current state (so previous state from previous view (like a mouse click) doesn't trigger again here)
             _pointerInputHandler.Update(new GameTime());
             _keyboardInputHandler.Update(new GameTime());

@@ -136,6 +136,7 @@
     <Compile Include="IRenderAwareComponent.cs" />
     <Compile Include="SceneGraph.cs" />
     <Compile Include="Easing.cs" />
+    <Compile Include="SoundManager.cs" />
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>

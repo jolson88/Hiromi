@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Hiromi.Components;
 
@@ -126,6 +127,23 @@ namespace Hiromi
             this.Translation = translation;
         }
     }
+
+
+    // ************************************
+    // **
+    // **         AUDIO MESSAGES
+    // **
+    // ************************************
+    public class PlaySoundEffectMessage : Message
+    {
+        public SoundEffect SoundEffect { get; private set; }
+        
+        public PlaySoundEffectMessage(SoundEffect soundEffect)
+        {
+            this.SoundEffect = soundEffect;
+        }
+    }
+
 
     // ************************************
     // **
