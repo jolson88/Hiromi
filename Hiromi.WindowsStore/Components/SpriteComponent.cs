@@ -26,14 +26,15 @@ namespace Hiromi.Components
         {
             // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
             var scale = new Vector2(1, -1) * this.GameObject.Transform.Scale;
+            var origin = new Vector2(this.GameObject.Transform.Bounds.Width / 2, this.GameObject.Transform.Bounds.Height / 2);
 
             // We use Bounds instead of Position as Bounds takes the achor point into account
             batch.Draw(this.Texture,
-                new Vector2((int)this.GameObject.Transform.Bounds.X, (int)this.GameObject.Transform.Bounds.Y),
+                new Vector2((int)this.GameObject.Transform.Bounds.X + origin.X, (int)this.GameObject.Transform.Bounds.Y - origin.Y),
                 null,
                 Color.White,
-                0f,
-                Vector2.Zero,
+                this.GameObject.Transform.Rotation,
+                origin,
                 scale,
                 SpriteEffects.None,
                 0f);

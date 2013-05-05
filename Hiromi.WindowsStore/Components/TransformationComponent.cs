@@ -26,6 +26,7 @@ namespace Hiromi.Components
         public VerticalAnchor VerticalAnchor { get; set; }
         public HorizontalAnchor HorizontalAnchor { get; set; }
         public BoundingBox Bounds { get; set; }
+        public float Rotation { get; set; }
 
         public Vector2 Position 
         {
