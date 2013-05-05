@@ -9,11 +9,12 @@ namespace Hiromi
 {
     public class HumanGameView : IGameView
     {
-        protected MessageManager MessageManager { get; private set; }
+        public MessageManager MessageManager { get; private set; }
+        public SceneGraph SceneGraph { get; private set; }
+
         protected GameObjectManager GameObjectManager { get; private set; }
         protected ProcessManager ProcessManager { get; private set; }
-        protected SceneGraph SceneGraph { get; private set; }
-
+        
         private PointerInputHandler _pointerInputHandler;
         private KeyboardInputHandler _keyboardInputHandler;
         private SoundManager _soundManager;

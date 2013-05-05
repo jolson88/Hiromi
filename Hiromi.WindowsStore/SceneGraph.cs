@@ -20,6 +20,8 @@ namespace Hiromi
 
     public class SceneGraph
     {
+        public bool DebugVisuals { get; set; }
+ 
         private SpriteBatch _spriteBatch;
         private SpriteBatch _nonTransformedSpriteBatch;
         private MessageManager _messageManager;
@@ -29,6 +31,7 @@ namespace Hiromi
 
         public SceneGraph(MessageManager messageManager)
         {
+            this.DebugVisuals = false;
             this._spriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
             this._nonTransformedSpriteBatch = new SpriteBatch(GraphicsService.Instance.GraphicsDevice);
 
@@ -78,14 +81,40 @@ namespace Hiromi
             // Draw the scene in render pass order
             for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                foreach (var components in _renderComponents[(RenderPass)i])
+                foreach (var component in _renderComponents[(RenderPass)i])
                 {
-                    components.Draw(gameTime, GetSpriteBatchForComponent(components));
+                    var batch = GetSpriteBatchForComponent(component);
+                    component.Draw(gameTime, batch);
+
+                    if (DebugVisuals && i > (int)RenderPass.BackgroundPass)
+                    {
+                        DrawDebugVisuals(batch, component, gameTime);
+                    }
                 }
             }
 
             this._nonTransformedSpriteBatch.End();
             this._spriteBatch.End();
+
+
+            // Draw debug visuals if we need to
+            if (DebugVisuals)
+            {
+                this._spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
+                this._nonTransformedSpriteBatch.Begin();
+
+                // Draw the scene in render pass order
+                for (int i = (int)RenderPass.GameObjectPass; i <= (int)RenderPass.LassPass; i++)
+                {
+                    foreach (var component in _renderComponents[(RenderPass)i])
+                    {
+                        DrawDebugVisuals(GetSpriteBatchForComponent(component), component, gameTime);
+                    }
+                }
+
+                this._nonTransformedSpriteBatch.End();
+                this._spriteBatch.End();
+            }
         }
 
         public bool Pick(Vector2 pointerLocation, ref int? gameObjectId)
@@ -106,6 +135,19 @@ namespace Hiromi
                 }
             }
             return false;
+        }
+
+        private void DrawDebugVisuals(SpriteBatch batch, IRenderAwareComponent component, GameTime gameTime)
+        {
+            var topLeft = new Vector2(component.Transform.Bounds.Left, component.Transform.Bounds.Top);
+            var bottomLeft = new Vector2(component.Transform.Bounds.Left, component.Transform.Bounds.Bottom);
+            var topRight = new Vector2(component.Transform.Bounds.Right, component.Transform.Bounds.Top);
+            var bottomRight = new Vector2(component.Transform.Bounds.Right, component.Transform.Bounds.Bottom);
+
+            batch.DrawLine(2f, Color.Fuchsia, topLeft, topRight);
+            batch.DrawLine(2f, Color.Fuchsia, topRight, bottomRight);
+            batch.DrawLine(2f, Color.Fuchsia, bottomRight, bottomLeft);
+            batch.DrawLine(2f, Color.Fuchsia, bottomLeft, topLeft);
         }
 
         private bool PointerOverComponent(IRenderAwareComponent component, Vector2 pointerLocation)

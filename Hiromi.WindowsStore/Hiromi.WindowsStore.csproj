@@ -103,6 +103,7 @@
     <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\MoveToComponent.cs" />
+    <Compile Include="ExtensionUtilities.cs" />
     <Compile Include="ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />

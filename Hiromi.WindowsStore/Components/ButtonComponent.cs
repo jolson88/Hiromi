@@ -35,16 +35,22 @@ namespace Hiromi.Components
 
         public void Draw(GameTime gameTime, SpriteBatch batch)
         {
+            var origin = new Vector2(this.GameObject.Transform.Bounds.Width / 2f, this.GameObject.Transform.Bounds.Height / 2f);
+
+            // Scaling happens at Top-Left in Draw call. So we also have to offset half the difference (so the scaling factor is offset)
+            // This ensures the center of the sprite remains centered and it scales around the origin properly
             // Remember, we need to "flip" the scale (as our game engine has Y+ up instead of down
-            var scale = new Vector2(1, -1) * this.Transform.Scale;
+            var scale = new Vector2(1, -1) * (this.GameObject.Transform.Bounds.Width / this.CurrentTexture.Width);
+            var scaleOffset = new Vector2((this.GameObject.Transform.Bounds.Width - this.CurrentTexture.Width) / 2f,
+                                    -(this.GameObject.Transform.Bounds.Height - this.CurrentTexture.Height) / 2f);
 
             // We use Bounds instead of Position as Bounds takes the achor point into account
             batch.Draw(this.CurrentTexture,
-                new Vector2((int)this.Transform.Bounds.X, (int)this.Transform.Bounds.Y),
+                new Vector2((int)this.GameObject.Transform.Bounds.Left + origin.X, (int)this.GameObject.Transform.Bounds.Top - origin.Y) + scaleOffset,
                 null,
                 Color.White,
-                0f,
-                Vector2.Zero,
+                this.GameObject.Transform.Rotation,
+                origin,
                 scale,
                 SpriteEffects.None,
                 0f);

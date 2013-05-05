@@ -23,8 +23,23 @@ namespace Hiromi
             }
         }
 
-        public GraphicsDevice GraphicsDevice { get { return _graphicsDevice; } set { _graphicsDevice = value; this.DesignedScreenSize = new Vector2(value.Viewport.Width, value.Viewport.Height); } }
+        public GraphicsDevice GraphicsDevice 
+        { 
+            get 
+            { 
+                return _graphicsDevice; 
+            } 
+            set 
+            { 
+                _graphicsDevice = value; 
+                this.DesignedScreenSize = new Vector2(value.Viewport.Width, value.Viewport.Height);
+                this.Blank = new Texture2D(value, 1, 1, false, SurfaceFormat.Color);
+                this.Blank.SetData(new[] { Color.White });
+            } 
+        }
+
         public Vector2 DesignedScreenSize { get; set; }
+        public Texture2D Blank { get; set; }
 
         private GraphicsDevice _graphicsDevice;
 

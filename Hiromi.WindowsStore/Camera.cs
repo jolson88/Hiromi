@@ -16,6 +16,7 @@ namespace Hiromi
         private float _scale;
         private Vector2 _lookAt;
         private Vector2 _offset;
+        private float _rotation;
 
         public Camera(MessageManager messageManager)
         {
@@ -29,20 +30,26 @@ namespace Hiromi
             _messageManager = messageManager;
             _messageManager.AddListener<ZoomCameraMessage>(OnZoomCamera);
             _messageManager.AddListener<NudgeCameraMessage>(OnMoveCamera);
+            _messageManager.AddListener<RotateCameraMessage>(OnRotateCamera);
         }
 
         private void OnZoomCamera(ZoomCameraMessage msg)
         {
-            // TODO: Figure out how to make Camera zoom work another time...
-            //_scale = msg.ZoomFactor;
-            //RebuildBoundingBox();
-            //RebuildTransformationMatrix();
+            _scale = msg.ZoomFactor;
+            RebuildBoundingBox();
+            RebuildTransformationMatrix();
         }
 
         private void OnMoveCamera(NudgeCameraMessage msg)
         {
             _offset = msg.Translation;
             RebuildBoundingBox();
+            RebuildTransformationMatrix();
+        }
+
+        private void OnRotateCamera(RotateCameraMessage msg)
+        {
+            _rotation = msg.RotationInRadians;
             RebuildTransformationMatrix();
         }
 
@@ -73,7 +80,10 @@ namespace Hiromi
             //                  - Makes our Top-Left in world (0,designedHeight) = Top-Left in client (0,0)
             //
             // **********************************************************************************************************
-            var toView = Matrix.CreateTranslation(-this.Bounds.Left, -this.Bounds.Bottom, 0);
+            // Nudging, Zooming, and Rotation happen around the origin
+            var toView = Matrix.CreateTranslation(-_lookAt.X + _offset.X, -_lookAt.Y + _offset.Y, 0) *
+                                Matrix.CreateScale(_scale) * Matrix.CreateRotationZ(_rotation) *
+                                Matrix.CreateTranslation(_lookAt.X + _offset.X, _lookAt.Y + _offset.Y, 0);
             var resolutionAndYFlip = Matrix.CreateScale(clientHeight / designedHeight) * Matrix.CreateScale(1, -1, 1);
             var toClient = Matrix.CreateTranslation(0, clientHeight, 0);
 
