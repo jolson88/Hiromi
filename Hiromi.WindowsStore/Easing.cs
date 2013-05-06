@@ -140,5 +140,19 @@ namespace Hiromi
                 return -num13 / (num12 * num12) * (num11 - num12) * (num11 + num12);
             });
         }
+
+        public static EasingDelegate GetPowerFunction()
+        {
+            return GetPowerFunction(2);
+        }
+
+        public static EasingDelegate GetPowerFunction(double power)
+        {
+            return (percentage =>
+            {
+                double y = Math.Max(0.0, power);
+                return Math.Pow(percentage, y);
+            });
+        }
     }
 }
