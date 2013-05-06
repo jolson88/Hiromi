@@ -27,6 +27,7 @@ namespace Hiromi.Components
         public HorizontalAnchor HorizontalAnchor { get; set; }
         public BoundingBox Bounds { get; set; }
         public float Rotation { get; set; }
+        public float Z { get; set; }
 
         public Vector2 Position 
         {
@@ -55,6 +56,7 @@ namespace Hiromi.Components
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels) : this(position, widthInPixels, heightInPixels, HorizontalAnchor.Left, VerticalAnchor.Top) { }
         public TransformationComponent(Vector2 position, int widthInPixels, int heightInPixels, HorizontalAnchor horizontalAnchor, VerticalAnchor verticalAnchor)
         {
+            this.Z = 0f;
             this.HorizontalAnchor = horizontalAnchor;
             this.VerticalAnchor = verticalAnchor;
 

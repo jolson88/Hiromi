@@ -13,13 +13,17 @@ namespace Hiromi.Components
         public int GameObjectId { get { return this.GameObject.Id; } }
         public RenderPass RenderPass { get { return RenderPass.GameObjectPass; } }
         public TransformationComponent Transform { get { return this.GameObject.Transform; } }
-        public bool IsVisible { get; set; }
+        public float Alpha { get { return _color.A; } set { _color.A = (byte)(value * 255); } }
+        public bool IsVisible { get { return this.Alpha < 1.0f; } }
         public Texture2D Texture { get; set; }
+
+        private Color _color;
 
         public SpriteComponent(Texture2D texture)
         {
             this.Texture = texture;
-            this.IsVisible = true;
+            this.Alpha = 0f;
+            _color = Color.White;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch batch)
@@ -37,7 +41,7 @@ namespace Hiromi.Components
             batch.Draw(this.Texture,
                 new Vector2((int)this.GameObject.Transform.Bounds.Left + origin.X, (int)this.GameObject.Transform.Bounds.Top - origin.Y) + scaleOffset,
                 null,
-                Color.White,
+                _color,
                 this.GameObject.Transform.Rotation,
                 origin,
                 scale,

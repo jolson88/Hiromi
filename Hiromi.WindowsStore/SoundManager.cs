@@ -16,7 +16,8 @@ namespace Hiromi
             this.MessageManager = messageManager;
 
             this.MessageManager.AddListener<PlaySoundEffectMessage>(OnPlaySoundEffect);
-            SoundEffect.MasterVolume = 0.3f;
+            // TODO: Temporary, restore the volume levels
+            SoundEffect.MasterVolume = 0.25f;
         }
 
         private void OnPlaySoundEffect(PlaySoundEffectMessage msg)

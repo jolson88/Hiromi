@@ -9,6 +9,7 @@ using Hiromi.Components;
 
 namespace Hiromi
 {
+    // TODO: Remove FirstPass and LastPass (don't need them for now)
     public enum RenderPass
     {
         FirstPass = 0,
@@ -75,13 +76,14 @@ namespace Hiromi
         public void Draw(GameTime gameTime)
         {
             // When we transform via camera, we need to flip rasterizer (counter clockwise) since we are flipping Y component to Y+ up (instead of down)
-            this._spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
+            this._spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
             this._nonTransformedSpriteBatch.Begin();
 
             // Draw the scene in render pass order
             for (int i = 0; i <= (int)RenderPass.LassPass; i++)
             {
-                foreach (var component in _renderComponents[(RenderPass)i])
+                // Draw back from the back (lower Z values) to the front (higher Z values)
+                foreach (var component in _renderComponents[(RenderPass)i].OrderBy(rc => rc.Transform.Z))
                 {
                     var batch = GetSpriteBatchForComponent(component);
                     component.Draw(gameTime, batch);
