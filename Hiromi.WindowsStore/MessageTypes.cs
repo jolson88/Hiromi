@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Hiromi.Components;
 
 namespace Hiromi
@@ -137,10 +138,26 @@ namespace Hiromi
     public class PlaySoundEffectMessage : Message
     {
         public SoundEffect SoundEffect { get; private set; }
-        
-        public PlaySoundEffectMessage(SoundEffect soundEffect)
+        public float Volume { get; private set; }
+
+        public PlaySoundEffectMessage(SoundEffect soundEffect, float volume = 0.35f)
         {
             this.SoundEffect = soundEffect;
+            this.Volume = volume;
+        }
+    }
+
+    public class PlaySongMessage : Message
+    {
+        public Song Song { get; private set; }
+        public float Volume { get; private set; }
+        public bool IsRepeating { get; private set; }
+
+        public PlaySongMessage(Song song, float volume = 0.3f, bool isRepeating = false)
+        {
+            this.Song = song;
+            this.Volume = volume;
+            this.IsRepeating = isRepeating;
         }
     }
 
