@@ -9,14 +9,11 @@ using Hiromi.Components;
 
 namespace Hiromi
 {
-    // TODO: Remove FirstPass and LastPass (don't need them for now)
     public enum RenderPass
     {
-        FirstPass = 0,
-        BackgroundPass = 1,
-        GameObjectPass = 2,
-        UserInterfacePass = 3,
-        LassPass = 4
+        BackgroundPass = 0,
+        GameObjectPass = 1,
+        UserInterfacePass = 2,
     }
 
     public class SceneGraph
@@ -80,7 +77,7 @@ namespace Hiromi
             this._nonTransformedSpriteBatch.Begin();
 
             // Draw the scene in render pass order
-            for (int i = 0; i <= (int)RenderPass.LassPass; i++)
+            for (int i = 0; i <= (int)RenderPass.UserInterfacePass; i++)
             {
                 // Draw back from the back (lower Z values) to the front (higher Z values)
                 foreach (var component in _renderComponents[(RenderPass)i].OrderBy(rc => rc.Transform.Z))
@@ -106,7 +103,7 @@ namespace Hiromi
                 this._nonTransformedSpriteBatch.Begin();
 
                 // Draw the scene in render pass order
-                for (int i = (int)RenderPass.GameObjectPass; i <= (int)RenderPass.LassPass; i++)
+                for (int i = (int)RenderPass.GameObjectPass; i <= (int)RenderPass.UserInterfacePass; i++)
                 {
                     foreach (var component in _renderComponents[(RenderPass)i])
                     {
@@ -125,7 +122,7 @@ namespace Hiromi
             var transformedPointer = Vector2.Transform(pointerLocation, Matrix.Invert(_camera.TransformationMatrix));
 
             // Reverse drawing order to find top-most game object picked
-            for (int i = (int)RenderPass.LassPass; i >= (int)RenderPass.GameObjectPass; i--)
+            for (int i = (int)RenderPass.UserInterfacePass; i >= (int)RenderPass.GameObjectPass; i--)
             {
                 foreach (var component in _renderComponents[(RenderPass)i])
                 {

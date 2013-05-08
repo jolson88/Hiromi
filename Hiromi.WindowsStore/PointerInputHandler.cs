@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Hiromi
 {
-    // TODO: Add Touch support to PointerInputHandler
     public class PointerInputHandler
     {
         private MessageManager _messageManager;
