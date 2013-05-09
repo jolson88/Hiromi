@@ -47,6 +47,18 @@ namespace Hiromi.Components
             set { _scale = value; CalculateBounds(); OnGameObjectMoved(); }
         }
 
+        public float OriginalWidth
+        {
+            get { return _originalWidth; }
+            set { _originalWidth = value; CalculateBounds(); OnGameObjectMoved(); }
+        }
+
+        public float OriginalHeight
+        {
+            get { return _originalHeight; }
+            set { _originalHeight = value; CalculateBounds(); OnGameObjectMoved(); }
+        }
+
         private float _originalWidth;
         private float _originalHeight;
         private Vector2 _position;

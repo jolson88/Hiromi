@@ -48,11 +48,11 @@ namespace Hiromi.Components
 
         private void OnTextChanged()
         {
-            var posComponent = this.GameObject.GetComponent<TransformationComponent>();
-
             var textSize = this.Font.MeasureString(this.Text);
-            posComponent.Bounds.Width = textSize.X;
-            posComponent.Bounds.Height = textSize.Y;
+            this.Transform.OriginalWidth = textSize.X;
+            this.Transform.OriginalHeight = textSize.Y;
+            //this.Transform.Bounds.Width = textSize.X;
+            //this.Transform.Bounds.Height = textSize.Y;
         }
     }
 }
