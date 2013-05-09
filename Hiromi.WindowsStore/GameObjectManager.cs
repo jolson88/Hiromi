@@ -50,6 +50,20 @@ namespace Hiromi
             }
         }
 
+        public List<GameObject> GetAllGameObjectsWithComponent<T>() where T : GameObjectComponent
+        {
+            var gos = new List<GameObject>();
+            foreach (var go in _objects)
+            {
+                if (go.HasComponent<T>())
+                {
+                    gos.Add(go);
+                }
+            }
+
+            return gos;
+        }
+
         public List<GameObject> GetAllGameObjectsWithTag(string tag)
         {
             return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));

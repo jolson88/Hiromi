@@ -22,5 +22,6 @@ namespace Hiromi
         void Draw(GameTime gameTime);
         void Update(GameTime gameTime);
         void Initialize(GameObjectManager gameObjectManager, MessageManager messageManager);
+        void OnLoaded();
     }
 }

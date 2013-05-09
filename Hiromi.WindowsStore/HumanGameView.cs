@@ -57,6 +57,7 @@ namespace Hiromi
             OnUpdate(gameTime);
         }
 
+        public virtual void OnLoaded() { }
         protected virtual void OnInitialize() { }
         protected virtual void OnDraw(GameTime gameTime) { }
         protected virtual void OnUpdate(GameTime gameTime) { }

@@ -41,6 +41,11 @@ namespace Hiromi
             }
 
             this.RegisterMessageListeners();
+
+            foreach (var view in _gameViews)
+            {
+                view.OnLoaded();
+            }
         }
 
         public void Update(GameTime gameTime)

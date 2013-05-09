@@ -19,7 +19,8 @@ namespace Hiromi
     public class SceneGraph
     {
         public bool DebugVisuals { get; set; }
- 
+        public Camera Camera { get { return _camera; } }
+
         private SpriteBatch _spriteBatch;
         private SpriteBatch _nonTransformedSpriteBatch;
         private MessageManager _messageManager;
