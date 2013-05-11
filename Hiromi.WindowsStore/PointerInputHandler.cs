@@ -13,6 +13,9 @@ namespace Hiromi
 {
     public class PointerInputHandler
     {
+        // TODO: Enable maximum touch points supported to be specified by game
+        private static int MAXIMUM_SUPPORTED_TOUCH_POINTS = 1;
+
         private MessageManager _messageManager;
         
         private SceneGraph _sceneGraph;
@@ -65,8 +68,9 @@ namespace Hiromi
             if (TouchStateHasChanged(newTouchState))
             {
                 // Current touch points
-                foreach (var touch in newTouchState)
+                for (int i = 0; i < Math.Min(newTouchState.Count, MAXIMUM_SUPPORTED_TOUCH_POINTS); i++)
                 {
+                    var touch = newTouchState[i];
                     CalculatePointerMessages(new Vector2(touch.Position.X, touch.Position.Y),
                         PointerNewlyPressed(touch),
                         PointerNewlyReleased(touch));
