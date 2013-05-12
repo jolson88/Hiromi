@@ -14,7 +14,7 @@ namespace Hiromi
     public class PointerInputHandler
     {
         // TODO: Enable maximum touch points supported to be specified by game
-        private static int MAXIMUM_SUPPORTED_TOUCH_POINTS = 1;
+        private static int MAXIMUM_SUPPORTED_TOUCH_POINTS = 4;
 
         private MessageManager _messageManager;
         
