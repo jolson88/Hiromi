@@ -84,10 +84,49 @@ namespace Hiromi
             var toView = Matrix.CreateTranslation(-_lookAt.X + _offset.X, -_lookAt.Y + _offset.Y, 0) *
                                 Matrix.CreateScale(_scale) * Matrix.CreateRotationZ(_rotation) *
                                 Matrix.CreateTranslation(_lookAt.X + _offset.X, _lookAt.Y + _offset.Y, 0);
-            var resolutionAndYFlip = Matrix.CreateScale(clientHeight / designedHeight) * Matrix.CreateScale(1, -1, 1);
+            var resolutionAndYFlip = AdaptToScreenMatrix() * Matrix.CreateScale(1, -1, 1);
             var toClient = Matrix.CreateTranslation(0, clientHeight, 0);
 
             this.TransformationMatrix = toView * resolutionAndYFlip * toClient;
+        }
+
+        public Matrix AdaptToScreenMatrix()
+        {
+            var screenAdaptMatrix = Matrix.Identity;
+
+            float displayWidth = (float)(GraphicsService.Instance.GraphicsDevice.Viewport.Width);
+            float displayHeight = (float)(GraphicsService.Instance.GraphicsDevice.Viewport.Height);
+            float AspectRatioDisplay = displayWidth / displayHeight;
+            float AspectRatioBaseWindow = (float)(GraphicsService.Instance.DesignedScreenSize.X) / (float)(GraphicsService.Instance.DesignedScreenSize.Y);
+
+            //first stretch it to the screen ignoring the aspect ratio
+            float scaleX = displayWidth / (float)GraphicsService.Instance.DesignedScreenSize.X;
+            float scaleY = displayHeight / (float)GraphicsService.Instance.DesignedScreenSize.Y;
+            screenAdaptMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
+
+            float offsetX = 0.0f;
+            float offsetY = 0.0f;
+
+            // now adapt to your native aspect ratio, but keep maximum possible zoom:
+            if (AspectRatioDisplay > AspectRatioBaseWindow)
+            {
+                scaleX = AspectRatioBaseWindow / AspectRatioDisplay;     // smaller than 1
+                offsetX = (displayWidth - scaleX * displayWidth) * 0.5f; //shifting towards the center 
+                //(blackbars)
+
+                screenAdaptMatrix = screenAdaptMatrix * Matrix.CreateScale(scaleX, 1.0f, 1.0f) *
+                                                        Matrix.CreateTranslation(offsetX, 0.0f, 0.0f);
+            }
+            else if (AspectRatioDisplay < AspectRatioBaseWindow)
+            {
+                scaleY = AspectRatioDisplay / AspectRatioBaseWindow;        // inverse ratios, smaller than 1
+                offsetY = (displayHeight - scaleY * displayHeight) * 0.5f; //shifting towards the center (black 
+                //bars)
+                screenAdaptMatrix = screenAdaptMatrix * Matrix.CreateScale(1.0f, scaleY, 1.0f) *
+                                                        Matrix.CreateTranslation(0.0f, offsetY, 0.0f);
+            }
+
+            return screenAdaptMatrix;
         }
     }
 }

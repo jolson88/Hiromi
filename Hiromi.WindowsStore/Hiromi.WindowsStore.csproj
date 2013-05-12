@@ -100,7 +100,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
-    <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\MoveToComponent.cs" />
     <Compile Include="ExtensionUtilities.cs" />

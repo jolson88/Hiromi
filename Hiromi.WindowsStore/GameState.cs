@@ -65,7 +65,7 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
-            GraphicsService.Instance.GraphicsDevice.Clear(Color.Fuchsia);
+            GraphicsService.Instance.GraphicsDevice.Clear(Color.Black);
 
             foreach (var view in _gameViews)
             {

@@ -125,7 +125,7 @@ namespace Hiromi
             // Reverse drawing order to find top-most game object picked
             for (int i = (int)RenderPass.UserInterfacePass; i >= (int)RenderPass.GameObjectPass; i--)
             {
-                foreach (var component in _renderComponents[(RenderPass)i])
+                foreach (var component in _renderComponents[(RenderPass)i].OrderByDescending(ra => ra.Transform.Z))
                 {
                     if (PointerOverComponent(component, transformedPointer))
                     {
