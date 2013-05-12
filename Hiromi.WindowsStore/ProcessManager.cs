@@ -49,6 +49,8 @@ namespace Hiromi
 
         public void AttachProcess(Process process, bool replaceExistingProcesses = false)
         {
+            //System.Diagnostics.Debug.WriteLine("[{0}] Attaching '{1}' process", process.GetType().Name, process.ToString());
+
             m_processesToAttach.Add(process);
             if (replaceExistingProcesses)
             {

@@ -9,11 +9,14 @@ namespace Hiromi
 {
     public class ActionProcess : Process
     {
+        private string _description = string.Empty;
         private bool _oneTime;
         private Action _action;
 
-        public ActionProcess(Action executeAction, bool oneTime = true)
+        public ActionProcess(Action executeAction, bool oneTime = true) : this(string.Empty, executeAction, oneTime) { }
+        public ActionProcess(string description, Action executeAction, bool oneTime = true)
         {
+            _description = description;
             this._oneTime = oneTime;
             this._action = executeAction;
         }
@@ -26,6 +29,17 @@ namespace Hiromi
                 this.Succeed();
             }
         }
-    }
 
+        public override string ToString()
+        {
+            if (_description.Equals(string.Empty))
+            {
+                return base.ToString();
+            }
+            else
+            {
+                return _description;
+            }
+        }
+    }
 }

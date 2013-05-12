@@ -41,7 +41,7 @@ namespace Hiromi
                 ProcessMessage(msg);
                 if (msg.GetMessageVerbosity() == MessageVerbosity.Signal)
                 {
-                    System.Diagnostics.Debug.WriteLine(msg.ToString());
+                    System.Diagnostics.Debug.WriteLine(string.Format("[{0}] {1}", gameTime.TotalGameTime.TotalSeconds, msg.ToString()));
                 }
             }
         }

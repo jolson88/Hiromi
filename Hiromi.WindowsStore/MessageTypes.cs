@@ -145,6 +145,11 @@ namespace Hiromi
             this.SoundEffect = soundEffect;
             this.Volume = volume;
         }
+
+        public override MessageVerbosity GetMessageVerbosity()
+        {
+            return MessageVerbosity.Noise;
+        }
     }
 
     public class PlaySongMessage : Message
@@ -158,6 +163,11 @@ namespace Hiromi
             this.Song = song;
             this.Volume = volume;
             this.IsRepeating = isRepeating;
+        }
+
+        public override MessageVerbosity GetMessageVerbosity()
+        {
+            return MessageVerbosity.Noise;
         }
     }
 
