@@ -22,12 +22,12 @@ namespace Hiromi
             this.ProcessManager = new ProcessManager();
             this.MessageManager = new MessageManager();
             this.GameObjectManager = new GameObjectManager(this.ProcessManager, this.MessageManager);
-
-            this.OnInitialize();
         }
 
         public void Load()
         {
+            this.OnInitialize();
+
             _gameViews = new List<IGameView>();
             foreach (var view in LoadGameViews())
             {
