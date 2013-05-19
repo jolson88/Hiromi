@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi.Components;
@@ -38,8 +37,13 @@ namespace Hiromi
             _gameObjectLookup = new Dictionary<int, List<IRenderAwareComponent>>();
 
             _renderComponents = new Dictionary<RenderPass, List<IRenderAwareComponent>>();
+#if WINDOWS_PHONE
+            foreach (var val in EnumHelper.GetValues<RenderPass>())
+#else
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
+#endif
             {
+                
                 _renderComponents.Add((RenderPass)val, new List<IRenderAwareComponent>());
             }
 
@@ -64,7 +68,11 @@ namespace Hiromi
         {
             System.Diagnostics.Debug.Assert(_gameObjectLookup.Keys.Contains(component.GameObjectId));
 
+#if WINDOWS_PHONE
+            foreach (var val in EnumHelper.GetValues<RenderPass>())
+#else
             foreach (var val in Enum.GetValues(typeof(RenderPass)))
+#endif
             {
                 _renderComponents[(RenderPass)val].Remove(component);
             }

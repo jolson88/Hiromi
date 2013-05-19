@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
@@ -14,7 +13,8 @@ namespace Hiromi.Components
 
         private bool _recentlyReflected = false;
 
-        public ScreenWrappingComponent(bool isEnabled = true)
+        public ScreenWrappingComponent() : this(true) { }
+        public ScreenWrappingComponent(bool isEnabled)
         {
             this.IsEnabled = isEnabled;
         }

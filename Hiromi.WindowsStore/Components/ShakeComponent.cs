@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
@@ -15,7 +14,8 @@ namespace Hiromi.Components
         private Random _random;
         private bool _shakeHarderAtEnd;
 
-        public ShakeComponent(int maximumShakeInPixels, TimeSpan duration, bool shakeHarderAtEnd = false)
+        public ShakeComponent(int maximumShakeInPixels, TimeSpan duration) : this(maximumShakeInPixels, duration, false) { }
+        public ShakeComponent(int maximumShakeInPixels, TimeSpan duration, bool shakeHarderAtEnd)
         {
             _duration = duration;
             _random = new Random();

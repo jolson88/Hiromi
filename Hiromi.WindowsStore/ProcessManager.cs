@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi
@@ -22,7 +21,10 @@ namespace Hiromi
 
         public void Update(GameTime gameTime)
         {
-            m_processes.RemoveAll(p => m_processesToRemove.Contains(p));
+            foreach (var process in m_processesToRemove)
+            {
+                m_processes.Remove(process);
+            }
             m_processes.AddRange(m_processesToAttach);
 
             m_processesToRemove.Clear();
@@ -44,17 +46,31 @@ namespace Hiromi
                     foreach (var p in process.Children) { AttachProcess(p); }
                 }
             }
-            m_processes.RemoveAll(p => p.IsDead);
+
+            foreach (var process in m_processes.ToList())
+            {
+                if (process.IsDead)
+                {
+                    m_processes.Remove(process);
+                }
+            }
         }
 
-        public void AttachProcess(Process process, bool replaceExistingProcesses = false)
+        public void AttachProcess(Process process) { AttachProcess(process, false); }
+        public void AttachProcess(Process process, bool replaceExistingProcesses)
         {
             //System.Diagnostics.Debug.WriteLine("[{0}] Attaching '{1}' process", process.GetType().Name, process.ToString());
 
             m_processesToAttach.Add(process);
             if (replaceExistingProcesses)
             {
-                m_processesToRemove.AddRange(m_processes.FindAll(p => p.GetType() == process.GetType()));
+                foreach (var p in m_processes)
+                {
+                    if (p.GetType() == process.GetType())
+                    {
+                        m_processesToRemove.Add(p);
+                    }
+                }
             }
         }
 

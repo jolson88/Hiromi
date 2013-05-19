@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi
@@ -13,8 +12,9 @@ namespace Hiromi
         private bool _oneTime;
         private Action _action;
 
-        public ActionProcess(Action executeAction, bool oneTime = true) : this(string.Empty, executeAction, oneTime) { }
-        public ActionProcess(string description, Action executeAction, bool oneTime = true)
+        public ActionProcess(Action executeAction) : this(executeAction, true) { }
+        public ActionProcess(Action executeAction, bool oneTime) : this(string.Empty, executeAction, oneTime) { }
+        public ActionProcess(string description, Action executeAction, bool oneTime)
         {
             _description = description;
             this._oneTime = oneTime;

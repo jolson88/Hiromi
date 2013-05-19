@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +10,14 @@ using Hiromi.Components;
 
 namespace Hiromi
 {
+    public class DisableAdsMessage : Message
+    {
+    }
+
+    public class EnableAdsMessage : Message
+    {
+    }
+
     // ************************************
     // **
     // **        STATE MESSAGES
@@ -140,7 +147,8 @@ namespace Hiromi
         public SoundEffect SoundEffect { get; private set; }
         public float Volume { get; private set; }
 
-        public PlaySoundEffectMessage(SoundEffect soundEffect, float volume = 0.35f)
+        public PlaySoundEffectMessage(SoundEffect soundEffect) : this(soundEffect, 0.35f) { }
+        public PlaySoundEffectMessage(SoundEffect soundEffect, float volume)
         {
             this.SoundEffect = soundEffect;
             this.Volume = volume;
@@ -158,7 +166,8 @@ namespace Hiromi
         public float Volume { get; private set; }
         public bool IsRepeating { get; private set; }
 
-        public PlaySongMessage(Song song, float volume = 0.3f, bool isRepeating = false)
+        public PlaySongMessage(Song song) : this(song, 0.3f, false) { }
+        public PlaySongMessage(Song song, float volume, bool isRepeating)
         {
             this.Song = song;
             this.Volume = volume;

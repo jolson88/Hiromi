@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Hiromi.Components
 {
@@ -14,7 +13,8 @@ namespace Hiromi.Components
         private bool _isRepeating;
         private Process _animationProcess;
 
-        public SwellComponent(int swellInPixels, TimeSpan duration, bool isRepeating = false)
+        public SwellComponent(int swellInPixels, TimeSpan duration) : this(swellInPixels, duration, false) { }
+        public SwellComponent(int swellInPixels, TimeSpan duration, bool isRepeating)
         {
             // To swell, we need two tweens (0-1 and 1-0)
             _duration = TimeSpan.FromSeconds(duration.TotalSeconds / 2);

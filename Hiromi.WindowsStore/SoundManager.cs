@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
@@ -30,7 +29,7 @@ namespace Hiromi
 
         private void OnPlaySong(PlaySongMessage msg)
         {
-#if WINDOWS
+#if !WINDOWS
             MediaPlayer.Volume = msg.Volume;
 #endif
             MediaPlayer.IsRepeating = msg.IsRepeating;
@@ -39,12 +38,18 @@ namespace Hiromi
 
         private SoundEffectInstance GetInstance(SoundEffect effect)
         {
+#if WINDOWS_PHONE
+            // Names of resources for some reason don't work on XNA 4.0 targetting Phone 7.1
+            // For now (first release), just don't cache sounds.
+            return effect.CreateInstance();
+#else
             if (!_cachedEffects.ContainsKey(effect.Name))
             {
                 _cachedEffects.Add(effect.Name, effect.CreateInstance());
             }
 
             return _cachedEffects[effect.Name];
+#endif
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi
@@ -66,7 +65,7 @@ namespace Hiromi
 
         public List<GameObject> GetAllGameObjectsWithTag(string tag)
         {
-            return _objects.FindAll(obj => obj.Tag.ToUpper().Equals(tag.ToUpper()));
+            return (from go in _objects where go.Tag.ToUpper().Equals(tag.ToUpper()) select go).ToList();
         }
 
         private void OnNewGameObject(AddGameObjectRequestMessage msg)

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+#if WINDOWS_PHONE
+using Microsoft.Advertising;
+using Microsoft.Advertising.Mobile.Xna;
+#endif
 
 namespace Hiromi
 {
@@ -40,7 +44,7 @@ namespace Hiromi
             GraphicsService.Instance.GraphicsDevice = this.GraphicsDevice;
             GraphicsService.Instance.DesignedScreenSize = this.GetDesignedScreenSize();
             ContentService.Instance.Content = this.Content;
-            _stateManager = new GameStateManager(GetInitialState());
+            _stateManager = new GameStateManager(this, GetInitialState());
         }
 
         /// <summary>
@@ -52,6 +56,38 @@ namespace Hiromi
 
         }
 
+        public void InitializeAds(string applicationId, string unitId, Rectangle location)
+        {
+#if WINDOWS_PHONE
+            AdGameComponent.Initialize(this, applicationId);
+            var ad = AdGameComponent.Current.CreateAd(unitId, location);
+            ad.ErrorOccurred += ad_ErrorOccurred;
+#endif
+        }
+
+        public void EnableAds()
+        {
+#if WINDOWS_PHONE
+            this.Components.Add(AdGameComponent.Current);
+            AdGameComponent.Current.Enabled = true;
+#endif
+        }
+
+#if WINDOWS_PHONE
+        void ad_ErrorOccurred(object sender, AdErrorEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(e.Error.Message);
+        }
+#endif
+
+        public void DisableAds()
+        {
+#if WINDOWS_PHONE
+            AdGameComponent.Current.Enabled = false;
+            this.Components.Remove(AdGameComponent.Current);
+#endif
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -59,8 +95,8 @@ namespace Hiromi
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _stateManager.Update(gameTime);
             base.Update(gameTime);
+            _stateManager.Update(gameTime);
         }
 
         /// <summary>

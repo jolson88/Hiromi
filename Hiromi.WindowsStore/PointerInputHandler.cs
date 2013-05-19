@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Hiromi;
 using Hiromi.Components;
 using Microsoft.Xna.Framework;
@@ -45,12 +44,15 @@ namespace Hiromi
             CalculateMouseMessages(newMouseState);
             _oldMouseState = newMouseState;
 
+            // Don't do multi-touch support on Phone (first touch point will be a mouse message)
+#if !WINDOWS_PHONE
             if (_touchSupported)
             {
                 var newTouchState = TouchPanel.GetState();
                 CalculateTouchMessages(newTouchState);
                 _oldTouchState = newTouchState;
             }
+#endif
         }
 
         private void CalculateMouseMessages(MouseState newMouseState)

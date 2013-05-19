@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Hiromi;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,7 +20,8 @@ namespace Hiromi.Components
         private float _augmentY;
 
         public MoveToComponent(Vector2 destination, TimeSpan duration) : this(destination, duration, Easing.GetLinearFunction(), Easing.GetLinearFunction()) { }
-        public MoveToComponent(Vector2 destination, TimeSpan duration, EasingDelegate easingX, EasingDelegate easingY, float augmentX = 0, float augmentY = 0)
+        public MoveToComponent(Vector2 destination, TimeSpan duration, EasingDelegate easingX, EasingDelegate easingY) : this(destination, duration, easingX, easingY, 0, 0) { }
+        public MoveToComponent(Vector2 destination, TimeSpan duration, EasingDelegate easingX, EasingDelegate easingY, float augmentX, float augmentY)
         {
             _destination = destination;
             _duration = duration;
