@@ -15,6 +15,9 @@ namespace Hiromi
 {
     public abstract class HiromiGame : Game
     {
+#if WINDOWS_PHONE
+        DrawableAd _ad;
+#endif
         GameStateManager _stateManager;
         GraphicsDeviceManager _graphics;
 
@@ -60,16 +63,18 @@ namespace Hiromi
         {
 #if WINDOWS_PHONE
             AdGameComponent.Initialize(this, applicationId);
-            var ad = AdGameComponent.Current.CreateAd(unitId, location);
-            ad.ErrorOccurred += ad_ErrorOccurred;
+            this.Components.Add(AdGameComponent.Current);
+            _ad = AdGameComponent.Current.CreateAd(unitId, location);
+            _ad.ErrorOccurred += ad_ErrorOccurred;
+            _ad.Visible = false;
 #endif
         }
 
         public void EnableAds()
         {
 #if WINDOWS_PHONE
-            this.Components.Add(AdGameComponent.Current);
             AdGameComponent.Current.Enabled = true;
+            _ad.Visible = true;
 #endif
         }
 
@@ -84,7 +89,7 @@ namespace Hiromi
         {
 #if WINDOWS_PHONE
             AdGameComponent.Current.Enabled = false;
-            this.Components.Remove(AdGameComponent.Current);
+            _ad.Visible = true;
 #endif
         }
 
