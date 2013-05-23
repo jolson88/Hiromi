@@ -72,6 +72,7 @@ namespace Hiromi
             }
         }
 
+        public virtual GameState GetPreviousGameState() { return null; }
         protected virtual void RegisterMessageListeners() { }
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }

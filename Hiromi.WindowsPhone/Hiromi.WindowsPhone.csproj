@@ -135,6 +135,9 @@
     <Compile Include="..\Hiromi.WindowsStore\HumanGameView.cs">
       <Link>HumanGameView.cs</Link>
     </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\IAdRenderer.cs">
+      <Link>IAdRenderer.cs</Link>
+    </Compile>
     <Compile Include="..\Hiromi.WindowsStore\ICameraAwareComponent.cs">
       <Link>ICameraAwareComponent.cs</Link>
     </Compile>

@@ -78,6 +78,20 @@ namespace Hiromi
 
         }
 
+        public bool NavigateToPreviousGameState()
+        {
+            var previousState = _stateManager.GetPreviousGameState();
+            if (previousState == null)
+            {
+                return false; // No previous state to return to
+            }
+            else
+            {
+                _stateManager.LoadState(previousState);
+                return true;
+            }
+        }
+
         public void InitializeAds(string applicationId, string unitId, Rectangle location)
         {
 #if WINDOWS_PHONE

@@ -58,7 +58,13 @@ namespace Hiromi
             }
         }
 
-        private void LoadState(GameState newState)
+        // TODO: Clean up how previous states are rolled back all the way from the root XAML
+        public GameState GetPreviousGameState()
+        {
+            return _currentState.GetPreviousGameState();
+        }
+
+        public void LoadState(GameState newState)
         {
             _currentState = newState;
             _currentState.Load();
@@ -69,6 +75,7 @@ namespace Hiromi
             _currentState.MessageManager.QueueMessage(new StateChangedMessage(_currentState));
         }
 
+        // TODO: Clean up the difference in showing ads between Phone and Windows
         private void OnDisableAds(DisableAdsMessage msg)
         {
             _game.DisableAds();
