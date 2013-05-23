@@ -31,7 +31,6 @@ namespace Hiromi
             set 
             { 
                 _graphicsDevice = value; 
-                this.DesignedScreenSize = new Vector2(value.Viewport.Width, value.Viewport.Height);
                 this.Blank = new Texture2D(value, 1, 1, false, SurfaceFormat.Color);
                 this.Blank.SetData(new[] { Color.White });
             } 

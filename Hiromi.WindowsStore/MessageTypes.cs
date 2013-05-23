@@ -18,6 +18,10 @@ namespace Hiromi
     {
     }
 
+    public class ScreenSizeChangedMessage : Message
+    {
+    }
+
     // ************************************
     // **
     // **        STATE MESSAGES

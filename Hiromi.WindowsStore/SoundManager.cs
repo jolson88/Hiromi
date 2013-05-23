@@ -29,9 +29,7 @@ namespace Hiromi
 
         private void OnPlaySong(PlaySongMessage msg)
         {
-#if !WINDOWS
             MediaPlayer.Volume = msg.Volume;
-#endif
             MediaPlayer.IsRepeating = msg.IsRepeating;
             MediaPlayer.Play(msg.Song);
         }

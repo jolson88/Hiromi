@@ -30,6 +30,13 @@ namespace Hiromi
             _messageManager.AddListener<ZoomCameraMessage>(OnZoomCamera);
             _messageManager.AddListener<NudgeCameraMessage>(OnMoveCamera);
             _messageManager.AddListener<RotateCameraMessage>(OnRotateCamera);
+            _messageManager.AddListener<ScreenSizeChangedMessage>(OnScreenSizeChanged);
+        }
+
+        private void OnScreenSizeChanged(ScreenSizeChangedMessage msg)
+        {
+            RebuildBoundingBox();
+            RebuildTransformationMatrix();
         }
 
         private void OnZoomCamera(ZoomCameraMessage msg)

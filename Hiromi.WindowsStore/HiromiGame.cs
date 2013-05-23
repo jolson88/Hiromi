@@ -15,16 +15,24 @@ namespace Hiromi
 {
     public abstract class HiromiGame : Game
     {
+        public Texture2D PauseImage { get { return GetPauseImage(); } }
+
 #if WINDOWS_PHONE
         DrawableAd _ad;
 #endif
         GameStateManager _stateManager;
         GraphicsDeviceManager _graphics;
+        IAdRenderer _adRenderer;
 
         public HiromiGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+        }
+
+        public void SetAdRenderer(IAdRenderer adRenderer)
+        {
+            _adRenderer = adRenderer;
         }
 
         /// <summary>
@@ -36,6 +44,17 @@ namespace Hiromi
         protected override void Initialize()
         {
             base.Initialize();
+            this.Window.ClientSizeChanged += Window_ClientSizeChanged;
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            _graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
+            _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
+            _graphics.ApplyChanges();
+            _graphics.GraphicsDevice.Viewport = new Viewport(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _stateManager.ScreenSizeChanged();
+
         }
 
         /// <summary>
@@ -75,6 +94,11 @@ namespace Hiromi
 #if WINDOWS_PHONE
             AdGameComponent.Current.Enabled = true;
             _ad.Visible = true;
+#else
+            if (_adRenderer != null)
+            {
+                _adRenderer.EnableAds();
+            }
 #endif
         }
 
@@ -90,6 +114,11 @@ namespace Hiromi
 #if WINDOWS_PHONE
             AdGameComponent.Current.Enabled = false;
             _ad.Visible = true;
+#else
+            if (_adRenderer != null)
+            {
+                _adRenderer.DisableAds();
+            }
 #endif
         }
 
@@ -114,6 +143,7 @@ namespace Hiromi
             base.Draw(gameTime);
         }
 
+        protected abstract Texture2D GetPauseImage();
         protected abstract GameState GetInitialState();
         protected abstract Vector2 GetDesignedScreenSize();
     }
