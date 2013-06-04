@@ -100,19 +100,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BoundingBox.cs" />
-    <Compile Include="Components\BackgroundComponent.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
+    <Compile Include="Components\MoveToComponent.cs" />
+    <Compile Include="ExtensionUtilities.cs" />
+    <Compile Include="IAdRenderer.cs" />
+    <Compile Include="ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
-    <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\ShakeComponent.cs" />
+    <Compile Include="Components\SwellComponent.cs" />
+    <Compile Include="Components\TransformationComponent.cs" />
     <Compile Include="Components\ScreenWrappingComponent.cs" />
-    <Compile Include="Components\SimplePhysicsComponent.cs" />
+    <Compile Include="Components\SimpleMovementComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
-    <Compile Include="GameSystem.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="GameView.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="GameObjectComponent.cs" />
+    <Compile Include="HiromiGame.cs" />
+    <Compile Include="HumanGameView.cs" />
+    <Compile Include="KeyboardInputHandler.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageManager.cs" />
@@ -122,14 +131,14 @@
     <Compile Include="ProcessManager.cs" />
     <Compile Include="ProcessState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screen.cs" />
-    <Compile Include="ScreenManager.cs" />
-    <Compile Include="Systems\BackgroundRenderingSystem.cs" />
-    <Compile Include="Systems\GeneralInputSystem.cs" />
-    <Compile Include="Systems\ScreenWrappingSystem.cs" />
-    <Compile Include="Systems\SimplePhysicsSystem.cs" />
-    <Compile Include="Systems\SpriteRendererSystem.cs" />
-    <Compile Include="Systems\UISystem.cs" />
+    <Compile Include="GameStateManager.cs" />
+    <Compile Include="PointerInputHandler.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="IRenderAwareComponent.cs" />
+    <Compile Include="SceneGraph.cs" />
+    <Compile Include="Easing.cs" />
+    <Compile Include="SoundManager.cs" />
+    <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

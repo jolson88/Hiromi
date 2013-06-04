@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{AB1F9597-0480-4375-8D4A-963E2300ACAE}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Windows Phone</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hiromi.WindowsPhone</RootNamespace>
+    <AssemblyName>Hiromi.WindowsPhone</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <XnaRefreshLevel>1</XnaRefreshLevel>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows Phone</XnaPlatform>
+    <XnaProfile>Reach</XnaProfile>
+    <XnaCrossPlatformGroupID>ee41dae3-befc-4a83-af82-07f58e5c23c1</XnaCrossPlatformGroupID>
+    <XnaOutputType>Library</XnaOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows Phone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows Phone\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS_PHONE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Windows Phone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows Phone\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS_PHONE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Advertising.Mobile, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Advertising.Mobile.Xna, Version=6.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="Microsoft.Xna.Framework.Game" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
+    <Reference Include="Microsoft.Xna.Framework.GamerServices" />
+    <Reference Include="Microsoft.Xna.Framework.Input.Touch" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Hiromi.WindowsStore\ActionProcess.cs">
+      <Link>ActionProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\BoundingBox.cs">
+      <Link>BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Camera.cs">
+      <Link>Camera.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\ButtonComponent.cs">
+      <Link>Components\ButtonComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\LabelComponent.cs">
+      <Link>Components\LabelComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\MoveToComponent.cs">
+      <Link>Components\MoveToComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\ScreenWrappingComponent.cs">
+      <Link>Components\ScreenWrappingComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\ShakeComponent.cs">
+      <Link>Components\ShakeComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\SimpleMovementComponent.cs">
+      <Link>Components\SimpleMovementComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\SpriteComponent.cs">
+      <Link>Components\SpriteComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\SwellComponent.cs">
+      <Link>Components\SwellComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Components\TransformationComponent.cs">
+      <Link>Components\TransformationComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\ContentService.cs">
+      <Link>ContentService.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\DelayProcess.cs">
+      <Link>DelayProcess.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Easing.cs">
+      <Link>Easing.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\ExtensionUtilities.cs">
+      <Link>ExtensionUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameObject.cs">
+      <Link>GameObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameObjectComponent.cs">
+      <Link>GameObjectComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameObjectManager.cs">
+      <Link>GameObjectManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameState.cs">
+      <Link>GameState.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameStateManager.cs">
+      <Link>GameStateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GameView.cs">
+      <Link>GameView.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\GraphicsService.cs">
+      <Link>GraphicsService.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\HiromiGame.cs">
+      <Link>HiromiGame.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\HumanGameView.cs">
+      <Link>HumanGameView.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\IAdRenderer.cs">
+      <Link>IAdRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\ICameraAwareComponent.cs">
+      <Link>ICameraAwareComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\IRenderAwareComponent.cs">
+      <Link>IRenderAwareComponent.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\KeyboardInputHandler.cs">
+      <Link>KeyboardInputHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Message.cs">
+      <Link>Message.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\MessageManager.cs">
+      <Link>MessageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\MessageTypes.cs">
+      <Link>MessageTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\PointerInputHandler.cs">
+      <Link>PointerInputHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\Process.cs">
+      <Link>Process.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\ProcessManager.cs">
+      <Link>ProcessManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\ProcessState.cs">
+      <Link>ProcessState.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\SceneGraph.cs">
+      <Link>SceneGraph.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\SoundManager.cs">
+      <Link>SoundManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Hiromi.WindowsStore\TweenProcess.cs">
+      <Link>TweenProcess.cs</Link>
+    </Compile>
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>

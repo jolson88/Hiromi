@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Hiromi;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent
+    public class LabelComponent : GameObjectComponent, IRenderAwareComponent
     {
+        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
+        public int GameObjectId { get { return this.GameObject.Id; } }
+        public TransformationComponent Transform { get { return this.GameObject.Transform; } }
+
         public string Text { get { return _text; } set { _text = value; OnTextChanged(); } }
         public SpriteFont Font { get; set; }
         public Color TextColor { get; set; }
-
+        
         private string _text;
 
-        public LabelComponent(string text, SpriteFont font) : this(text, font, Color.White) { }
         public LabelComponent(string text, SpriteFont font, Color textColor)
         {
             _text = text;
@@ -29,13 +32,26 @@ namespace Hiromi.Components
             OnTextChanged();
         }
 
+        public void Draw(GameTime gameTime, SpriteBatch batch)
+        {
+            batch.DrawString(this.Font, this.Text,
+                new Vector2(this.Transform.Bounds.Left,
+                    this.Transform.Bounds.Top),
+                this.TextColor,
+                0f,
+                Vector2.Zero,
+                new Vector2(1, -1),
+                SpriteEffects.None,
+                0f);
+        }
+
         private void OnTextChanged()
         {
-            var posComponent = this.GameObject.GetComponent<PositionComponent>();
-
             var textSize = this.Font.MeasureString(this.Text);
-            posComponent.Bounds.Width = textSize.X / GraphicsService.Instance.GraphicsDevice.Viewport.Width;
-            posComponent.Bounds.Height = textSize.Y / GraphicsService.Instance.GraphicsDevice.Viewport.Height;
+            this.Transform.OriginalWidth = textSize.X;
+            this.Transform.OriginalHeight = textSize.Y;
+            //this.Transform.Bounds.Width = textSize.X;
+            //this.Transform.Bounds.Height = textSize.Y;
         }
     }
 }

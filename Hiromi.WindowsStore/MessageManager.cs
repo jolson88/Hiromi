@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Hiromi
 {
     public class MessageManager
     {
-        private Dictionary<Type, List<Action<Message>>> _messageListeners;
+        private Dictionary<Type, List<object>> _messageListeners;
+        private Dictionary<Type, Action<Message>> _messageSenders;
         private List<Queue<Message>> _messageQueues;
         private int _currentMessageQueue;
 
         public MessageManager()
         {
-            _messageListeners = new Dictionary<Type, List<Action<Message>>>();
+            _messageListeners = new Dictionary<Type, List<object>>();
+            _messageSenders = new Dictionary<Type, Action<Message>>();
             _messageQueues = new List<Queue<Message>>() { new Queue<Message>(), new Queue<Message>() };
+
+            var genAct = typeof(Action<>).MakeGenericType(typeof(int));
+                
         }
 
         public void Update(GameTime gameTime)
@@ -33,16 +37,17 @@ namespace Hiromi
                 ProcessMessage(msg);
                 if (msg.GetMessageVerbosity() == MessageVerbosity.Signal)
                 {
-                    System.Diagnostics.Debug.WriteLine(msg.ToString());
+                    System.Diagnostics.Debug.WriteLine(string.Format("[{0}] {1}", gameTime.TotalGameTime.TotalSeconds, msg.ToString()));
                 }
             }
         }
 
-        public void AddListener<T>(Action<Message> listener) where T : Message
+        public void AddListener<T>(Action<T> listener) where T : Message
         {
             if (!_messageListeners.Keys.Contains(typeof(T)))
             {
-                _messageListeners[typeof(T)] = new List<Action<Message>>();
+                _messageListeners[typeof(T)] = new List<object>();
+                _messageSenders[typeof(T)] = CreateMessageSender<T>();
             }
 
             _messageListeners[typeof(T)].Add(listener);
@@ -63,11 +68,18 @@ namespace Hiromi
         {
             if (_messageListeners.Keys.Contains(msg.GetType()))
             {
-                foreach (var listener in _messageListeners[msg.GetType()])
-                {
-                    listener(msg);
-                }
+                _messageSenders[msg.GetType()](msg);
             }
+        }
+
+        private Action<Message> CreateMessageSender<T>() where T : Message
+        {
+            return new Action<Message>(param => {
+                foreach (var listener in _messageListeners[typeof(T)])
+                {
+                    ((Action<T>)listener)((T)param);
+                }
+            });
         }
     }
 }
