@@ -8,9 +8,8 @@ using Hiromi;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent, IRenderAwareComponent
+    public class LabelComponent : GameObjectComponent
     {
-        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
         public int GameObjectId { get { return this.GameObject.Id; } }
         public TransformationComponent Transform { get { return this.GameObject.Transform; } }
 

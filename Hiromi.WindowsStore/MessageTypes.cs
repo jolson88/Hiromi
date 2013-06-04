@@ -29,9 +29,9 @@ namespace Hiromi
     // ************************************
     public class RequestChangeStateMessage : Message
     {
-        public GameState State { get; set; }
+        public GameScreen State { get; set; }
 
-        public RequestChangeStateMessage(GameState state)
+        public RequestChangeStateMessage(GameScreen state)
         {
             this.State = state;
         }
@@ -39,9 +39,9 @@ namespace Hiromi
 
     public class StateChangedMessage : Message
     {
-        public GameState State { get; set; }
+        public GameScreen State { get; set; }
 
-        public StateChangedMessage(GameState state)
+        public StateChangedMessage(GameScreen state)
         {
             this.State = state;
         }

@@ -40,6 +40,7 @@ namespace Hiromi
             _messageManager.TriggerMessage(new GameObjectRemovedMessage(obj.Id));
         }
 
+        // TODO: Remove as it will not be necessary with systems
         public void Update(GameTime gameTime)
         {
             // .ToList() so objects can be added by update calls

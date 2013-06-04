@@ -16,12 +16,18 @@ namespace Hiromi
         private Vector2 _lookAt;
         private Vector2 _offset;
         private float _rotation;
+        private Vector2 _designedScreenSize;
 
-        public Camera(MessageManager messageManager)
+        // TODO: SpriteBatch extension method (BeginWithCamera) accepting Camera
+        // to use: this._spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, RasterizerState.CullCounterClockwise, null, _camera.TransformationMatrix);
+
+        // TODO: Remove MessageManager once listeners are registered declaritively via attributes
+        public Camera(MessageManager messageManager, Vector2 designedScreenSize)
         {
+            _designedScreenSize = designedScreenSize;
             _scale = 1f;
             _offset = Vector2.Zero;
-            _lookAt = GraphicsService.Instance.DesignedScreenSize / 2.0f;
+            _lookAt = _designedScreenSize / 2.0f;
 
             RebuildBoundingBox();
             RebuildTransformationMatrix();
@@ -61,7 +67,7 @@ namespace Hiromi
 
         private void RebuildBoundingBox()
         {
-            var viewSize = GraphicsService.Instance.DesignedScreenSize * _scale;
+            var viewSize = _designedScreenSize * _scale;
             var center = _lookAt + _offset;
             var left = center.X - (viewSize.X / 2);
             var top = center.Y + (viewSize.Y / 2);
@@ -71,7 +77,7 @@ namespace Hiromi
 
         private void RebuildTransformationMatrix()
         {
-            var designedHeight = GraphicsService.Instance.DesignedScreenSize.Y;
+            var designedHeight = _designedScreenSize.Y;
             var clientHeight = GraphicsService.Instance.GraphicsDevice.Viewport.Height;
 
             // **********************************************************************************************************
@@ -103,11 +109,11 @@ namespace Hiromi
             float displayWidth = (float)(GraphicsService.Instance.GraphicsDevice.Viewport.Width);
             float displayHeight = (float)(GraphicsService.Instance.GraphicsDevice.Viewport.Height);
             float AspectRatioDisplay = displayWidth / displayHeight;
-            float AspectRatioBaseWindow = (float)(GraphicsService.Instance.DesignedScreenSize.X) / (float)(GraphicsService.Instance.DesignedScreenSize.Y);
+            float AspectRatioBaseWindow = (float)(_designedScreenSize.X) / (float)(_designedScreenSize.Y);
 
             //first stretch it to the screen ignoring the aspect ratio
-            float scaleX = displayWidth / (float)GraphicsService.Instance.DesignedScreenSize.X;
-            float scaleY = displayHeight / (float)GraphicsService.Instance.DesignedScreenSize.Y;
+            float scaleX = displayWidth / (float)_designedScreenSize.X;
+            float scaleY = displayHeight / (float)_designedScreenSize.Y;
             screenAdaptMatrix = Matrix.CreateScale(scaleX, scaleY, 1.0f);
 
             float offsetX = 0.0f;

@@ -103,7 +103,6 @@
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\MoveToComponent.cs" />
     <Compile Include="ExtensionUtilities.cs" />
-    <Compile Include="IAdRenderer.cs" />
     <Compile Include="ICameraAwareComponent.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />
@@ -115,12 +114,10 @@
     <Compile Include="ContentService.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="GameView.cs" />
+    <Compile Include="GameScreen.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="GameObjectComponent.cs" />
     <Compile Include="HiromiGame.cs" />
-    <Compile Include="HumanGameView.cs" />
     <Compile Include="KeyboardInputHandler.cs" />
     <Compile Include="MessageTypes.cs" />
     <Compile Include="Message.cs" />
@@ -131,18 +128,15 @@
     <Compile Include="ProcessManager.cs" />
     <Compile Include="ProcessState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameStateManager.cs" />
     <Compile Include="PointerInputHandler.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="IRenderAwareComponent.cs" />
-    <Compile Include="SceneGraph.cs" />
     <Compile Include="Easing.cs" />
     <Compile Include="SoundManager.cs" />
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />

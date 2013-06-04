@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Hiromi
 {
+    // TODO: Add Unproject method to Camera
+    // TODO: Move input handling to systems via InputProcessor (like libgdx)
+    /*
     public class PointerInputHandler
     {
         // TODO: Enable maximum touch points supported to be specified by game
@@ -177,4 +180,5 @@ namespace Hiromi
             return newMouseState.LeftButton == ButtonState.Released && _oldMouseState.LeftButton == ButtonState.Pressed;
         }
     }
+     * */
 }
