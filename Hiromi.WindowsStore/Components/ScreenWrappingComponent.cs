@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
+    // TODO: Rewrite to have own bounding box rather than cameras
+    /*
     public class ScreenWrappingComponent : GameObjectComponent, ICameraAwareComponent
     {
         public Camera ActiveCamera { get; set; }
@@ -58,4 +60,5 @@ namespace Hiromi.Components
             }
         }
     }
+     */
 }
