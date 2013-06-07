@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
     /*
     public class MoveToComponent : GameObjectComponent
     {

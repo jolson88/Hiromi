@@ -36,14 +36,41 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hiromi
+namespace Hiromi.Entities
 {
-    public interface IEntityObserver
+    public abstract class EntityProcessingSystem : EntitySystem
     {
-        void AddedEntity(Entity entity);
-        void DeletedEntity(Entity entity);
-        void ChangedEntity(Entity entity);
-        void EnabledEntity(Entity entity);
-        void DisabledEntity(Entity entity);
+        /// <summary>
+        /// Update an entity this system is interested in.
+        /// </summary>
+        /// <param name="entity">The entity to process</param>
+        protected virtual void UpdateEntity(Entity entity) { }
+
+        protected sealed override void UpdateEntities(IEnumerable<Entity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateEntity(entity);
+            }
+        }
+
+        /// <summary>
+        /// Draw an entity this system is interested in.
+        /// </summary>
+        /// <param name="entity">The entity to process</param>
+        protected virtual void DrawEntity(Entity entity) { }
+
+        protected sealed override void DrawEntities(IEnumerable<Entity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                DrawEntity(entity);
+            }
+        }
+
+        protected override bool CheckProcessing()
+        {
+            return true;
+        }
     }
 }

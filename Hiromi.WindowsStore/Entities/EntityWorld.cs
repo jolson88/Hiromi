@@ -2,7 +2,6 @@
 //------------------------------------------------
 //
 // This is a port of the awesome Entity System framework Artemis by Arni Arent and Tiago Costa - http://gamadu.com/artemis 
-// This is a modification/refactoring of the Artemis_CSharp port to bring back some of the simplicity of the original Java project.
 //
 //------------------------------------------------
 Copyright 2011 GAMADU.COM. All rights reserved.
@@ -36,11 +35,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hiromi
+namespace Hiromi.Entities
 {
     public class EntityWorld
     {
-        public float Delta { get; set; }
+        /// <summary>
+        /// The time (in seconds) that have elapsed since the last frame
+        /// </summary>
+        public double DeltaTime { get; set; }
 
         private EntityManager _entityManager;
 
@@ -65,13 +67,14 @@ namespace Hiromi
             _disabledEntities = new List<Entity>();
 
             _entityManager = new EntityManager();
+            _entityManager.World = this;
         }
 
         public void Initialize()
         {
             foreach (var entitySystem in _systemsList)
             {
-                entitySystem.initialize();
+                entitySystem.Initialize();
             }
         }
 
@@ -125,8 +128,8 @@ namespace Hiromi
 
         public TSystem SetSystem<TSystem>(TSystem entitySystem, bool passive = false) where TSystem : EntitySystem
         {
-            entitySystem.setWorld(this);
-            entitySystem.setPassive(passive);
+            entitySystem.World = this;
+            entitySystem.IsPassive = passive;
 
             _systemsLookup.Add(typeof(TSystem), entitySystem);
             _systemsList.Add(entitySystem);
@@ -149,38 +152,53 @@ namespace Hiromi
             return (TSystem)_systemsLookup[typeof(TSystem)];
         }
 
-        public void Process()
+        public void Update(double elapsedTimeInSeconds)
         {
+            this.DeltaTime = elapsedTimeInSeconds;
+
             Check(_addedEntities, (observer, entity) =>
             {
-                observer.AddedEntity(entity);
+                observer.EntityAdded(entity);
             });
 
             Check(_changedEntities, (observer, entity) =>
             {
-                observer.ChangedEntity(entity);
+                observer.EntityChanged(entity);
             });
 
             Check(_disabledEntities, (observer, entity) =>
             {
-                observer.DisabledEntity(entity);
+                observer.EntityDisabled(entity);
             });
 
             Check(_enabledEntities, (observer, entity) =>
             {
-                observer.EnabledEntity(entity);
+                observer.EntityEnabled(entity);
             });
 
             Check(_deletedEntities, (observer, entity) =>
             {
-                observer.DeletedEntity(entity);
+                observer.EntityDeleted(entity);
             });
 
             foreach (var entitySystem in _systemsList)
             {
-                if (!entitySystem.isPassive())
+                if (!entitySystem.IsPassive)
                 {
-                    entitySystem.process();
+                    entitySystem.Update();
+                }
+            }
+        }
+
+        public void Draw(double elapsedTimeInSeconds)
+        {
+            this.DeltaTime = elapsedTimeInSeconds;
+
+            foreach (var entitySystem in _systemsList)
+            {
+                if (!entitySystem.IsPassive)
+                {
+                    entitySystem.Draw();
                 }
             }
         }

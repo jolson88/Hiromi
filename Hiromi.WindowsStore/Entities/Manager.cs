@@ -2,7 +2,6 @@
 //------------------------------------------------
 //
 // This is a port of the awesome Entity System framework Artemis by Arni Arent and Tiago Costa - http://gamadu.com/artemis 
-// This is a modification/refactoring of the Artemis_CSharp port to bring back some of the simplicity of the original Java project.
 //
 //------------------------------------------------
 Copyright 2011 GAMADU.COM. All rights reserved.
@@ -36,7 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hiromi
+namespace Hiromi.Entities
 {
     public abstract class Manager : IEntityObserver
     {
@@ -44,10 +43,10 @@ namespace Hiromi
 
         protected abstract void Initialize();
 
-        public virtual void AddedEntity(Entity e) { }
-        public virtual void ChangedEntity(Entity e) { }
-        public virtual void DeletedEntity(Entity e) { }
-        public virtual void DisabledEntity(Entity e) { }
-        public virtual void EnabledEntity(Entity e) { }
+        public virtual void EntityAdded(Entity e) { }
+        public virtual void EntityChanged(Entity e) { }
+        public virtual void EntityDeleted(Entity e) { }
+        public virtual void EntityDisabled(Entity e) { }
+        public virtual void EntityEnabled(Entity e) { }
     }
 }
