@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Messaging
 {
+    // TODO: Remove when MessageBus is complete
     public class MessageManager
     {
         private Dictionary<Type, List<object>> _messageListeners;

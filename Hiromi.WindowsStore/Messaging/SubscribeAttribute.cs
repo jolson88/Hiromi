@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Hiromi.Messaging
 {
-    public class SubscribeAttribute
-    {
-    }
+    [AttributeUsage(AttributeTargets.Method)]
+    public class SubscribeAttribute : Attribute { }
 }

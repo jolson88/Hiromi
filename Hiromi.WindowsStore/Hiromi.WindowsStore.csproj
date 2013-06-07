@@ -123,7 +123,8 @@
     <Compile Include="Components\SimpleMovementComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
-    <Compile Include="Messaging\MessageAttributes.cs" />
+    <Compile Include="Messaging\MessageBus.cs" />
+    <Compile Include="Messaging\SubscribeAttribute.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="HiromiGame.cs" />

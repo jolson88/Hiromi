@@ -11,15 +11,14 @@ namespace Hiromi
     public class Camera
     {
         public Matrix TransformationMatrix { get; private set; }
-        private MessageManager _messageManager;
+
         private float _scale;
         private Vector2 _lookAt;
         private Vector2 _offset;
         private float _rotation;
         private Vector2 _designedScreenSize;
 
-        // TODO: Remove MessageManager once listeners are registered declaritively via attributes
-        public Camera(MessageManager messageManager, Vector2 designedScreenSize)
+        public Camera(Vector2 designedScreenSize)
         {
             _designedScreenSize = designedScreenSize;
             _scale = 1f;
@@ -27,31 +26,29 @@ namespace Hiromi
             _lookAt = _designedScreenSize / 2.0f;
 
             RebuildTransformationMatrix();
-
-            _messageManager = messageManager;
-            _messageManager.AddListener<ZoomCameraMessage>(OnZoomCamera);
-            _messageManager.AddListener<NudgeCameraMessage>(OnMoveCamera);
-            _messageManager.AddListener<RotateCameraMessage>(OnRotateCamera);
-            _messageManager.AddListener<ScreenSizeChangedMessage>(OnScreenSizeChanged);
         }
 
+        [Subscribe]
         private void OnScreenSizeChanged(ScreenSizeChangedMessage msg)
         {
             RebuildTransformationMatrix();
         }
 
+        [Subscribe]
         private void OnZoomCamera(ZoomCameraMessage msg)
         {
             _scale = msg.ZoomFactor;
             RebuildTransformationMatrix();
         }
 
-        private void OnMoveCamera(NudgeCameraMessage msg)
+        [Subscribe]
+        private void OnNudgeCamera(NudgeCameraMessage msg)
         {
             _offset = msg.Translation;
             RebuildTransformationMatrix();
         }
 
+        [Subscribe]
         private void OnRotateCamera(RotateCameraMessage msg)
         {
             _rotation = msg.RotationInRadians;
