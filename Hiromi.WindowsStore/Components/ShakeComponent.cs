@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
+    /*
     public class ShakeComponent : GameObjectComponent
     {
         private TransformationComponent _transform;
@@ -55,4 +56,5 @@ namespace Hiromi.Components
                 })));
         }
     }
+     */
 }

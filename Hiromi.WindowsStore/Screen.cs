@@ -8,13 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi
 {
-    public abstract class GameScreen
+    public abstract class Screen
     {
+        public Color BackgroundColor { get; set; }
         public ProcessManager ProcessManager { get; set; }
         public MessageManager MessageManager { get; set; }
 
-        public GameScreen()
+        public Screen()
         {
+            this.BackgroundColor = Color.Black;
             this.ProcessManager = new ProcessManager();
             this.MessageManager = new MessageManager();
         }
@@ -36,11 +38,11 @@ namespace Hiromi
 
         public void Draw(GameTime gameTime)
         {
-            GraphicsService.Instance.GraphicsDevice.Clear(Color.Black);
+            GraphicsService.Instance.GraphicsDevice.Clear(this.BackgroundColor);
             OnDraw(gameTime);
         }
 
-        public virtual GameScreen GetPreviousGameScreen() { return null; }
+        public virtual Screen GetPreviousGameScreen() { return null; }
         protected virtual void RegisterMessageListeners() { }
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }

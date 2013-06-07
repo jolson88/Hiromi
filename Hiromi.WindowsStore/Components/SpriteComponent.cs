@@ -7,6 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
+    public class SpriteComponent : Artemis.Interface.IComponent
+    {
+        public Texture2D Sprite { get; set; }
+
+        public SpriteComponent(Texture2D sprite)
+        {
+            this.Sprite = sprite;
+        }
+    }
+
+    /*
     public class SpriteComponent : GameObjectComponent
     {
         public int GameObjectId { get { return this.GameObject.Id; } }
@@ -47,4 +58,5 @@ namespace Hiromi.Components
                 0f);
         }
     }
+     */
 }

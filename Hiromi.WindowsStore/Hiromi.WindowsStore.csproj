@@ -102,6 +102,9 @@
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Components\ButtonComponent.cs" />
     <Compile Include="Components\MoveToComponent.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityWorld.cs" />
+    <Compile Include="Entities\IEntityComponent.cs" />
     <Compile Include="ExtensionUtilities.cs" />
     <Compile Include="Components\LabelComponent.cs" />
     <Compile Include="Components\ShakeComponent.cs" />
@@ -111,11 +114,8 @@
     <Compile Include="Components\SimpleMovementComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="GameObjectManager.cs" />
-    <Compile Include="GameScreen.cs" />
+    <Compile Include="Screen.cs" />
     <Compile Include="GraphicsService.cs" />
-    <Compile Include="GameObjectComponent.cs" />
     <Compile Include="HiromiGame.cs" />
     <Compile Include="KeyboardInputHandler.cs" />
     <Compile Include="MessageTypes.cs" />
@@ -134,11 +134,16 @@
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ArtemisWS">
+      <HintPath>..\..\Mulgrew\packages\Artemis.1.2.2\lib\netcore45\ArtemisWS.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

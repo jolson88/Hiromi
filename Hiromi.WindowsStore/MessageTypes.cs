@@ -29,9 +29,9 @@ namespace Hiromi
     // ************************************
     public class RequestChangeStateMessage : Message
     {
-        public GameScreen State { get; set; }
+        public Screen State { get; set; }
 
-        public RequestChangeStateMessage(GameScreen state)
+        public RequestChangeStateMessage(Screen state)
         {
             this.State = state;
         }
@@ -39,9 +39,9 @@ namespace Hiromi
 
     public class StateChangedMessage : Message
     {
-        public GameScreen State { get; set; }
+        public Screen State { get; set; }
 
-        public StateChangedMessage(GameScreen state)
+        public StateChangedMessage(Screen state)
         {
             this.State = state;
         }
@@ -52,52 +52,6 @@ namespace Hiromi
         public override string ToString()
         {
             return "[System] Starting game";
-        }
-    }
-
-
-    // ************************************
-    // **
-    // **   OBJECT + COMPONENT MESSAGES
-    // **
-    // ************************************
-    public class AddGameObjectRequestMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-
-        public AddGameObjectRequestMessage(GameObject obj)
-        {
-            this.GameObject = obj;
-        }
-    }
-
-    public class GameObjectLoadedMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-
-        public GameObjectLoadedMessage(GameObject obj)
-        {
-            this.GameObject = obj;
-        }
-    }
-
-    public class GameObjectRemovedMessage : Message
-    {
-        public int GameObjectId { get; set; }
-
-        public GameObjectRemovedMessage(int gameObjectId)
-        {
-            this.GameObjectId = gameObjectId;
-        }
-    }
-
-    public class GameObjectMovedMessage : Message
-    {
-        public GameObject GameObject { get; set; }
-
-        public GameObjectMovedMessage(GameObject obj)
-        {
-            this.GameObject = obj;
         }
     }
 

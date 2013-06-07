@@ -8,6 +8,7 @@ using Hiromi;
 
 namespace Hiromi.Components
 {
+    /*
     public class LabelComponent : GameObjectComponent
     {
         public int GameObjectId { get { return this.GameObject.Id; } }
@@ -53,4 +54,5 @@ namespace Hiromi.Components
             //this.Transform.Bounds.Height = textSize.Y;
         }
     }
+     */
 }

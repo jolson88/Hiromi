@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
+    /*
     public class MoveToComponent : GameObjectComponent
     {
         private Vector2 _originalPosition;
@@ -62,4 +63,5 @@ namespace Hiromi.Components
             this.GameObject.Transform.Position = _originalPosition + new Vector2((float)offsetX, (float)offsetY);
         }
     }
+     */
 }

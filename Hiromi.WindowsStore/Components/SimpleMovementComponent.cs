@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
+    /*
     public class SimpleMovementComponent : GameObjectComponent
     {
         public Vector2 Velocity { get; set; }
@@ -21,4 +22,5 @@ namespace Hiromi.Components
             pos.Position += this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
     }
+     */
 }

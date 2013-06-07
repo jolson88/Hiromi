@@ -11,7 +11,7 @@ namespace Hiromi
     public abstract class HiromiGame : Game
     {
         GraphicsDeviceManager _graphics;
-        GameScreen _currentScreen;
+        Screen _currentScreen;
 
         public HiromiGame()
         {
@@ -19,7 +19,7 @@ namespace Hiromi
             Content.RootDirectory = "Content";
         }
 
-        public void LoadScreen(GameScreen newScreen)
+        public void LoadScreen(Screen newScreen)
         {
             _currentScreen = newScreen;
             _currentScreen.Load();
@@ -97,6 +97,6 @@ namespace Hiromi
             LoadScreen(msg.State);
         }
 
-        protected abstract GameScreen GetInitialScreen();
+        protected abstract Screen GetInitialScreen();
     }
 }
