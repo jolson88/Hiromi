@@ -6,16 +6,6 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
-    public class TransformComponent : Artemis.Interface.IComponent
-    {
-        public Vector2 Position { get; set; }
-
-        public TransformComponent(Vector2 position)
-        {
-            this.Position = position;
-        }
-    }
-
     /*
     public enum VerticalAnchor
     {

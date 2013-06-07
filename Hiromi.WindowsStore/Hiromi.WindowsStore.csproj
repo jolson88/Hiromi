@@ -134,15 +134,9 @@
     <Compile Include="TweenProcess.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ArtemisWS">
-      <HintPath>..\..\Mulgrew\packages\Artemis.1.2.2\lib\netcore45\ArtemisWS.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows8\MonoGame.Framework.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
