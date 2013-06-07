@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Hiromi.Messaging;
 
 namespace Hiromi
 {
@@ -25,8 +26,8 @@ namespace Hiromi
             _currentScreen.Load();
 
             // TODO: Replace with _currentState.MessageManager.Register(this) when change is made
-            _currentScreen.MessageManager.AddListener<RequestChangeStateMessage>(OnRequestChangeState);
-            _currentScreen.MessageManager.QueueMessage(new StateChangedMessage(_currentScreen));
+            _currentScreen.MessageManager.AddListener<RequestScreenChangeMessage>(OnRequestChangeState);
+            _currentScreen.MessageManager.QueueMessage(new ScreenChangedMessage(_currentScreen));
         }
 
         /// <summary>
@@ -92,9 +93,9 @@ namespace Hiromi
             base.Draw(gameTime);
         }
 
-        private void OnRequestChangeState(RequestChangeStateMessage msg)
+        private void OnRequestChangeState(RequestScreenChangeMessage msg)
         {
-            LoadScreen(msg.State);
+            LoadScreen(msg.Screen);
         }
 
         protected abstract Screen GetInitialScreen();

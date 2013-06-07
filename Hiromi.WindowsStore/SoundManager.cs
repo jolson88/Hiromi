@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using Hiromi.Messaging;
 
 namespace Hiromi
 {

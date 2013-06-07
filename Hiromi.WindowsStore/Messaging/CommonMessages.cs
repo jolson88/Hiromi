@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Hiromi.Components;
 
-namespace Hiromi
+namespace Hiromi.Messaging
 {
     public class DisableAdsMessage : Message
     {
@@ -27,23 +27,23 @@ namespace Hiromi
     // **        STATE MESSAGES
     // **
     // ************************************
-    public class RequestChangeStateMessage : Message
+    public class RequestScreenChangeMessage : Message
     {
-        public Screen State { get; set; }
+        public Screen Screen { get; set; }
 
-        public RequestChangeStateMessage(Screen state)
+        public RequestScreenChangeMessage(Screen screen)
         {
-            this.State = state;
+            this.Screen = screen;
         }
     }
 
-    public class StateChangedMessage : Message
+    public class ScreenChangedMessage : Message
     {
-        public Screen State { get; set; }
+        public Screen NewScreen { get; set; }
 
-        public StateChangedMessage(Screen state)
+        public ScreenChangedMessage(Screen screen)
         {
-            this.State = state;
+            this.NewScreen = screen;
         }
     }
 

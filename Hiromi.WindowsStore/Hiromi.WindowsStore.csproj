@@ -123,13 +123,14 @@
     <Compile Include="Components\SimpleMovementComponent.cs" />
     <Compile Include="Components\SpriteComponent.cs" />
     <Compile Include="ContentService.cs" />
+    <Compile Include="Messaging\MessageAttributes.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="HiromiGame.cs" />
     <Compile Include="KeyboardInputHandler.cs" />
-    <Compile Include="MessageTypes.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="MessageManager.cs" />
+    <Compile Include="Messaging\CommonMessages.cs" />
+    <Compile Include="Messaging\Message.cs" />
+    <Compile Include="Messaging\MessageManager.cs" />
     <Compile Include="ActionProcess.cs" />
     <Compile Include="DelayProcess.cs" />
     <Compile Include="Process.cs" />
