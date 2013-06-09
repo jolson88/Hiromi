@@ -7,30 +7,23 @@ using Hiromi.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using Hiromi.Messaging;
 
 namespace Hiromi
 {
-    // TODO: Add Unproject method to Camera
-    // TODO: Move input handling to systems via InputProcessor (like libgdx)
-    /*
-    public class PointerInputHandler
+    public class InputProcessor
     {
         // TODO: Enable maximum touch points supported to be specified by game
         private static int MAXIMUM_SUPPORTED_TOUCH_POINTS = 4;
-
-        private MessageManager _messageManager;
-        
-        private SceneGraph _sceneGraph;
+        private KeyboardState _oldKeyState;
         private MouseState _oldMouseState;
         private TouchCollection _oldTouchState;
         private bool _touchSupported = false;
-        private int? _previousGameObjectUnderPointer = null;
 
-        public PointerInputHandler(MessageManager messageManager, SceneGraph sceneGraph)
+        public IInputHandler InputHandler { get; set; }
+
+        public InputProcessor()
         {
-            _sceneGraph = sceneGraph;
-            _messageManager = messageManager;
-
             _oldMouseState = Mouse.GetState();
 
             var touchCapabilities = TouchPanel.GetCapabilities();
@@ -41,7 +34,21 @@ namespace Hiromi
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Process()
+        {
+            ProcessKeyboardInput();
+            ProcessPointerInput();
+        }
+
+        private void ProcessKeyboardInput()
+        {
+            var newKeyState = Keyboard.GetState();
+            CalculateKeyDownMessages(newKeyState);
+            CalculateKeyUpMessages(newKeyState);
+            _oldKeyState = newKeyState;
+        }
+
+        private void ProcessPointerInput()
         {
             var newMouseState = Mouse.GetState();
             CalculateMouseMessages(newMouseState);
@@ -62,9 +69,14 @@ namespace Hiromi
         {
             if (MouseStateHasChanged(newMouseState))
             {
-                CalculatePointerMessages(new Vector2(newMouseState.X, newMouseState.Y),
-                    LeftMouseButtonNewlyPressed(newMouseState),
-                    LeftMouseButtonNewlyReleased(newMouseState));
+                if (LeftMouseButtonNewlyPressed(newMouseState))
+                {
+                    InputHandler.OnPointerPress(new Vector2(newMouseState.X, newMouseState.Y));
+                }
+                else if (LeftMouseButtonNewlyReleased(newMouseState))
+                {
+                    InputHandler.OnPointerRelease(new Vector2(newMouseState.X, newMouseState.Y));
+                }
             }
         }
 
@@ -76,53 +88,39 @@ namespace Hiromi
                 for (int i = 0; i < Math.Min(newTouchState.Count, MAXIMUM_SUPPORTED_TOUCH_POINTS); i++)
                 {
                     var touch = newTouchState[i];
-                    CalculatePointerMessages(new Vector2(touch.Position.X, touch.Position.Y),
-                        PointerNewlyPressed(touch),
-                        PointerNewlyReleased(touch));
+                    if (PointerNewlyPressed(touch))
+                    {
+                        InputHandler.OnPointerPress(new Vector2(touch.Position.X, touch.Position.Y));
+                    }
+                    else if (PointerNewlyReleased(touch))
+                    {
+                        InputHandler.OnPointerRelease(new Vector2(touch.Position.X, touch.Position.Y));
+                    }
                 }
 
                 //// Releasing of previous touch points
                 foreach (var touch in _oldTouchState.Where(oldT => newTouchState.Where(newT => newT.Id == oldT.Id).Count() == 0))
                 {
-                    CalculatePointerMessages(new Vector2(touch.Position.X, touch.Position.Y),
-                        false,
-                        true);
+                    InputHandler.OnPointerRelease(new Vector2(touch.Position.X, touch.Position.Y));
                 }
             }
         }
 
-        private void CalculatePointerMessages(Vector2 pointerLocation, bool pointerNewlyPressed, bool pointerNewlyReleased)
+        private void CalculateKeyDownMessages(KeyboardState newKeyState)
         {
-            var gameObjectsUnderMouse = new List<int>();
-
-            int? pickedGameObjectId = null;
-            var objectPicked = _sceneGraph.Pick(pointerLocation, ref pickedGameObjectId);
-            if (objectPicked)
+            var keys = newKeyState.GetPressedKeys().Where(key => !_oldKeyState.IsKeyDown(key));
+            foreach (var key in keys)
             {
-                if (pickedGameObjectId != _previousGameObjectUnderPointer && _previousGameObjectUnderPointer.HasValue)
-                {
-                    _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
-                }
-
-                if (_previousGameObjectUnderPointer == null || pickedGameObjectId.Value != _previousGameObjectUnderPointer.Value)
-                {
-                    _previousGameObjectUnderPointer = pickedGameObjectId;
-                    _messageManager.QueueMessage(new PointerEnterMessage(pickedGameObjectId.Value));
-                }
-
-                if (pointerNewlyPressed)
-                {
-                    _messageManager.QueueMessage(new PointerPressMessage(pickedGameObjectId.Value));
-                }
-                if (pointerNewlyReleased)
-                {
-                    _messageManager.QueueMessage(new PointerReleaseMessage(pickedGameObjectId.Value));
-                }
+                InputHandler.OnKeyDown(key);
             }
-            else if (_previousGameObjectUnderPointer >= 0)
+        }
+
+        private void CalculateKeyUpMessages(KeyboardState newKeyState)
+        {
+            var keys = _oldKeyState.GetPressedKeys().Where(key => !newKeyState.IsKeyDown(key));
+            foreach (var key in keys)
             {
-                _messageManager.QueueMessage(new PointerExitMessage(_previousGameObjectUnderPointer.Value));
-                _previousGameObjectUnderPointer = null;
+                InputHandler.OnKeyUp(key);
             }
         }
 
@@ -167,7 +165,7 @@ namespace Hiromi
         private bool PointerNewlyReleased(TouchLocation newTouch)
         {
             var oldTouch = _oldTouchState.Where(oldT => oldT.Id == newTouch.Id);
-            return oldTouch.Count() > 0 &&  newTouch.State == TouchLocationState.Released && oldTouch.First().State == TouchLocationState.Pressed;
+            return oldTouch.Count() > 0 && newTouch.State == TouchLocationState.Released && oldTouch.First().State == TouchLocationState.Pressed;
         }
 
         private bool LeftMouseButtonNewlyPressed(MouseState newMouseState)
@@ -180,5 +178,4 @@ namespace Hiromi
             return newMouseState.LeftButton == ButtonState.Released && _oldMouseState.LeftButton == ButtonState.Pressed;
         }
     }
-     * */
 }

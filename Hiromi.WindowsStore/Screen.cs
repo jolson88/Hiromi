@@ -11,29 +11,37 @@ namespace Hiromi
 {
     public abstract class Screen
     {
+        private InputProcessor _inputProcessor;
+
         public Color BackgroundColor { get; set; }
         public ProcessManager ProcessManager { get; set; }
-        public MessageManager MessageManager { get; set; }
+        public MessageBus MessageBus { get; set; }
 
         public Screen()
         {
+            _inputProcessor = new InputProcessor();
+            _inputProcessor.InputHandler = new NullInputHandler();
+
             this.BackgroundColor = Color.Black;
             this.ProcessManager = new ProcessManager();
-            this.MessageManager = new MessageManager();
+            this.MessageBus = new MessageBus();
+        }
+
+        public void SetInputHandler(IInputHandler handler)
+        {
+            _inputProcessor.InputHandler = handler;
         }
 
         public void Load()
         {
             this.OnInitialize();
-
-            // TODO: Remove this once Message Listeners are registered dynamically (replace with this.MessageManager.Register(this))
-            this.RegisterMessageListeners();
         }
 
         public void Update(GameTime gameTime)
         {
+            _inputProcessor.Process();
+            this.MessageBus.ProcessMessages();
             this.ProcessManager.Update(gameTime);
-            this.MessageManager.Update(gameTime);
             OnUpdate(gameTime);
         }
 
@@ -44,7 +52,6 @@ namespace Hiromi
         }
 
         public virtual Screen GetPreviousGameScreen() { return null; }
-        protected virtual void RegisterMessageListeners() { }
         protected virtual void OnInitialize() { }
         protected virtual void OnUpdate(GameTime gameTime) { }
         protected virtual void OnDraw(GameTime gameTime) { }

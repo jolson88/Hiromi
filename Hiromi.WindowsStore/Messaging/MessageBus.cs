@@ -8,13 +8,13 @@ namespace Hiromi.Messaging
     public class MessageBus
     {
         private Dictionary<Type, List<ListenerLookup>> _messageListeners;
-        private List<Queue<Message>> _messageQueues;
+        private List<Queue<object>> _messageQueues;
         private int _currentMessageQueue;
 
         public MessageBus()
         {
             _messageListeners = new Dictionary<Type, List<ListenerLookup>>();
-            _messageQueues = new List<Queue<Message>>() { new Queue<Message>(), new Queue<Message>() };
+            _messageQueues = new List<Queue<object>>() { new Queue<object>(), new Queue<object>() };
         }
 
         public void ProcessMessages()
@@ -45,18 +45,18 @@ namespace Hiromi.Messaging
             }
         }
 
-        public void QueueMessage(Message msg)
+        public void QueueMessage(object msg)
         {
             _messageQueues[_currentMessageQueue].Enqueue(msg);
         }
 
-        public void TriggerMessage(Message msg)
+        public void TriggerMessage(object msg)
         {
             // Immediately process
             ProcessMessage(msg);
         }
 
-        private void ProcessMessage(Message msg)
+        private void ProcessMessage(object msg)
         {
             if (_messageListeners.Keys.Contains(msg.GetType()))
             {

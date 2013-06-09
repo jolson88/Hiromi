@@ -10,24 +10,16 @@ using Hiromi.Components;
 
 namespace Hiromi.Messaging
 {
-    public class DisableAdsMessage : Message
-    {
-    }
-
-    public class EnableAdsMessage : Message
-    {
-    }
-
-    public class ScreenSizeChangedMessage : Message
-    {
-    }
+    public class DisableAdsMessage { }
+    public class EnableAdsMessage { }
+    public class ScreenSizeChangedMessage { }
 
     // ************************************
     // **
     // **        STATE MESSAGES
     // **
     // ************************************
-    public class RequestScreenChangeMessage : Message
+    public class RequestScreenChangeMessage
     {
         public Screen Screen { get; set; }
 
@@ -37,7 +29,7 @@ namespace Hiromi.Messaging
         }
     }
 
-    public class ScreenChangedMessage : Message
+    public class ScreenChangedMessage
     {
         public Screen NewScreen { get; set; }
 
@@ -47,7 +39,7 @@ namespace Hiromi.Messaging
         }
     }
 
-    public class GameStartedMessage : Message
+    public class GameStartedMessage
     {
         public override string ToString()
         {
@@ -61,7 +53,7 @@ namespace Hiromi.Messaging
     // **         CAMERA MESSAGES
     // **
     // ************************************
-    public class ZoomCameraMessage : Message
+    public class ZoomCameraMessage
     {
         public float ZoomFactor { get; private set; }
 
@@ -71,7 +63,7 @@ namespace Hiromi.Messaging
         }
     }
 
-    public class RotateCameraMessage : Message
+    public class RotateCameraMessage
     {
         public float RotationInRadians { get; private set; }
 
@@ -84,140 +76,13 @@ namespace Hiromi.Messaging
     /// <summary>
     /// Offset the point that the Camera is looking at (while preserving the point the Camera is looking at)
     /// </summary>
-    public class NudgeCameraMessage : Message
+    public class NudgeCameraMessage
     {
         public Vector2 Translation { get; private set; }
 
         public NudgeCameraMessage(Vector2 translation)
         {
             this.Translation = translation;
-        }
-    }
-
-
-    // ************************************
-    // **
-    // **         AUDIO MESSAGES
-    // **
-    // ************************************
-    public class PlaySoundEffectMessage : Message
-    {
-        public SoundEffect SoundEffect { get; private set; }
-        public float Volume { get; private set; }
-
-        public PlaySoundEffectMessage(SoundEffect soundEffect) : this(soundEffect, 0.35f) { }
-        public PlaySoundEffectMessage(SoundEffect soundEffect, float volume)
-        {
-            this.SoundEffect = soundEffect;
-            this.Volume = volume;
-        }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class PlaySongMessage : Message
-    {
-        public Song Song { get; private set; }
-        public float Volume { get; private set; }
-        public bool IsRepeating { get; private set; }
-
-        public PlaySongMessage(Song song) : this(song, 0.3f, false) { }
-        public PlaySongMessage(Song song, float volume, bool isRepeating)
-        {
-            this.Song = song;
-            this.Volume = volume;
-            this.IsRepeating = isRepeating;
-        }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-
-    // ************************************
-    // **
-    // **        INPUT MESSAGES
-    // **
-    // ************************************
-    public class KeyDownMessage : Message
-    {
-        public Keys Key { get; set; }
-        public KeyDownMessage(Keys key) { this.Key = key; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class KeyUpMessage : Message
-    {
-        public Keys Key { get; set; }
-        public KeyUpMessage(Keys key) { this.Key = key; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class PointerEnterMessage : Message
-    {
-        public int GameObjectId { get; set; }
-        public PointerEnterMessage(int gameObjectId) { this.GameObjectId = gameObjectId; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class PointerExitMessage : Message
-    {
-        public int GameObjectId { get; set; }
-        public PointerExitMessage(int gameObjectId) { this.GameObjectId = gameObjectId; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class PointerPressMessage : Message
-    {
-        public int GameObjectId { get; set; }
-        public PointerPressMessage(int gameObjectId) { this.GameObjectId = gameObjectId; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class PointerReleaseMessage : Message
-    {
-        public int GameObjectId { get; set; }
-        public PointerReleaseMessage(int gameObjectId) { this.GameObjectId = gameObjectId; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
-        }
-    }
-
-    public class ButtonPressMessage : Message
-    {
-        public int GameObjectId { get; set; }
-        public ButtonPressMessage(int gameObjectId) { this.GameObjectId = gameObjectId; }
-
-        public override MessageVerbosity GetMessageVerbosity()
-        {
-            return MessageVerbosity.Noise;
         }
     }
 }

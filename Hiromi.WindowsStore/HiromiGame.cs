@@ -25,9 +25,8 @@ namespace Hiromi
             _currentScreen = newScreen;
             _currentScreen.Load();
 
-            // TODO: Replace with _currentState.MessageManager.Register(this) when change is made
-            _currentScreen.MessageManager.AddListener<RequestScreenChangeMessage>(OnRequestChangeState);
-            _currentScreen.MessageManager.QueueMessage(new ScreenChangedMessage(_currentScreen));
+            _currentScreen.MessageBus.Register(this);
+            _currentScreen.MessageBus.QueueMessage(new ScreenChangedMessage(_currentScreen));
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Hiromi
             _graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
             _graphics.ApplyChanges();
             _graphics.GraphicsDevice.Viewport = new Viewport(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            _currentScreen.MessageManager.QueueMessage(new ScreenSizeChangedMessage());
+            _currentScreen.MessageBus.QueueMessage(new ScreenSizeChangedMessage());
         }
 
         /// <summary>
@@ -93,6 +92,7 @@ namespace Hiromi
             base.Draw(gameTime);
         }
 
+        [Subscribe]
         private void OnRequestChangeState(RequestScreenChangeMessage msg)
         {
             LoadScreen(msg.Screen);
