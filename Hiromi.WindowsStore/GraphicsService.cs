@@ -36,7 +36,6 @@ namespace Hiromi
             } 
         }
 
-        public Vector2 DesignedScreenSize { get; set; }
         public Texture2D Blank { get; set; }
 
         private GraphicsDevice _graphicsDevice;

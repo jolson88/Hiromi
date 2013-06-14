@@ -9,6 +9,11 @@ namespace Hiromi
 {
     public static class ExtensionUtilities
     {
+        public static void Begin(this SpriteBatch batch, Camera camera)
+        {
+            batch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, camera.TransformationMatrix);
+        }
+
         public static void DrawLine(this SpriteBatch batch, float width, Color color, Vector2 point1, Vector2 point2)
         {
             float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);

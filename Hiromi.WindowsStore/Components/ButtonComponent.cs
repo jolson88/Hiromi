@@ -8,9 +8,11 @@ using Hiromi;
 
 namespace Hiromi.Components
 {
-    public class ButtonComponent : GameObjectComponent, IRenderAwareComponent
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
+    /*
+    public class ButtonComponent : GameObjectComponent
     {
-        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
         public int GameObjectId { get { return this.GameObject.Id; } }
         public TransformationComponent Transform { get { return this.GameObject.Transform; } }
 
@@ -89,4 +91,5 @@ namespace Hiromi.Components
             }
         }
     }
+     */
 }

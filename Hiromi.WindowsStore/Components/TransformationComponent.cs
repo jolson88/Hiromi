@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace Hiromi.Components
 {
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
+    /*
     public enum VerticalAnchor
     {
         Top,
@@ -122,4 +125,5 @@ namespace Hiromi.Components
             this.Bounds.Y += this.PositionOffset.Y;
         }
     }
+     */
 }

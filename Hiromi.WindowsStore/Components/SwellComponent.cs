@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Hiromi.Components
 {
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
+    /*
     public class SwellComponent : GameObjectComponent
     {
         private TransformationComponent _transform;
@@ -77,4 +80,5 @@ namespace Hiromi.Components
             return 1.0f + scaleOffset;
         }
     }
+     */
 }

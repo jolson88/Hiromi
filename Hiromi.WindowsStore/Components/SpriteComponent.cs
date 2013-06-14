@@ -7,10 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Hiromi.Components
 {
-    public class SpriteComponent : GameObjectComponent, IRenderAwareComponent
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
+    /*
+    public class SpriteComponent : GameObjectComponent
     {
         public int GameObjectId { get { return this.GameObject.Id; } }
-        public RenderPass RenderPass { get { return RenderPass.GameObjectPass; } }
         public TransformationComponent Transform { get { return this.GameObject.Transform; } }
         public float Alpha { get { return _color.A; } set { _color.A = (byte)(value * 255); } }
         public bool IsVisible { get { return this.Alpha < 1.0f; } }
@@ -48,4 +50,5 @@ namespace Hiromi.Components
                 0f);
         }
     }
+     */
 }

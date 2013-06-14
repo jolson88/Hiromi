@@ -8,9 +8,11 @@ using Hiromi;
 
 namespace Hiromi.Components
 {
-    public class LabelComponent : GameObjectComponent, IRenderAwareComponent
+    // ******** LEGACY: Will move to Entities.Components when appropriate
+
+    /*
+    public class LabelComponent : GameObjectComponent
     {
-        public RenderPass RenderPass { get { return RenderPass.UserInterfacePass; } }
         public int GameObjectId { get { return this.GameObject.Id; } }
         public TransformationComponent Transform { get { return this.GameObject.Transform; } }
 
@@ -54,4 +56,5 @@ namespace Hiromi.Components
             //this.Transform.Bounds.Height = textSize.Y;
         }
     }
+     */
 }
