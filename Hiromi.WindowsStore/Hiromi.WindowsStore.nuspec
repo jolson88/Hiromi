@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>Hiromi</title>
+    <authors>Jason Olson</authors>
+    <owners>Jason Olson</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A MonoGame-based game development framework.</description>
+    <releaseNotes>Initial release of Hiromi on NuGet</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>MonoGame Game XNA</tags>
+  </metadata>
+</package>
