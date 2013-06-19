@@ -10,15 +10,15 @@ namespace Hiromi
     {
         public static string GetRandomPlayerName()
         {
-            var name = "Player";
+            var playerName = "Player";
 
             var guidBytes = Guid.NewGuid().ToByteArray();
             for (int i = 0; i < 5; i++)
             {
-                name += guidBytes[i].ToString();
+                playerName += guidBytes[i].ToString();
             }
 
-            return name;
+            return playerName;
         }
     }
 }
