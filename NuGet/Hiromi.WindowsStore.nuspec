@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Hiromi</id>
+    <version>0.2.3</version>
+    <title>Hiromi</title>
+    <authors>Jason Olson</authors>
+    <owners>Jason Olson</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A MonoGame-based development framework for Windows Store games</description>
+    <releaseNotes>Initial release of Hiromi on NuGet</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>MonoGame Game XNA</tags>
+    <dependencies>
+      <dependency id="SharpDX" version="2.4.2" />
+      <dependency id="SharpDX.Direct2D1" version="2.4.2" />
+      <dependency id="SharpDX.Direct3D11" version="2.4.2" />
+      <dependency id="SharpDX.DXGI" version="2.4.2" />
+      <dependency id="SharpDX.MediaFoundation" version="2.4.2" />
+      <dependency id="SharpDX.XAudio2" version="2.4.2" />
+      <dependency id="SharpDX.XInput" version="2.4.2" />
+    </dependencies>
+  </metadata>
+</package>
