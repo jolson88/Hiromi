@@ -127,6 +127,7 @@
     <Compile Include="Messaging\MessageBus.cs" />
     <Compile Include="Messaging\SubscribeAttribute.cs" />
     <Compile Include="NullInputHandler.cs" />
+    <Compile Include="PlayerUtilities.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="GraphicsService.cs" />
     <Compile Include="HiromiGame.cs" />
