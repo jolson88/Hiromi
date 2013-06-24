@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="Hiromi.VSIX..4bc301ee-b207-440e-9a35-db1b5a0824d3" Version="0.2.3" Language="en-US" Publisher="Jason Olson" />
+    <DisplayName>Hiromi</DisplayName>
+    <Description xml:space="preserve">Visual Studio Extensions for the MonoGame-based Hiromi game framework</Description>
+    <MoreInfo>http://github.com/jolson88/hiromi</MoreInfo>
+    <Tags>MonoGame XNA Windows Store Game</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="Hiromi.Commands" Path="|Hiromi.Commands;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\EmptyGame.zip" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="File" Path="ItemTemplates" d:TargetPath="ItemTemplates\EmptyScreen.zip" />
+  </Assets>
+</PackageManifest>
