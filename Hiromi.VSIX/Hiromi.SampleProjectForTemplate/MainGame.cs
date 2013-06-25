@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Hiromi;
-using $safeprojectname$.Screens;
+using Hiromi.SampleProjectForTemplate.Screens;
 
-namespace $safeprojectname$
+namespace Hiromi.SampleProjectForTemplate
 {
     /// <summary>
     /// This is the main type for your game

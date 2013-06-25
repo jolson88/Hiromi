@@ -116,7 +116,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="HiromiTemporaryKey.pfx" />
+    <None Include="Hiromi.SampleProjectForTemplate_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
