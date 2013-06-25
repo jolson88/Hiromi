@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 
-namespace CodingCoda.Hiromi_Commands
+namespace CodingCoda.Hiromi_Menu
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -29,8 +29,8 @@ namespace CodingCoda.Hiromi_Commands
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(GuidList.guidHiromi_CommandsPkgString)]
-    public sealed class Hiromi_CommandsPackage : Package
+    [Guid(GuidList.guidHiromi_MenuPkgString)]
+    public sealed class Hiromi_MenuPackage : Package
     {
         /// <summary>
         /// Default constructor of the package.
@@ -39,7 +39,7 @@ namespace CodingCoda.Hiromi_Commands
         /// not sited yet inside Visual Studio environment. The place to do all the other 
         /// initialization is the Initialize method.
         /// </summary>
-        public Hiromi_CommandsPackage()
+        public Hiromi_MenuPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
@@ -64,7 +64,7 @@ namespace CodingCoda.Hiromi_Commands
             if ( null != mcs )
             {
                 // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(GuidList.guidHiromi_CommandsCmdSet, (int)PkgCmdIDList.cmdidDeveloperPortal);
+                CommandID menuCommandID = new CommandID(GuidList.guidHiromi_MenuCmdSet, (int)PkgCmdIDList.cmdidDeveloperPortal);
                 MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
                 mcs.AddCommand( menuItem );
             }

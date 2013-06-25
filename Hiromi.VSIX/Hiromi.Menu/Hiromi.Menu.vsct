@@ -25,7 +25,7 @@
 
   <!--The Commands section is where we the commands, menus and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidHiromi_CommandsPkg">
+  <Commands package="guidHiromi_MenuPkg">
     <!-- Inside this section we have different sub-sections: one for the menus, another  
     for the menu groups, one for the buttons (the actual commands), one for the combos 
     and the last one for the bitmaps used. Each element is identified by a command id that  
@@ -35,7 +35,7 @@
     with command ids defined by other packages. -->
 
     <Menus>
-      <Menu guid="guidHiromi_CommandsCmdSet" id="TopLevelMenu" priority="0x700" type="Menu">
+      <Menu guid="guidHiromi_MenuCmdSet" id="TopLevelMenu" priority="0x700" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
         <Strings>
           <ButtonText>Hiromi</ButtonText>
@@ -43,15 +43,16 @@
         </Strings>
       </Menu>
     </Menus>
-        
+    
+    
     <!-- In this section you can define new menu groups. A menu group is a container for 
          other menus or buttons (commands); from a visual point of view you can see the 
          group as the part of a menu contained between two lines. The parent of a group 
          must be a menu. -->
     <Groups>
 
-      <Group guid="guidHiromi_CommandsCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidHiromi_CommandsCmdSet" id="TopLevelMenu"/>
+      <Group guid="guidHiromi_MenuCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidHiromi_MenuCmdSet" id="TopLevelMenu"/>
       </Group>
       
 
@@ -70,8 +71,8 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
 
-      <Button guid="guidHiromi_CommandsCmdSet" id="cmdidDeveloperPortal" priority="0x0100" type="Button">
-        <Parent guid="guidHiromi_CommandsCmdSet" id="MyMenuGroup" />
+      <Button guid="guidHiromi_MenuCmdSet" id="cmdidDeveloperPortal" priority="0x0100" type="Button">
+        <Parent guid="guidHiromi_MenuCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Buddy.com Developer Portal</ButtonText>
@@ -101,18 +102,18 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidHiromi_CommandsPkg" value="{39711f3e-366f-463a-8f46-79b5e57fe1a8}" />
+    <GuidSymbol name="guidHiromi_MenuPkg" value="{4263d0e4-b41b-4924-aa23-9d1f6227c9bc}" />
     
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidHiromi_CommandsCmdSet" value="{87429ad7-ba98-4b92-a95a-b9a165bbf70a}">
-      <IDSymbol name="TopLevelMenu" value="0x1021"/>
+    <GuidSymbol name="guidHiromi_MenuCmdSet" value="{5cd31d00-f4f6-4a78-afc6-f4eb13b8a215}">
+      <IDSymbol name="TopLevelMenu" value="0x0200" />
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidDeveloperPortal" value="0x0100" />
     </GuidSymbol>
     
     
     
-    <GuidSymbol name="guidImages" value="{304b0d2e-f92a-4854-8fd5-66035da50fe4}" >
+    <GuidSymbol name="guidImages" value="{d1bc4db4-726f-4481-8a2c-870c936895e1}" >
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />

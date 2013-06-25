@@ -2,7 +2,7 @@
 // MUST match PkgCmdID.h
 using System;
 
-namespace CodingCoda.Hiromi_Commands
+namespace CodingCoda.Hiromi_Menu
 {
     static class PkgCmdIDList
     {
