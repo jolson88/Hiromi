@@ -51,21 +51,21 @@ namespace Hiromi
 
         public List<GameObject> GetAllGameObjectsWithComponent<T>() where T : GameObjectComponent
         {
-            var gos = new List<GameObject>();
-            foreach (var go in _objects)
+            var gameObjects = new List<GameObject>();
+            foreach (var gameObject in _objects)
             {
-                if (go.HasComponent<T>())
+                if (gameObject.HasComponent<T>())
                 {
-                    gos.Add(go);
+                    gameObjects.Add(gameObject);
                 }
             }
 
-            return gos;
+            return gameObjects;
         }
 
         public List<GameObject> GetAllGameObjectsWithTag(string tag)
         {
-            return (from go in _objects where go.Tag.ToUpper().Equals(tag.ToUpper()) select go).ToList();
+            return (from gameObject in _objects where gameObject.Tag.ToUpper().Equals(tag.ToUpper()) select gameObject).ToList();
         }
 
         private void OnNewGameObject(AddGameObjectRequestMessage msg)

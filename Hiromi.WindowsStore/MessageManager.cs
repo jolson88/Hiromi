@@ -17,18 +17,17 @@ namespace Hiromi
         {
             _messageListeners = new Dictionary<Type, List<object>>();
             _messageSenders = new Dictionary<Type, Action<Message>>();
-            _messageQueues = new List<Queue<Message>>() { new Queue<Message>(), new Queue<Message>() };
-
-            var genAct = typeof(Action<>).MakeGenericType(typeof(int));
-                
+            _messageQueues = new List<Queue<Message>>() { new Queue<Message>(), new Queue<Message>() };         
         }
 
         public void Update(GameTime gameTime)
         {
             var processQueue = _currentMessageQueue;
 
-            // Make sure any new messages coming in from processing these messages goes
-            // to a different queue
+            // Make sure any new messages received from processing existing messages goes
+            // to a different queue. If we don't do this, listeners could keep on firing messages
+            // and we would get into an endless loop of messages to listen to. All new messages
+            // will be processed on the next graphics frame.
             _currentMessageQueue = (_currentMessageQueue + 1) % _messageQueues.Count;
 
             while (_messageQueues[processQueue].Count > 0)
@@ -72,6 +71,12 @@ namespace Hiromi
             }
         }
 
+        /// <summary>
+        /// Creates a generic message sender (of type Message) that fires all
+        /// listeners in a strongly-typed fashion.
+        /// </summary>
+        /// <typeparam name="T">The specific type of message being sent</typeparam>
+        /// <returns>An Action that will receive a generic Message and fire each registered listener by casting to the known type of Message.</returns>
         private Action<Message> CreateMessageSender<T>() where T : Message
         {
             return new Action<Message>(param => {

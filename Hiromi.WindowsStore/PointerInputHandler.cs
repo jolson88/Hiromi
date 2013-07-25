@@ -44,7 +44,7 @@ namespace Hiromi
             CalculateMouseMessages(newMouseState);
             _oldMouseState = newMouseState;
 
-            // Don't do multi-touch support on Phone (first touch point will be a mouse message)
+            // Hiromi doesn't do multi-touch support on Phone yet (and first touch point will be a mouse message)
 #if !WINDOWS_PHONE
             if (_touchSupported)
             {

@@ -8,28 +8,28 @@ namespace Hiromi
 {
     public class ProcessManager
     {
-        private List<Process> m_processesToAttach;
-        private List<Process> m_processesToRemove;
-        private List<Process> m_processes;
+        private List<Process> _processesToAttach;
+        private List<Process> _processesToRemove;
+        private List<Process> _currentProcesses;
 
         public ProcessManager()
         {
-            m_processesToAttach = new List<Process>();
-            m_processesToRemove = new List<Process>();
-            m_processes = new List<Process>();
+            _processesToAttach = new List<Process>();
+            _processesToRemove = new List<Process>();
+            _currentProcesses = new List<Process>();
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (var process in m_processesToRemove)
+            foreach (var process in _processesToRemove)
             {
-                m_processes.Remove(process);
+                _currentProcesses.Remove(process);
             }
-            m_processes.AddRange(m_processesToAttach);
+            _currentProcesses.AddRange(_processesToAttach);
+            _processesToRemove.Clear();
+            _processesToAttach.Clear();
 
-            m_processesToRemove.Clear();
-            m_processesToAttach.Clear();
-            foreach (var process in m_processes)
+            foreach (var process in _currentProcesses)
             {
                 if (process.State == ProcessState.Uninitialized)
                 {
@@ -41,17 +41,13 @@ namespace Hiromi
                     process.Update(gameTime);
                 }
 
-                if (process.IsDead && process.State == ProcessState.Succeeded)
-                {
-                    foreach (var p in process.Children) { AttachProcess(p); }
-                }
-            }
-
-            foreach (var process in m_processes.ToList())
-            {
                 if (process.IsDead)
                 {
-                    m_processes.Remove(process);
+                    _processesToRemove.Add(process);
+                    if(process.State == ProcessState.Succeeded)
+                    {
+                        foreach (var p in process.Children) { AttachProcess(p); }
+                    }
                 }
             }
         }
@@ -59,16 +55,14 @@ namespace Hiromi
         public void AttachProcess(Process process) { AttachProcess(process, false); }
         public void AttachProcess(Process process, bool replaceExistingProcesses)
         {
-            //System.Diagnostics.Debug.WriteLine("[{0}] Attaching '{1}' process", process.GetType().Name, process.ToString());
-
-            m_processesToAttach.Add(process);
+            _processesToAttach.Add(process);
             if (replaceExistingProcesses)
             {
-                foreach (var p in m_processes)
+                foreach (var p in _currentProcesses)
                 {
                     if (p.GetType() == process.GetType())
                     {
-                        m_processesToRemove.Add(p);
+                        _processesToRemove.Add(p);
                     }
                 }
             }
@@ -76,17 +70,17 @@ namespace Hiromi
 
         public void RemoveProcess(Process process)
         {
-            m_processes.Remove(process);
+            _currentProcesses.Remove(process);
         }
 
         public void RemoveAllProcesses()
         {
-            m_processes.Clear();
+            _currentProcesses.Clear();
         }
 
         public int GetProcessCount()
         {
-            return m_processes.Count;
+            return _currentProcesses.Count;
         }
     }
 }
